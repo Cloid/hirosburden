@@ -110,11 +110,13 @@ class Game extends Phaser.Scene {
     }
 
 
-    /*handleCollision(){
-        console.log('test')
+    handleCollision(obj1, obj2){
+        console.dir(obj1)
+        console.dir(obj2)
 
 
-    }*/
+
+    }
 
     
 

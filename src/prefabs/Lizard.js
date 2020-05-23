@@ -29,10 +29,10 @@ class Lizard extends Phaser.Physics.Arcade.Sprite{
     updateMovement(){
         newDirection = Phaser.Math.Between(0,3)
         //console.log('i ran')
-
+/*
         while(newDirection === exclude){
             newDirection = Phaser.Math.Between(0,3)
-        }
+        }*/
 
         return newDirection
 
