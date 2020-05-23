@@ -1,3 +1,5 @@
+let hit = 0
+
 class Game extends Phaser.Scene {
     constructor() {
         super("Game");
@@ -39,7 +41,7 @@ class Game extends Phaser.Scene {
         })
 
         //Adding Player 'Faune' to in-game, adds physics, sets Hitbox, collider with wall, and camera follow respectively
-        this.Faune = new Faune(this, 100, 100, 'faune')
+        this.Faune = new Faune(this, 50, 100, 'faune')
         this.physics.world.enable([ this.Faune ]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8)
         this.physics.add.collider(this.Faune, wallSlayer);
@@ -88,7 +90,7 @@ class Game extends Phaser.Scene {
         this.Lizard = new Lizard(this, 150, 100, 'lizard')
         this.physics.world.enable([ this.Lizard ]);
         this.physics.add.collider(this.Lizard, wallSlayer, this.Lizard.updateMovement, undefined, this);
-        //this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision(), undefined, this);
+        this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision, undefined, this);
 
         //Lizard anims
         this.anims.create({
@@ -110,11 +112,14 @@ class Game extends Phaser.Scene {
     }
 
 
-    handleCollision(obj1, obj2){
-        console.dir(obj1)
-        console.dir(obj2)
+    handleCollision(){
+        console.log('i ran')
+        const dx= this.Faune.x - this.Lizard.x
+        const dy = this.Faune.y - this.Lizard.y
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200) 
 
-
+        this.Faune.setVelocity(dir.x,dir.y)
+        this.hit = 1
 
     }
 
@@ -122,8 +127,20 @@ class Game extends Phaser.Scene {
 
     update() {
 
+        console.log(this.hit)
+
         //this.physics.world.collide(this.Lizard, this.Faune);
         this.Lizard.update()
+
+        if(this.hit >0){
+            this.Faune.setTint(0xff0000)
+            ++this.hit
+            if(this.hit>10){
+                this.hit = 0
+                this.Faune.setTint(0xffffff)
+            }
+            return
+        }
 
 
 
