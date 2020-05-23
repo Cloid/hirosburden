@@ -8,7 +8,7 @@ class Lizard extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)
         //newDirection = this.updateMovement()
 
-        
+        //A timer to change movement every 2000 seconds
         this.moveEvent = scene.time.addEvent({
             delay: 2000,
             callback: () => {
@@ -25,13 +25,14 @@ class Lizard extends Phaser.Physics.Arcade.Sprite{
 
 
 
+    //Update the current movement of Lizard
     updateMovement(){
         newDirection = Phaser.Math.Between(0,3)
         //console.log('i ran')
-/*
+
         while(newDirection === exclude){
             newDirection = Phaser.Math.Between(0,3)
-        }*/
+        }
 
         return newDirection
 
@@ -41,6 +42,7 @@ class Lizard extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         
+        //Change velcocity based on direction specified
         const speed = 50;
 
         if(newDirection==0){

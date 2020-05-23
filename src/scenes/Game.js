@@ -15,6 +15,7 @@ class Game extends Phaser.Scene {
     }
 
     create() {
+        //Basic keyboard commands, may need to change to the cursor key configuration
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -22,10 +23,9 @@ class Game extends Phaser.Scene {
         //keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
 
-
+        //Adding Tiled's layers to the world
         const map = this.make.tilemap( {key:'dungeon'} )
         const tileset = map.addTilesetImage('dungeon','tiles')
-
         map.createStaticLayer('Ground',tileset)
         wallSlayer = map.createStaticLayer('Walls',tileset)
         wallSlayer.setCollisionByProperty( {collides: true} )
@@ -45,6 +45,7 @@ class Game extends Phaser.Scene {
         this.physics.add.collider(this.Faune, wallSlayer);
         this.cameras.main.startFollow(this.Faune, true)
 
+        //Atlas Anims for Faune (Player)
         this.anims.create({
             key: 'faune-idle-down',
             frames: [{key: 'faune', frame: 'walk-down-3.png' }]
@@ -80,18 +81,16 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 15
         })
-
+        //Starts the idle animation
         this.Faune.anims.play('faune-idle-down')
 
+        //Declares Lizard (Enemy)
         this.Lizard = new Lizard(this, 150, 100, 'lizard')
         this.physics.world.enable([ this.Lizard ]);
         this.physics.add.collider(this.Lizard, wallSlayer, this.Lizard.updateMovement, undefined, this);
         //this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision(), undefined, this);
 
-        //this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision,undefined, this);
-
-//this.physics.world.collide(this.Lizard, wallSlayer, this.Lizard.updateMovement(), null, this);
-
+        //Lizard anims
         this.anims.create({
             key: 'lizard-idle',
             frames: this.anims.generateFrameNames('lizard', {start: 0,end: 3, prefix: 'lizard_m_idle_anim_f', suffix: '.png'}),
