@@ -7,10 +7,13 @@ class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
-        this.load.tilemapTiledJSON('dungeon','assests/tiles/dungeon1.json')
+        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json')
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json')
-        this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
-
+        //this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
+        this.load.spritesheet('lizard', 'assests/enemies/slime.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         //this.load.image('faune', 'assests/character/faune.png')
 
 
@@ -26,23 +29,23 @@ class Game extends Phaser.Scene {
 
 
         //Adding Tiled's layers to the world
-        const map = this.make.tilemap( {key:'dungeon'} )
-        const tileset = map.addTilesetImage('dungeon','tiles')
-        map.createStaticLayer('Ground',tileset)
-        wallSlayer = map.createStaticLayer('Walls',tileset)
-        wallSlayer.setCollisionByProperty( {collides: true} )
+        const map = this.make.tilemap({ key: 'dungeon' })
+        const tileset = map.addTilesetImage('dungeon', 'tiles')
+        map.createStaticLayer('Ground', tileset)
+        wallSlayer = map.createStaticLayer('Walls', tileset)
+        wallSlayer.setCollisionByProperty({ collides: true })
 
 
         const debugGraphics = this.add.graphics().setAlpha(0.7)
         wallSlayer.renderDebug(debugGraphics, {
             tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243,234,48,255),
-            faceColor: new Phaser.Display.Color(40,39,37,255)
+            collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         })
 
         //Adding Player 'Faune' to in-game, adds physics, sets Hitbox, collider with wall, and camera follow respectively
         this.Faune = new Faune(this, 50, 100, 'faune')
-        this.physics.world.enable([ this.Faune ]);
+        this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8)
         this.physics.add.collider(this.Faune, wallSlayer);
         this.cameras.main.startFollow(this.Faune, true)
@@ -50,12 +53,12 @@ class Game extends Phaser.Scene {
         //Atlas Anims for Faune (Player)
         this.anims.create({
             key: 'faune-idle-down',
-            frames: [{key: 'faune', frame: 'walk-down-3.png' }]
+            frames: [{ key: 'faune', frame: 'walk-down-3.png' }]
         })
 
         this.anims.create({
             key: 'faune-idle-up',
-            frames: [{ key: 'faune', frame: 'walk-up-3.png'}]
+            frames: [{ key: 'faune', frame: 'walk-up-3.png' }]
         })
 
         this.anims.create({
@@ -65,21 +68,21 @@ class Game extends Phaser.Scene {
 
         this.anims.create({
             key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('faune', {suffix: 1, end: 8, prefix: 'run-down-', suffix: '.png'}),
+            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-down-', suffix: '.png' }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('faune', {suffix: 1, end: 8, prefix: 'run-up-', suffix: '.png'}),
+            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-up-', suffix: '.png' }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('faune', {suffix: 1, end: 8, prefix: 'run-side-', suffix: '.png'}),
+            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-side-', suffix: '.png' }),
             repeat: -1,
             frameRate: 15
         })
@@ -88,42 +91,42 @@ class Game extends Phaser.Scene {
 
         //Declares Lizard (Enemy)
         this.Lizard = new Lizard(this, 150, 100, 'lizard')
-        this.physics.world.enable([ this.Lizard ]);
+        this.physics.world.enable([this.Lizard]);
         this.physics.add.collider(this.Lizard, wallSlayer, this.Lizard.updateMovement, undefined, this);
         this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision, undefined, this);
 
         //Lizard anims
         this.anims.create({
             key: 'lizard-idle',
-            frames: this.anims.generateFrameNames('lizard', {start: 0,end: 3, prefix: 'lizard_m_idle_anim_f', suffix: '.png'}),
+            frames: this.anims.generateFrameNames('lizard', { start: 0, end: 16 }),
             repeat: -1,
             frameRate: 10
         })
-    
-        this.anims.create({
-            key: 'lizard-run',
-            frames: this.anims.generateFrameNames('lizard', {start: 0,end: 3, prefix: 'lizard_m_run_anim_f', suffix: '.png'}),
-            repeat: -1,
-            frameRate: 10
-        })
-
+        /*
+            this.anims.create({
+                key: 'lizard-run',
+                frames: this.anims.generateFrameNames('lizard', {start: 0,end: 3, prefix: 'lizard_m_run_anim_f', suffix: '.png'}),
+                repeat: -1,
+                frameRate: 10
+            })
+    */
         this.Lizard.anims.play('lizard-idle')
 
     }
 
 
-    handleCollision(){
+    handleCollision() {
         console.log('i ran')
-        const dx= this.Faune.x - this.Lizard.x
+        const dx = this.Faune.x - this.Lizard.x
         const dy = this.Faune.y - this.Lizard.y
-        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200) 
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
 
-        this.Faune.setVelocity(dir.x,dir.y)
+        this.Faune.setVelocity(dir.x, dir.y)
         this.hit = 1
 
     }
 
-    
+
 
     update() {
 
@@ -132,10 +135,10 @@ class Game extends Phaser.Scene {
         //this.physics.world.collide(this.Lizard, this.Faune);
         this.Lizard.update()
 
-        if(this.hit >0){
+        if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
             ++this.hit
-            if(this.hit>10){
+            if (this.hit > 10) {
                 this.hit = 0
                 this.Faune.setTint(0xffffff)
             }
@@ -146,36 +149,36 @@ class Game extends Phaser.Scene {
 
         const speed = 100;
 
-        if(keyLEFT.isDown){
-        this.Faune.anims.play('faune-run-side',true)
-        this.Faune.setVelocity(-speed,0)
+        if (keyLEFT.isDown) {
+            this.Faune.anims.play('faune-run-side', true)
+            this.Faune.setVelocity(-speed, 0)
 
-        this.Faune.flipX=true;
+            this.Faune.flipX = true;
 
-        } else if (keyRIGHT.isDown){
-            this.Faune.anims.play('faune-run-side',true)
-        this.Faune.setVelocity(speed,0)
-        this.Faune.flipX=false;
+        } else if (keyRIGHT.isDown) {
+            this.Faune.anims.play('faune-run-side', true)
+            this.Faune.setVelocity(speed, 0)
+            this.Faune.flipX = false;
 
 
-        } else if (keyDOWN.isDown){
-            this.Faune.anims.play('faune-run-down',true)
-        this.Faune.setVelocity(0,speed)
-        }else if (keyUP.isDown){
-            this.Faune.anims.play('faune-run-up',true)
-        this.Faune.setVelocity(0,-speed)
-        }else {
-            
+        } else if (keyDOWN.isDown) {
+            this.Faune.anims.play('faune-run-down', true)
+            this.Faune.setVelocity(0, speed)
+        } else if (keyUP.isDown) {
+            this.Faune.anims.play('faune-run-up', true)
+            this.Faune.setVelocity(0, -speed)
+        } else {
+
             const parts = this.Faune.anims.currentAnim.key.split('-')
             parts[1] = 'idle'
             this.Faune.play(parts.join('-'))
-            this.Faune.setVelocity(0,0)
+            this.Faune.setVelocity(0, 0)
 
         }
 
-        
+
 
     }
 
-   
+
 }
