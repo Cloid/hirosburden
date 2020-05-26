@@ -190,11 +190,7 @@ class Game extends Phaser.Scene {
             parts[1] = 'idle'
             this.Faune.play(parts.join('-'))
             this.Faune.setVelocity(0, 0)
-
         }
-
-
-
     }
 
     slimeEffect() {
