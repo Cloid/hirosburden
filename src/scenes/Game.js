@@ -7,7 +7,9 @@ class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
-        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json')
+        this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png')
+        this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png')
+        this.load.tilemapTiledJSON('dungeon','assests/tiles/dungeon1.json')
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json')
         //this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
         this.load.spritesheet('lizard', 'assests/enemies/slime.png', {
@@ -20,6 +22,10 @@ class Game extends Phaser.Scene {
     }
 
     create() {
+        this.scene.run('game-ui')
+
+
+
         //Basic keyboard commands, may need to change to the cursor key configuration
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -112,17 +118,24 @@ class Game extends Phaser.Scene {
     */
         this.Lizard.anims.play('lizard-idle')
 
+
+
     }
 
 
-    handleCollision() {
-        console.log('i ran')
-        const dx = this.Faune.x - this.Lizard.x
+    handleCollision(){
+        //console.log('i ran')
+        const dx= this.Faune.x - this.Lizard.x
         const dy = this.Faune.y - this.Lizard.y
-        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200) 
+        this.Faune.handleDamage(dir)
 
         this.Faune.setVelocity(dir.x, dir.y)
         this.hit = 1
+
+        GameUI.handlePlayerHealthChanged;
+
+        sceneEvents.emit('player-health-changed')
 
     }
 
@@ -130,7 +143,7 @@ class Game extends Phaser.Scene {
 
     update() {
 
-        console.log(this.hit)
+        //console.log(this.hit)
 
         //this.physics.world.collide(this.Lizard, this.Faune);
         this.Lizard.update()
