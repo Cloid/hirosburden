@@ -9,10 +9,10 @@ class Game extends Phaser.Scene {
         this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png')
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png')
-        this.load.tilemapTiledJSON('dungeon','assests/tiles/dungeon1.json')
+        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json')
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json')
         //this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
-        this.load.spritesheet('lizard', 'assests/enemies/slime.png', {
+        this.load.spritesheet('slime', 'assests/enemies/slime.png', {
             frameWidth: 32,
             frameHeight: 32
         });
@@ -23,7 +23,11 @@ class Game extends Phaser.Scene {
 
     create() {
         this.scene.run('game-ui')
-
+        //Overlay to be used for DOT
+        this.overlay = new Phaser.GameObjects.Graphics(this);
+        this.overlay.clear();
+        this.overlay.setDepth(100);
+        this.add.existing(this.overlay);
 
 
         //Basic keyboard commands, may need to change to the cursor key configuration
@@ -96,15 +100,15 @@ class Game extends Phaser.Scene {
         this.Faune.anims.play('faune-idle-down')
 
         //Declares Lizard (Enemy)
-        this.Lizard = new Lizard(this, 150, 100, 'lizard')
-        this.physics.world.enable([this.Lizard]);
-        this.physics.add.collider(this.Lizard, wallSlayer, this.Lizard.updateMovement, undefined, this);
-        this.physics.add.collider(this.Lizard, this.Faune, this.handleCollision, undefined, this);
+        this.slime = new Slime(this, 150, 100, 'slime');
+        this.physics.world.enable([this.slime]);
+        this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
+        this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
-        //Lizard anims
+        //slime anims
         this.anims.create({
-            key: 'lizard-idle',
-            frames: this.anims.generateFrameNames('lizard', { start: 0, end: 16 }),
+            key: 'slime-idle',
+            frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
             repeat: -1,
             frameRate: 10
         })
@@ -116,25 +120,25 @@ class Game extends Phaser.Scene {
                 frameRate: 10
             })
     */
-        this.Lizard.anims.play('lizard-idle')
+        this.slime.anims.play('slime-idle')
 
 
 
     }
 
 
-    handleCollision(){
+    handleCollision() {
         //console.log('i ran')
-        const dx= this.Faune.x - this.Lizard.x
-        const dy = this.Faune.y - this.Lizard.y
-        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200) 
+        const dx = this.Faune.x - this.slime.x
+        const dy = this.Faune.y - this.slime.y
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
         this.Faune.handleDamage(dir)
 
         this.Faune.setVelocity(dir.x, dir.y)
         this.hit = 1
 
         GameUI.handlePlayerHealthChanged;
-
+        this.slimeEffect();
         sceneEvents.emit('player-health-changed')
 
     }
@@ -146,7 +150,7 @@ class Game extends Phaser.Scene {
         //console.log(this.hit)
 
         //this.physics.world.collide(this.Lizard, this.Faune);
-        this.Lizard.update()
+        this.slime.update()
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
@@ -193,5 +197,26 @@ class Game extends Phaser.Scene {
 
     }
 
-
+    slimeEffect() {
+        //If already Slimed, don't do anything
+        if (slimed == false) {
+            console.log('slimed');
+            slimed = true;
+            //create green rectangle to overlay screen
+            this.overlay.fillStyle(0x00FF00, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            //create timer for when the overlay will clear
+            var slimeTime = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
+    //clean overlay
+    clean() {
+        this.overlay.clear();
+        slimed = false;
+    }
 }
