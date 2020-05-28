@@ -33,9 +33,13 @@ class GameUI extends Phaser.Scene{
 
     handlePlayerHealthChanged(){
         console.log('test')
-        //this.hearts.getChildren.setTexture('ui-heart-full');
+        //this.hearts extends Phaser.GameObjects.Image;
+        //this.hearts.getChildren();
+        //this.hearts.getChildren().iterate(e=>e.setTexture('ui-heart-empty'));
+
+        //this.hearts.children.iterate(e=>e.setTexture());
+    
         
-        //this.hearts.setTexture('ui-heart-empty')
 
         /*
         this.hearts.children.each((go, idx) => {

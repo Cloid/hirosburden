@@ -96,6 +96,12 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 15
         })
+
+        this.anims.create({
+            key: 'faune-faint',
+            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 4, prefix: 'faint-', suffix: '.png' }),
+            frameRate: 15
+        })
         //Starts the idle animation
         this.Faune.anims.play('faune-idle-down')
 
@@ -103,7 +109,7 @@ class Game extends Phaser.Scene {
         this.slime = new Slime(this, 150, 100, 'slime');
         this.physics.world.enable([this.slime]);
         this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
-        this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
+        enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
         //slime anims
         this.anims.create({
@@ -129,6 +135,7 @@ class Game extends Phaser.Scene {
 
     handleCollision() {
         //console.log('i ran')
+        if(playerDead == false){
         const dx = this.Faune.x - this.slime.x
         const dy = this.Faune.y - this.slime.y
         const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -140,6 +147,10 @@ class Game extends Phaser.Scene {
         GameUI.handlePlayerHealthChanged;
         this.slimeEffect();
         sceneEvents.emit('player-health-changed')
+        } else{
+            this.physics.world.removeCollider(enemyCollide);
+            return;
+        }
 
     }
 
@@ -165,6 +176,8 @@ class Game extends Phaser.Scene {
 
 
         const speed = 100;
+
+    if(playerDead == false){
 
         if (keyLEFT.isDown) {
             this.Faune.anims.play('faune-run-side', true)
@@ -192,6 +205,10 @@ class Game extends Phaser.Scene {
             this.Faune.setVelocity(0, 0)
 
         }
+
+    } else {
+        this.Faune.setVelocity(0, 0)
+    }
 
 
 
