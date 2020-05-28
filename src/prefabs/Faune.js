@@ -6,7 +6,7 @@ class Faune extends Phaser.Physics.Arcade.Sprite{
     }
 
     
-    get health(){
+     health(){
         return _health
     }
 
