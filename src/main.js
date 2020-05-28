@@ -19,7 +19,9 @@ let game = new Phaser.Game(config);
 let keyUP, keyLEFT, keyRIGHT, keyDOWN;
 let wallSlayer = null;
 let _health = 3;
+var enemyCollide;
 const sceneEvents = new Phaser.Events.EventEmitter();
 
 //Debuff Effects
 var slimed = false;
+var playerDead = false;

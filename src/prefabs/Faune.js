@@ -6,7 +6,7 @@ class Faune extends Phaser.Physics.Arcade.Sprite{
     }
 
     
-    get health(){
+     health(){
         return _health
     }
 
@@ -28,6 +28,7 @@ class Faune extends Phaser.Physics.Arcade.Sprite{
             //this.healthState = HealthState.DEAD
             this.anims.play('faune-faint')
             this.setVelocity(0,0)
+            playerDead = true;
         } else {
             this.setVelocity(dir.x,dir.y)
             this.setTint(0xff0000)
