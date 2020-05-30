@@ -29,4 +29,5 @@ const sceneEvents = new Phaser.Events.EventEmitter();
 var slimed = false;
 var possessed = false;
 var possessedDirection = 4;
+var confused = false;
 var playerDead = false;

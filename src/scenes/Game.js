@@ -171,7 +171,7 @@ class Game extends Phaser.Scene {
     }
 
 
-    handleCollision() {
+    handleCollision(enemy) {
         //console.log('i ran')
         if (playerDead == false) {
             const dx = this.Faune.x - this.slime.x
@@ -184,7 +184,8 @@ class Game extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             //this.slimeEffect();
-            this.possessedEffect();
+            //this.possessedEffect();
+            this.confusedEffect();
             sceneEvents.emit('player-health-changed')
         } else {
             this.physics.world.removeCollider(enemyCollide);
@@ -262,30 +263,59 @@ class Game extends Phaser.Scene {
 
         if (playerDead == false) {
             if (possessed == false) {
-                if (keyLEFT.isDown) {
-                    this.Faune.anims.play('faune-run-side', true)
-                    this.Faune.setVelocity(-playerSpeed, 0)
+                if (confused == false) {
+                    if (keyLEFT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(-playerSpeed, 0)
 
-                    this.Faune.flipX = true;
+                        this.Faune.flipX = true;
 
-                } else if (keyRIGHT.isDown) {
-                    this.Faune.anims.play('faune-run-side', true)
-                    this.Faune.setVelocity(playerSpeed, 0)
-                    this.Faune.flipX = false;
+                    } else if (keyRIGHT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(playerSpeed, 0)
+                        this.Faune.flipX = false;
 
 
-                } else if (keyDOWN.isDown) {
-                    this.Faune.anims.play('faune-run-down', true)
-                    this.Faune.setVelocity(0, playerSpeed)
-                } else if (keyUP.isDown) {
-                    this.Faune.anims.play('faune-run-up', true)
-                    this.Faune.setVelocity(0, -playerSpeed)
-                } else {
+                    } else if (keyDOWN.isDown) {
+                        this.Faune.anims.play('faune-run-down', true)
+                        this.Faune.setVelocity(0, playerSpeed)
+                    } else if (keyUP.isDown) {
+                        this.Faune.anims.play('faune-run-up', true)
+                        this.Faune.setVelocity(0, -playerSpeed)
+                    } else {
 
-                    const parts = this.Faune.anims.currentAnim.key.split('-')
-                    parts[1] = 'idle'
-                    this.Faune.play(parts.join('-'))
-                    this.Faune.setVelocity(0, 0)
+                        const parts = this.Faune.anims.currentAnim.key.split('-')
+                        parts[1] = 'idle'
+                        this.Faune.play(parts.join('-'))
+                        this.Faune.setVelocity(0, 0)
+                    }
+                }
+                else if(confused == true){
+                    if (keyRIGHT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(-playerSpeed, 0)
+
+                        this.Faune.flipX = true;
+
+                    } else if (keyLEFT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(playerSpeed, 0)
+                        this.Faune.flipX = false;
+
+
+                    } else if (keyUP.isDown) {
+                        this.Faune.anims.play('faune-run-down', true)
+                        this.Faune.setVelocity(0, playerSpeed)
+                    } else if (keyDOWN.isDown) {
+                        this.Faune.anims.play('faune-run-up', true)
+                        this.Faune.setVelocity(0, -playerSpeed)
+                    } else {
+
+                        const parts = this.Faune.anims.currentAnim.key.split('-')
+                        parts[1] = 'idle'
+                        this.Faune.play(parts.join('-'))
+                        this.Faune.setVelocity(0, 0)
+                    }
                 }
             }
         } else {
@@ -339,12 +369,31 @@ class Game extends Phaser.Scene {
             });
         }
     }
+
+    confusedEffect() {
+        //If already under control, dont do anything
+        if (confused == false) {
+            console.log('confused');
+            confused = true;
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0xF8E522, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+
+            var confusedTime = this.time.addEvent({
+                delay: 10000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
     //clean overlay
     clean() {
         this.overlay.clear();
         console.log('Cleared Effect');
         slimed = false;
         possessed = false;
+        confused = false;
         playerSpeed = 100;
     }
 
