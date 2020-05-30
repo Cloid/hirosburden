@@ -134,7 +134,6 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
 
-<<<<<<< HEAD
       //Declares Turret (Enemy)
       this.turret = new Turret(this, 150, 100, 'turret');
       this.physics.world.enable([this.turret]);
@@ -154,11 +153,6 @@ class Game extends Phaser.Scene {
         repeat: -1,
         frameRate: 10
     })
-=======
-        
-
-
->>>>>>> 7efa8473e8f19ab7bd338c298c0c486887c48bd5
         /*
             this.anims.create({
                 key: 'lizard-run',
