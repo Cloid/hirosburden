@@ -9,15 +9,16 @@ let config = {
             debug: true
         }
     },
-	scene: [Game, GameUI],
+	scene: [Menu, Game, GameUI],
 	scale:{
 		zoom: 2
 	}
 };
 
 let game = new Phaser.Game(config);
-let keyUP, keyLEFT, keyRIGHT, keyDOWN;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
+let knives = null;
 let _health = 3;
 var enemyCollide;
 const sceneEvents = new Phaser.Events.EventEmitter();
