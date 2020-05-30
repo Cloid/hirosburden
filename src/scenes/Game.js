@@ -16,6 +16,10 @@ class Game extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
+        this.load.spritesheet('turret', 'assests/enemies/turretEnemy.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         //this.load.image('faune', 'assests/character/faune.png')
 
 
@@ -105,7 +109,7 @@ class Game extends Phaser.Scene {
         //Starts the idle animation
         this.Faune.anims.play('faune-idle-down')
 
-        //Declares Lizard (Enemy)
+        //Declares Slime (Enemy)
         this.slime = new Slime(this, 150, 100, 'slime');
         this.physics.world.enable([this.slime]);
         this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
@@ -118,6 +122,26 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
+
+      //Declares Turret (Enemy)
+      this.turret = new Turret(this, 150, 100, 'turret');
+      this.physics.world.enable([this.turret]);
+      this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
+      enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
+
+      //turret anims
+      this.anims.create({
+          key: 'turret-idle',
+          frames: this.anims.generateFrameNames('turret', { start: 0, end: 3 }),
+          repeat: -1,
+          frameRate: 10
+      })
+      this.anims.create({
+        key: 'turret-turn',
+        frames: this.anims.generateFrameNames('turret', { start: 4, end: 6 }),
+        repeat: -1,
+        frameRate: 10
+    })
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -126,7 +150,8 @@ class Game extends Phaser.Scene {
                 frameRate: 10
             })
     */
-        this.slime.anims.play('slime-idle')
+        this.slime.anims.play('slime-idle');
+        this.turret.anims.play('turret-idle');
 
 
 
