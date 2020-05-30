@@ -7,10 +7,11 @@ class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
-        this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png')
-        this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png')
-        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json')
-        this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json')
+        this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
+        this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
+        this.load.image('knife','assests/weapon/knife.png');
+        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json');
+        this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json');
         //this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
         this.load.spritesheet('slime', 'assests/enemies/slime.png', {
             frameWidth: 32,
@@ -33,12 +34,17 @@ class Game extends Phaser.Scene {
         this.overlay.setDepth(100);
         this.add.existing(this.overlay);
 
+        knives = this.physics.add.group({
+            classType: Phaser.Physics.Arcade.Imagel
+        })
+
 
         //Basic keyboard commands, may need to change to the cursor key configuration
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         //keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
 
@@ -115,6 +121,11 @@ class Game extends Phaser.Scene {
         this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
         enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
+        //Knive collision
+        this.physics.add.collider(knives,wallSlayer);
+        this.physics.add.collider(knives, this.slime, this.handleKniveCollision, undefined, this);
+        this.physics.add.collider(knives,wallSlayer);
+
         //slime anims
         this.anims.create({
             key: 'slime-idle',
@@ -123,6 +134,7 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
 
+<<<<<<< HEAD
       //Declares Turret (Enemy)
       this.turret = new Turret(this, 150, 100, 'turret');
       this.physics.world.enable([this.turret]);
@@ -142,6 +154,11 @@ class Game extends Phaser.Scene {
         repeat: -1,
         frameRate: 10
     })
+=======
+        
+
+
+>>>>>>> 7efa8473e8f19ab7bd338c298c0c486887c48bd5
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -179,6 +196,45 @@ class Game extends Phaser.Scene {
 
     }
 
+    throwKnive(){
+        const parts = this.Faune.anims.currentAnim.key.split('-');
+        const direction = parts[2];
+        const vec = new Phaser.Math.Vector2(0,0);
+        switch(direction){
+            case 'up':
+                vec.y = -1;
+                break;
+            case 'down':
+                vec.y = 1;
+                break;
+            default:
+            case 'side':
+                if(this.Faune.flipX){
+                    vec.x = -1
+                } else {
+                    vec.x = 1;
+                }
+                break;
+
+            }
+
+            const angle = vec.angle();
+            //Faune
+            const knife2 = knives.get(this.Faune.x,this.Faune.y, 'knife');
+            knife2.setRotation(angle);
+            knife2.setVelocity(vec.x*300, vec.y*300)
+
+        
+    }
+
+    setKnives(){
+        //this.knives
+    }
+
+    handleKniveCollision(){
+
+    }
+
 
 
     update() {
@@ -187,6 +243,12 @@ class Game extends Phaser.Scene {
 
         //this.physics.world.collide(this.Lizard, this.Faune);
         this.slime.update()
+
+        if(Phaser.Input.Keyboard.JustDown(keyQ)){
+
+            this.throwKnive();
+            return;
+        }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
