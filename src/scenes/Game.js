@@ -35,7 +35,7 @@ class Game extends Phaser.Scene {
         this.add.existing(this.overlay);
 
         knives = this.physics.add.group({
-            classType: Phaser.Physics.Arcade.Imagel
+            classType: Phaser.Physics.Arcade.Image
         })
 
 
@@ -122,9 +122,11 @@ class Game extends Phaser.Scene {
         enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
         //Knive collision
-        this.physics.add.collider(knives, wallSlayer);
-        this.physics.add.collider(knives, this.slime, this.handleKniveCollision, undefined, this);
-        this.physics.add.collider(knives, wallSlayer);
+        //this.physics.add.collider(knives,wallSlayer);
+        this.physics.add.collider(knives, this.slime, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
+
+        //this.physics.add.collider(knives,wallSlayer);
 
         //slime anims
         this.anims.create({
@@ -215,18 +217,19 @@ class Game extends Phaser.Scene {
 
         const angle = vec.angle();
         //Faune
-        const knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+        knife2.setActive(true);
+        knife2.setVisible(true);
         knife2.setRotation(angle);
         knife2.setVelocity(vec.x * 300, vec.y * 300)
 
-
     }
 
-    setKnives() {
-        //this.knives
+    handleKniveWallCollision() {
+        knives.killAndHide(knife2);
     }
 
-    handleKniveCollision() {
+    handleKniveEnemyCollision() {
 
     }
 
@@ -240,7 +243,6 @@ class Game extends Phaser.Scene {
         this.slime.update()
 
         if (Phaser.Input.Keyboard.JustDown(keyQ)) {
-
             this.throwKnive();
             return;
         }
@@ -318,9 +320,9 @@ class Game extends Phaser.Scene {
         if (possessed == false) {
             console.log('taken');
             possessed = true;
-             //create gray rectangle to overlay screen
-             this.overlay.fillStyle(0x7575a3, 0.2)
-             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0x7575a3, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
             this.possessedMove = this.time.addEvent({
                 delay: 500,
                 callback: () => {

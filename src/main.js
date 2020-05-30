@@ -19,6 +19,7 @@ let game = new Phaser.Game(config);
 let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;
+let knife2 = null;
 let _health = 3;
 var enemyCollide;
 var playerSpeed = 100;
