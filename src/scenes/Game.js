@@ -9,7 +9,7 @@ class Game extends Phaser.Scene {
         this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
-        this.load.image('knife','assests/weapon/knife.png');
+        this.load.image('knife', 'assests/weapon/knife.png');
         this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json');
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json');
         this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
@@ -136,25 +136,25 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
 
-      //Declares Turret (Enemy)
-      this.turret = new Turret(this, 200, 100, 'turret');
-      this.physics.world.enable([this.turret]);
-      this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
-      enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
-
-      //turret anims
-      this.anims.create({
-          key: 'turret-idle',
-          frames: this.anims.generateFrameNames('turret', { start: 0, end: 3 }),
-          repeat: -1,
-          frameRate: 10
-      })
-      this.anims.create({
-        key: 'turret-turn',
-        frames: this.anims.generateFrameNames('turret', { start: 4, end: 6 }),
-        repeat: -1,
-        frameRate: 10
-    })
+        //Declares Turret (Enemy)
+        this.turret = new Turret(this, 150, 100, 'turret');
+        this.physics.world.enable([this.turret]);
+        this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
+        enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
+        this.turret.body.setSize(this.turret.width * 0.5, this.turret.height * 0.9);
+        //turret anims
+        this.anims.create({
+            key: 'turret-idle',
+            frames: this.anims.generateFrameNames('turret', { start: 0, end: 3 }),
+            repeat: -1,
+            frameRate: 10
+        })
+        this.anims.create({
+            key: 'turret-turn',
+            frames: this.anims.generateFrameNames('turret', { start: 4, end: 6 }),
+            repeat: -1,
+            frameRate: 10
+        })
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -188,32 +188,34 @@ class Game extends Phaser.Scene {
     }
 
 
-    handleCollision() {
+    handleCollision(enemy) {
         //console.log('i ran')
-        if(playerDead == false){
-        const dx = this.Faune.x - this.slime.x
-        const dy = this.Faune.y - this.slime.y
-        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
-        this.Faune.handleDamage(dir)
+        if (playerDead == false) {
+            const dx = this.Faune.x - this.slime.x
+            const dy = this.Faune.y - this.slime.y
+            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+            this.Faune.handleDamage(dir)
 
-        this.Faune.setVelocity(dir.x, dir.y)
-        this.hit = 1
+            this.Faune.setVelocity(dir.x, dir.y)
+            this.hit = 1
 
-        GameUI.handlePlayerHealthChanged;
-        this.slimeEffect();
-        sceneEvents.emit('player-health-changed')
-        } else{
+            GameUI.handlePlayerHealthChanged;
+            //this.slimeEffect();
+            //this.possessedEffect();
+            this.confusedEffect();
+            sceneEvents.emit('player-health-changed')
+        } else {
             this.physics.world.removeCollider(enemyCollide);
             return;
         }
 
     }
 
-    throwKnive(){
+    throwKnive() {
         const parts = this.Faune.anims.currentAnim.key.split('-');
         const direction = parts[2];
-        const vec = new Phaser.Math.Vector2(0,0);
-        switch(direction){
+        const vec = new Phaser.Math.Vector2(0, 0);
+        switch (direction) {
             case 'up':
                 vec.y = -1;
                 break;
@@ -222,27 +224,26 @@ class Game extends Phaser.Scene {
                 break;
             default:
             case 'side':
-                if(this.Faune.flipX){
+                if (this.Faune.flipX) {
                     vec.x = -1
                 } else {
                     vec.x = 1;
                 }
                 break;
 
-            }
+        }
 
-            const angle = vec.angle();
-            //Faune
-            knife2 = knives.get(this.Faune.x,this.Faune.y, 'knife');
-            knife2.setActive(true);
-            knife2.setVisible(true);
-            knife2.setRotation(angle);
-            knife2.setVelocity(vec.x*300, vec.y*300)
+        const angle = vec.angle();
+        //Faune
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+        knife2.setActive(true);
+        knife2.setVisible(true);
+        knife2.setRotation(angle);
+        knife2.setVelocity(vec.x * 300, vec.y * 300)
 
-        
     }
 
-    handleKniveWallCollision(){
+    handleKniveWallCollision() {
         knives.killAndHide(knife2);
     }
 
@@ -263,7 +264,7 @@ class Game extends Phaser.Scene {
         //this.physics.world.collide(this.Lizard, this.Faune);
         
 
-        if(Phaser.Input.Keyboard.JustDown(keyQ)){
+        if (Phaser.Input.Keyboard.JustDown(keyQ)) {
             this.throwKnive();
             return;
         }
@@ -280,46 +281,73 @@ class Game extends Phaser.Scene {
 
 
 
-        const speed = 100;
 
-    if(playerDead == false){
+        if (playerDead == false) {
+            if (possessed == false) {
+                if (confused == false) {
+                    if (keyLEFT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(-playerSpeed, 0)
 
-        if (keyLEFT.isDown) {
-            this.Faune.anims.play('faune-run-side', true)
-            this.Faune.setVelocity(-speed, 0)
+                        this.Faune.flipX = true;
 
-            this.Faune.flipX = true;
-
-        } else if (keyRIGHT.isDown) {
-            this.Faune.anims.play('faune-run-side', true)
-            this.Faune.setVelocity(speed, 0)
-            this.Faune.flipX = false;
+                    } else if (keyRIGHT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(playerSpeed, 0)
+                        this.Faune.flipX = false;
 
 
-        } else if (keyDOWN.isDown) {
-            this.Faune.anims.play('faune-run-down', true)
-            this.Faune.setVelocity(0, speed)
-        } else if (keyUP.isDown) {
-            this.Faune.anims.play('faune-run-up', true)
-            this.Faune.setVelocity(0, -speed)
+                    } else if (keyDOWN.isDown) {
+                        this.Faune.anims.play('faune-run-down', true)
+                        this.Faune.setVelocity(0, playerSpeed)
+                    } else if (keyUP.isDown) {
+                        this.Faune.anims.play('faune-run-up', true)
+                        this.Faune.setVelocity(0, -playerSpeed)
+                    } else {
+
+                        const parts = this.Faune.anims.currentAnim.key.split('-')
+                        parts[1] = 'idle'
+                        this.Faune.play(parts.join('-'))
+                        this.Faune.setVelocity(0, 0)
+                    }
+                }
+                else if(confused == true){
+                    if (keyRIGHT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(-playerSpeed, 0)
+
+                        this.Faune.flipX = true;
+
+                    } else if (keyLEFT.isDown) {
+                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.setVelocity(playerSpeed, 0)
+                        this.Faune.flipX = false;
+
+
+                    } else if (keyUP.isDown) {
+                        this.Faune.anims.play('faune-run-down', true)
+                        this.Faune.setVelocity(0, playerSpeed)
+                    } else if (keyDOWN.isDown) {
+                        this.Faune.anims.play('faune-run-up', true)
+                        this.Faune.setVelocity(0, -playerSpeed)
+                    } else {
+
+                        const parts = this.Faune.anims.currentAnim.key.split('-')
+                        parts[1] = 'idle'
+                        this.Faune.play(parts.join('-'))
+                        this.Faune.setVelocity(0, 0)
+                    }
+                }
+            }
         } else {
-
-            const parts = this.Faune.anims.currentAnim.key.split('-')
-            parts[1] = 'idle'
-            this.Faune.play(parts.join('-'))
             this.Faune.setVelocity(0, 0)
         }
 
-    } else {
-        this.Faune.setVelocity(0, 0)
-    }
-
-    if(this.slime){
-        return;
-    } else{
-        this.slime.update()
-    }
-
+        if(this.slime){
+            return;
+        } else{
+            this.slime.update()
+        }
 
 
     }
@@ -329,6 +357,7 @@ class Game extends Phaser.Scene {
         if (slimed == false) {
             console.log('slimed');
             slimed = true;
+            playerSpeed = 75;
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
@@ -341,10 +370,84 @@ class Game extends Phaser.Scene {
             });
         }
     }
+
+    possessedEffect() {
+        //If already under control, dont do anything
+        if (possessed == false) {
+            console.log('taken');
+            possessed = true;
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0x7575a3, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.possessedMove = this.time.addEvent({
+                delay: 500,
+                callback: () => {
+                    possessedDirection = this.updatePossesed()
+                },
+                repeat: 8
+            })
+
+            var possessedTime = this.time.addEvent({
+                delay: 4000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
+
+    confusedEffect() {
+        //If already under control, dont do anything
+        if (confused == false) {
+            console.log('confused');
+            confused = true;
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0xF8E522, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+
+            var confusedTime = this.time.addEvent({
+                delay: 10000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
     //clean overlay
     clean() {
         this.overlay.clear();
+        console.log('Cleared Effect');
         slimed = false;
+        possessed = false;
+        confused = false;
+        playerSpeed = 100;
+    }
+
+    updatePossesed() {
+        console.log('updated movement');
+        possessedDirection = Phaser.Math.Between(0, 3);
+        if (playerDead == false) {
+            if (possessedDirection == 0) {
+                this.Faune.anims.play('faune-run-side', true);
+                this.Faune.setVelocity(-playerSpeed, 0);
+                this.Faune.flipX = true;
+
+            } else if (possessedDirection == 1) {
+                this.Faune.anims.play('faune-run-side', true);
+                this.Faune.setVelocity(playerSpeed, 0);
+                this.Faune.flipX = false;
+
+            } else if (possessedDirection == 2) {
+                this.Faune.anims.play('faune-run-down', true);
+                this.Faune.setVelocity(0, playerSpeed);
+
+            } else if (possessedDirection == 3) {
+                this.Faune.anims.play('faune-run-up', true);
+                this.Faune.setVelocity(0, -playerSpeed);
+
+            }
+        }
+        return possessedDirection;
     }
 
 

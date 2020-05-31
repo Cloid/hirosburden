@@ -24,8 +24,12 @@ let lizards = null;
 let lizard2 = null;
 let _health = 3;
 var enemyCollide;
+var playerSpeed = 100;
 const sceneEvents = new Phaser.Events.EventEmitter();
 
 //Debuff Effects
 var slimed = false;
+var possessed = false;
+var possessedDirection = 4;
+var confused = false;
 var playerDead = false;
