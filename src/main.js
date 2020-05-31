@@ -9,7 +9,7 @@ let config = {
             debug: true
         }
     },
-	scene: [Menu, Game, GameUI],
+	scene: [Game, GameUI],
 	scale:{
 		zoom: 2
 	}
@@ -20,6 +20,8 @@ let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;
 let knife2 = null;
+let lizards = null;
+let lizard2 = null;
 let _health = 3;
 var enemyCollide;
 const sceneEvents = new Phaser.Events.EventEmitter();

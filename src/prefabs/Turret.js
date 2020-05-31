@@ -39,7 +39,8 @@ class Turret extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    update(){
+    preUpdate(){
+        super.preUpdate();
         
         //Change velcocity based on direction specified
         const speed = 50;

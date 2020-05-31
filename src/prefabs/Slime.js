@@ -39,9 +39,10 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    update(){
+    preUpdate(){
         
         //Change velcocity based on direction specified
+        super.preUpdate();
         const speed = 50;
 
         if(newDirection==0){

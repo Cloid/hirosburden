@@ -12,7 +12,7 @@ class Game extends Phaser.Scene {
         this.load.image('knife','assests/weapon/knife.png');
         this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json');
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json');
-        //this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
+        this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
         this.load.spritesheet('slime', 'assests/enemies/slime.png', {
             frameWidth: 32,
             frameHeight: 32
@@ -137,7 +137,7 @@ class Game extends Phaser.Scene {
         })
 
       //Declares Turret (Enemy)
-      this.turret = new Turret(this, 150, 100, 'turret');
+      this.turret = new Turret(this, 200, 100, 'turret');
       this.physics.world.enable([this.turret]);
       this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
       enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
@@ -165,6 +165,23 @@ class Game extends Phaser.Scene {
     */
         this.slime.anims.play('slime-idle');
         this.turret.anims.play('turret-idle');
+
+        // lizards = this.physics.add.group({
+        //     classType: Lizard,
+        // })
+        
+        // this.physics.world.enable([lizards]);
+        // this.physics.add.collider(lizards, wallSlayer, lizards.updateMovement, undefined, this);
+        // this.physics.add.collider(knives, lizards, this.handleKniveEnemyCollision, undefined, this);
+        // this.physics.add.collider(lizards, this.Faune, this.handleCollision, undefined, this);
+        // lizard2 = lizards.get(100,100,'lizard');
+        // lizard2.setActive(true);
+        // lizard2.setVisible(true);
+
+        // var lizard3 = lizards.get(100,150,'lizard');
+        // lizard3.setActive(true);
+        // lizard3.setVisible(true);
+
 
 
 
@@ -230,6 +247,10 @@ class Game extends Phaser.Scene {
     }
 
     handleKniveEnemyCollision(){
+        knives.killAndHide(knife2);
+       // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        this.slime.destroy();
 
     }
 
@@ -240,7 +261,7 @@ class Game extends Phaser.Scene {
         //console.log(this.hit)
 
         //this.physics.world.collide(this.Lizard, this.Faune);
-        this.slime.update()
+        
 
         if(Phaser.Input.Keyboard.JustDown(keyQ)){
             this.throwKnive();
@@ -293,6 +314,12 @@ class Game extends Phaser.Scene {
         this.Faune.setVelocity(0, 0)
     }
 
+    if(this.slime){
+        return;
+    } else{
+        this.slime.update()
+    }
+
 
 
     }
@@ -319,4 +346,7 @@ class Game extends Phaser.Scene {
         this.overlay.clear();
         slimed = false;
     }
+
+
+    
 }
