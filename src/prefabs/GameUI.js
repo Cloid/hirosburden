@@ -20,7 +20,7 @@ class GameUI extends Phaser.Scene{
                 y: 10,
                 stepX:16
             },
-            quantity: 3
+            quantity: _health
         })
 
         sceneEvents.on('player-health-changed',this.handlePlayerHealthChanged, this)
@@ -53,6 +53,10 @@ class GameUI extends Phaser.Scene{
             }
         })*/
         
+    }
+
+    reset(){
+        this.hearts.getChildren()[_health].setTexture('ui-heart-full');
     }
 
 }

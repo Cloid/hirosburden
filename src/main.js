@@ -20,9 +20,10 @@ let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;
 let knife2 = null;
-let _health = 3;
+let _health = 4;
 var enemyCollide;
 var playerSpeed = 100;
+//var playerHearts = 4;
 const sceneEvents = new Phaser.Events.EventEmitter();
 
 //Debuff Effects

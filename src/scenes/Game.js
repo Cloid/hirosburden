@@ -21,6 +21,10 @@ class Game extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
+        this.load.spritesheet('healthUpgrade', 'assests/ui/heartAnimation.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         //this.load.image('faune', 'assests/character/faune.png')
 
 
@@ -167,7 +171,14 @@ class Game extends Phaser.Scene {
         this.turret.anims.play('turret-idle');
 
 
-
+        this.healthUpgrade = new Upgrade(this, 50, 50,  'healthUpgrade').setAlpha(1);
+        this.anims.create({
+            key: 'heart-idle',
+            frames: this.anims.generateFrameNames('healthUpgrade', { start: 0, end: 10 }),
+            repeat: -1,
+            frameRate: 10
+        })
+        this.healthUpgrade.anims.play('heart-idle');
     }
 
 
