@@ -3,7 +3,7 @@ class Menu extends Phaser.Scene {
         super("Menu");
     }
     preload() {
-
+        this.load.audio('song', 'assets/sound/fantasyrpgbg.mp3');
     }
     create() {
         console.log('i ran');
@@ -32,7 +32,7 @@ class Menu extends Phaser.Scene {
         menuConfig.color = '#000';
 
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-
+        //let myMusic = this.sound.add('song');
 
     }
 

@@ -36,6 +36,9 @@ class Game extends Phaser.Scene {
 
     create() {
         this.scene.run('game-ui')
+        //Play music
+        myMusic.play();
+        myMusic.loop = true;
         //Overlay to be used for DOT
         this.overlay = new Phaser.GameObjects.Graphics(this);
         this.overlay.clear();
@@ -149,28 +152,28 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-/*
-        //Declares Turret (Enemy)
-        this.turret = new Turret(this, 150, 100, 'turret');
-        this.physics.world.enable([this.turret]);
-        this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
-        enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
-        this.turret.body.setSize(this.turret.width * 0.5, this.turret.height * 0.9);
-        //turret anims
-        this.anims.create({
-            key: 'turret-idle',
-            frames: this.anims.generateFrameNames('turret', { start: 0, end: 3 }),
-            repeat: -1,
-            frameRate: 10
-        })
-        this.anims.create({
-            key: 'turret-turn',
-            frames: this.anims.generateFrameNames('turret', { start: 4, end: 6 }),
-            repeat: -1,
-            frameRate: 10
-        })
-
-        */
+        /*
+                //Declares Turret (Enemy)
+                this.turret = new Turret(this, 150, 100, 'turret');
+                this.physics.world.enable([this.turret]);
+                this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
+                enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
+                this.turret.body.setSize(this.turret.width * 0.5, this.turret.height * 0.9);
+                //turret anims
+                this.anims.create({
+                    key: 'turret-idle',
+                    frames: this.anims.generateFrameNames('turret', { start: 0, end: 3 }),
+                    repeat: -1,
+                    frameRate: 10
+                })
+                this.anims.create({
+                    key: 'turret-turn',
+                    frames: this.anims.generateFrameNames('turret', { start: 4, end: 6 }),
+                    repeat: -1,
+                    frameRate: 10
+                })
+        
+                */
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -185,7 +188,7 @@ class Game extends Phaser.Scene {
         // lizards = this.physics.add.group({
         //     classType: Lizard,
         // })
-        
+
         // this.physics.world.enable([lizards]);
         // this.physics.add.collider(lizards, wallSlayer, lizards.updateMovement, undefined, this);
         // this.physics.add.collider(knives, lizards, this.handleKniveEnemyCollision, undefined, this);
@@ -200,7 +203,7 @@ class Game extends Phaser.Scene {
 
 
 
-        this.healthUpgrade = new Upgrade(this, 50, 50,  'healthUpgrade').setAlpha(1);
+        this.healthUpgrade = new Upgrade(this, 50, 50, 'healthUpgrade').setAlpha(1);
         this.anims.create({
             key: 'heart-idle',
             frames: this.anims.generateFrameNames('healthUpgrade', { start: 0, end: 10 }),
@@ -270,9 +273,9 @@ class Game extends Phaser.Scene {
         knives.killAndHide(knife2);
     }
 
-    handleKniveEnemyCollision(){
+    handleKniveEnemyCollision() {
         knives.killAndHide(knife2);
-       // lizards.killAndHide(lizard2);
+        // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         this.slime.destroy();
 
@@ -285,7 +288,7 @@ class Game extends Phaser.Scene {
         //console.log(this.hit)
 
         //this.physics.world.collide(this.Lizard, this.Faune);
-        
+
 
         if (Phaser.Input.Keyboard.JustDown(keyQ)) {
             this.throwKnive();
@@ -334,7 +337,7 @@ class Game extends Phaser.Scene {
                         this.Faune.setVelocity(0, 0)
                     }
                 }
-                else if(confused == true){
+                else if (confused == true) {
                     if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
@@ -364,11 +367,12 @@ class Game extends Phaser.Scene {
             }
         } else {
             this.Faune.setVelocity(0, 0)
+            myMusic.pause();
         }
 
-        if(this.slime){
+        if (this.slime) {
             return;
-        } else{
+        } else {
             this.slime.update()
         }
 
@@ -474,5 +478,5 @@ class Game extends Phaser.Scene {
     }
 
 
-    
+
 }

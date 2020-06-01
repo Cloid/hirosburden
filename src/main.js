@@ -9,13 +9,14 @@ let config = {
             debug: true
         }
     },
-	scene: [Game, GameUI],
-	scale:{
-		zoom: 2
-	}
+    scene: [Game, GameUI],
+    scale: {
+        zoom: 2
+    }
 };
 
 let game = new Phaser.Game(config);
+var myMusic = new Audio("assests/sound/gameMusic.mp3");
 let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;
