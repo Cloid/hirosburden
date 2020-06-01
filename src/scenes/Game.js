@@ -12,7 +12,11 @@ class Game extends Phaser.Scene {
         this.load.image('knife', 'assests/weapon/knife.png');
         this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json');
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json');
-        this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json')
+        this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json');
+        this.load.spritesheet('player', 'assests/character/player.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         this.load.spritesheet('slime', 'assests/enemies/slime.png', {
             frameWidth: 32,
             frameHeight: 32
@@ -68,7 +72,7 @@ class Game extends Phaser.Scene {
         })
 
         //Adding Player 'Faune' to in-game, adds physics, sets Hitbox, collider with wall, and camera follow respectively
-        this.Faune = new Faune(this, 50, 100, 'faune')
+        this.Faune = new Faune(this, 50, 100, 'player')
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8)
         this.physics.add.collider(this.Faune, wallSlayer);
@@ -77,36 +81,42 @@ class Game extends Phaser.Scene {
         //Atlas Anims for Faune (Player)
         this.anims.create({
             key: 'faune-idle-down',
-            frames: [{ key: 'faune', frame: 'walk-down-3.png' }]
+            frames: this.anims.generateFrameNames('player', { start: 0, end: 7 }),
+            repeat: -1,
+            frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-idle-up',
-            frames: [{ key: 'faune', frame: 'walk-up-3.png' }]
+            frames: this.anims.generateFrameNames('player', { start: 8, end: 15 }),
+            repeat: -1,
+            frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-idle-side',
-            frames: [{ key: 'faune', frame: 'walk-side-3.png' }]
+            frames: this.anims.generateFrameNames('player', { start: 24, end: 31 }),
+            repeat: -1,
+            frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-down-', suffix: '.png' }),
+            frames: this.anims.generateFrameNames('player', { start: 0, end: 7 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-up-', suffix: '.png' }),
+            frames: this.anims.generateFrameNames('player', { start: 8, end: 15 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 8, prefix: 'run-side-', suffix: '.png' }),
+            frames: this.anims.generateFrameNames('player', { start: 24, end: 31 }),
             repeat: -1,
             frameRate: 15
         })
@@ -139,7 +149,7 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-
+/*
         //Declares Turret (Enemy)
         this.turret = new Turret(this, 150, 100, 'turret');
         this.physics.world.enable([this.turret]);
@@ -159,6 +169,8 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
+
+        */
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -168,7 +180,7 @@ class Game extends Phaser.Scene {
             })
     */
         this.slime.anims.play('slime-idle');
-        this.turret.anims.play('turret-idle');
+        //this.turret.anims.play('turret-idle');
 
         // lizards = this.physics.add.group({
         //     classType: Lizard,
