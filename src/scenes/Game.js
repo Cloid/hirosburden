@@ -81,53 +81,53 @@ class Game extends Phaser.Scene {
         //Atlas Anims for Faune (Player)
         this.anims.create({
             key: 'faune-idle-down',
-            frames: this.anims.generateFrameNames('player', { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-idle-up',
-            frames: this.anims.generateFrameNames('player', { start: 8, end: 15 }),
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 21 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-idle-side',
-            frames: this.anims.generateFrameNames('player', { start: 24, end: 31 }),
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('player', { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNames('player', { start: 13, end: 20 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('player', { start: 8, end: 15 }),
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('player', { start: 24, end: 31 }),
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
             repeat: -1,
             frameRate: 15
         })
 
         this.anims.create({
             key: 'faune-faint',
-            frames: this.anims.generateFrameNames('faune', { suffix: 1, end: 4, prefix: 'faint-', suffix: '.png' }),
+            frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
             frameRate: 15
         })
         //Starts the idle animation
-        this.Faune.anims.play('faune-idle-down')
+        this.Faune.anims.play('faune-idle-down');
 
         //Declares Slime (Enemy)
         this.slime = new Slime(this, 150, 100, 'slime');
