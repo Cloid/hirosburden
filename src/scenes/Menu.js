@@ -6,8 +6,6 @@ class Menu extends Phaser.Scene {
         this.load.audio('song', 'assets/sound/fantasyrpgbg.mp3');
     }
     create() {
-        console.log('i ran');
-
 
         let menuConfig = {
             fontFamily: 'Arial Black',

@@ -9,7 +9,7 @@ let config = {
             debug: true
         }
     },
-    scene: [Game, GameUI],
+    scene: [Menu, Game, GameUI],
     scale: {
         zoom: 2
     }
