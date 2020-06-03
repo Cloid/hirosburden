@@ -47,6 +47,7 @@ class Game extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
+            maxSize:1
         })
 
         
@@ -198,6 +199,17 @@ class Game extends Phaser.Scene {
     }
 
     throwKnive() {
+
+        if(!knives){
+            return;
+        }
+
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+
+        if(!knife2){
+            return;
+        }
+
         const parts = this.Faune.anims.currentAnim.key.split('-');
         const direction = parts[2];
         const vec = new Phaser.Math.Vector2(0, 0);
@@ -221,7 +233,6 @@ class Game extends Phaser.Scene {
 
         const angle = vec.angle();
         //Faune
-        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
         knife2.setActive(true);
         knife2.setVisible(true);
         knife2.setRotation(angle);
@@ -231,10 +242,12 @@ class Game extends Phaser.Scene {
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
+        lastKnife=false;
     }
 
     handleKniveEnemyCollision() {
         knives.killAndHide(knife2);
+        lastKnife=false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         this.slime.destroy();
@@ -250,7 +263,8 @@ class Game extends Phaser.Scene {
         //this.physics.world.collide(this.Lizard, this.Faune);
 
 
-        if (Phaser.Input.Keyboard.JustDown(keyQ)) {
+        if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
+            lastKnife = true;
             this.throwKnive();
             return;
         }
