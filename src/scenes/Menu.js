@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         this.load.audio('song', 'assets/sound/fantasyrpgbg.mp3');
+        this.load.audio('oof', 'assets/sound/oof.mp3');
         this.load.image('menulogo', 'assests/ui/hirosburdenlogo.png');
     }
     create() {

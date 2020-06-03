@@ -17,6 +17,7 @@ let config = {
 
 let game = new Phaser.Game(config);
 var myMusic = new Audio("assests/sound/gameMusic.mp3");
+var oof = new Audio("assests/sound/oof.mp3");
 let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;

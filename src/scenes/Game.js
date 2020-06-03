@@ -46,8 +46,11 @@ class Game extends Phaser.Scene {
         this.add.existing(this.overlay);
 
         knives = this.physics.add.group({
-            classType: Phaser.Physics.Arcade.Image
+            classType: Phaser.Physics.Arcade.Image,
         })
+
+        
+        
 
 
         //Basic keyboard commands, may need to change to the cursor key configuration
@@ -82,53 +85,7 @@ class Game extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
 
         //Atlas Anims for Faune (Player)
-        this.anims.create({
-            key: 'faune-idle-down',
-            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-idle-up',
-            frames: this.anims.generateFrameNames('player', { start: 21, end: 21 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-idle-side',
-            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('player', { start: 13, end: 20 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-faint',
-            frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
-            frameRate: 15
-        })
+        this.createPlayerAnims();
         //Starts the idle animation
         this.Faune.anims.play('faune-idle-down');
 
@@ -219,6 +176,7 @@ class Game extends Phaser.Scene {
     handleCollision(enemy) {
         //console.log('i ran')
         if (playerDead == false) {
+            oof.play();
             const dx = this.Faune.x - this.slime.x
             const dy = this.Faune.y - this.slime.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -477,6 +435,57 @@ class Game extends Phaser.Scene {
             }
         }
         return possessedDirection;
+    }
+
+
+    createPlayerAnims(){
+        this.anims.create({
+            key: 'faune-idle-down',
+            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-idle-up',
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 21 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-idle-side',
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-down',
+            frames: this.anims.generateFrameNames('player', { start: 13, end: 20 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-up',
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-side',
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-faint',
+            frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
+            frameRate: 15
+        })
     }
 
 
