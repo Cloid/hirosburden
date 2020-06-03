@@ -1,18 +1,18 @@
-var direction = ["up", "down", "left", "right"]
-var newDirection = 4;
+//var newDirection = 4;
 
 class Slime extends Phaser.Physics.Arcade.Sprite{
     
     constructor(scene, x, y, texture, frame){
-        super(scene, x, y, texture, frame)
-        scene.add.existing(this)
-        //newDirection = this.updateMovement()
+        super(scene, x, y, texture, frame);
+        scene.add.existing(this);
+        scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE,this.updateMovement,this);
+        this.updateMovement();
 
         //A timer to change movement every 2000 seconds
         this.moveEvent = scene.time.addEvent({
             delay: 2000,
             callback: () => {
-                newDirection = this.updateMovement()
+                this.updateMovement();
             },
             loop: true
         })
@@ -22,21 +22,18 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
         //console.log(newDirection)
     }
 
-
-
     //Update the current movement of Lizard
     updateMovement(){
-        newDirection = Phaser.Math.Between(0,3)
-        //console.log('i ran')
-/*
-        while(newDirection === exclude){
-            newDirection = Phaser.Math.Between(0,3)
-        }*/
+        console.log('i ran')
+        let newDirection = Phaser.Math.Between(0,3);
 
-        return newDirection
+        while (newDirection === this.newDirection){
+            newDirection = Phaser.Math.Between(0,3);
+        }
 
+        this.newDirection = newDirection
 
-
+        return this.newDirection;
     }
 
     preUpdate(time,delta){
@@ -45,25 +42,23 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
         super.preUpdate(time,delta);
         const speed = 50;
 
-        if(newDirection==0){
+        if(this.newDirection==0){
             this.setVelocity(0,-speed)
             this.flipX=false
 
-        } else if(newDirection==1){
+        } else if(this.newDirection==1){
             this.setVelocity(0,speed)
             this.flipX=false
 
-        } else if(newDirection==2){
+        } else if(this.newDirection==2){
             this.setVelocity(-speed,0)
             this.flipX=true
 
-        } else if(newDirection==3){
+        } else if(this.newDirection==3){
             this.setVelocity(speed,0)
             this.flipX=false
 
         }
-
-
     }
     
 

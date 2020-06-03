@@ -135,7 +135,9 @@ class Game extends Phaser.Scene {
         //Declares Slime (Enemy)
         this.slime = new Slime(this, 150, 100, 'slime');
         this.physics.world.enable([this.slime]);
-        this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
+        this.slime.body.onCollide = true;
+        //this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
+        this.physics.add.collider(this.slime, wallSlayer);
         enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
         //Knive collision

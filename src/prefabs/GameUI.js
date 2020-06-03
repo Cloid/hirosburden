@@ -27,7 +27,7 @@ class GameUI extends Phaser.Scene{
         //For loop to change visibilty of hearts.
         //Remember the first heart starts at 0 and ends at _health + (num) -1
         for(var i=_health+4;i>_health-1;i--){
-            console.log(i);
+            //console.log(i);
             this.hearts.getChildren()[i].setVisible(false);
         }
 
