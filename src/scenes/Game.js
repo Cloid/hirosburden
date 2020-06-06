@@ -36,8 +36,8 @@ class Game extends Phaser.Scene {
     create() {
         this.scene.run('game-ui')
         //Play music
-        //myMusic.play();
-        //myMusic.loop = true;
+        myMusic.play();
+        myMusic.loop = true;
         //Overlay to be used for DOT
         this.overlay = new Phaser.GameObjects.Graphics(this);
         this.overlay.clear();
@@ -179,8 +179,21 @@ class Game extends Phaser.Scene {
         })
         this.healthUpgrade.anims.play('heart-idle');
         this.physics.world.enable([this.healthUpgrade]);
-        this.healthUpgrade.setDrag(100,100);
         this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
+
+        this.healthUpgrade2 = new Upgrade(this, 100, 50, 'healthUpgrade').setAlpha(1);
+        this.anims.create({
+            key: 'heart-idle',
+            frames: this.anims.generateFrameNames('healthUpgrade', { start: 0, end: 10 }),
+            repeat: -1,
+            frameRate: 10
+        })
+
+        this.healthUpgrade2.anims.play('heart-idle');
+        this.healthUpgrade2.setTint(0xff0000)
+        this.physics.world.enable([this.healthUpgrade2]);
+        this.physics.add.collider(this.Faune, this.healthUpgrade2, this.replenishHealth, undefined, this);
+
     }
 
     update() {
@@ -401,8 +414,20 @@ class Game extends Phaser.Scene {
             console.log('health upgraded');
             _maxHealth += 1;
             _health = _maxHealth;
-            this.healthUpgrade.destroy();
             sceneEvents.emit('player-health-gained');
+            this.healthUpgrade.destroy();
+            console.log('Max Health is now: '+ _health);
+        }
+    }
+
+    replenishHealth(){
+        if(this.healthUpgrade2.alpha != 0.5){
+            this.healthUpgrade2.setAlpha(0.5);
+            console.log('health replenished');
+            _health = _maxHealth;
+            sceneEvents.emit('player-health-replenished');
+            this.healthUpgrade2.destroy();
+            console.log('Replenished Health. Health is now: ' + _health);
         }
     }
 

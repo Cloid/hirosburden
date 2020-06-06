@@ -41,6 +41,11 @@ class GameUI extends Phaser.Scene{
             sceneEvents.off('player-health-gained', this.handlePlayerHealthChanged,this)
         })
 
+        sceneEvents.on('player-health-replenished',this.handlePlayerHealthFill, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('player-health-replenished', this.handlePlayerHealthChanged,this)
+        })
+
 
     }
 
@@ -71,6 +76,10 @@ class GameUI extends Phaser.Scene{
     handlePlayerHealthGain(){
         this.reset();
         this.hearts.getChildren()[_maxHealth-1].setVisible(true);
+    }
+
+    handlePlayerHealthFill(){
+        this.reset();
     }
 
     reset(){
