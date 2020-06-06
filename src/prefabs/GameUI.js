@@ -38,14 +38,18 @@ class GameUI extends Phaser.Scene{
 
         sceneEvents.on('player-health-gained',this.handlePlayerHealthGain, this)
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-            sceneEvents.off('player-health-gained', this.handlePlayerHealthChanged,this)
+            sceneEvents.off('player-health-gained', this.handlePlayerHealthGain,this)
         })
 
         sceneEvents.on('player-health-replenished',this.handlePlayerHealthFill, this)
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-            sceneEvents.off('player-health-replenished', this.handlePlayerHealthChanged,this)
+            sceneEvents.off('player-health-replenished', this.handlePlayerHealthFill,this)
         })
 
+        sceneEvents.on('reset-game',this.resetGame, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('reset-game', this.resetGame,this)
+        })
 
     }
 
@@ -86,6 +90,12 @@ class GameUI extends Phaser.Scene{
         for(var i=9;i>=0;i--){
             this.hearts.getChildren()[i].setTexture('ui-heart-full');
         }        
+    }
+
+    resetGame(){
+        for(var i=_health+6;i>_health-1;i--){
+            this.hearts.getChildren()[i].setVisible(false);
+        }
     }
 
 }

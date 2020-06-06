@@ -62,6 +62,7 @@ class Game extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         //keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
 
@@ -178,6 +179,7 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
         this.healthUpgrade.anims.play('heart-idle');
+        this.healthUpgrade.setTint(0xff0000)
         this.physics.world.enable([this.healthUpgrade]);
         this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
 
@@ -190,7 +192,6 @@ class Game extends Phaser.Scene {
         })
 
         this.healthUpgrade2.anims.play('heart-idle');
-        this.healthUpgrade2.setTint(0xff0000)
         this.physics.world.enable([this.healthUpgrade2]);
         this.physics.add.collider(this.Faune, this.healthUpgrade2, this.replenishHealth, undefined, this);
 
@@ -205,7 +206,7 @@ class Game extends Phaser.Scene {
 
         
 
-        if(this.turret ){
+        if(this.turret){
             //console.log(this.bulletcd);
             if(this.bulletcd>0){
                 ++this.bulletcd;
@@ -299,6 +300,32 @@ class Game extends Phaser.Scene {
         } else {
             this.Faune.setVelocity(0, 0)
             myMusic.pause();
+
+            let menuConfig = {
+                fontFamily: 'Arial Black',
+                fontSize: '20px',
+                backgroundColor: '#F3B141',
+                color: '#843605',
+                align: 'right',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 0
+            }
+
+            let centerX = this.cameras.main.midPoint.x;
+        let centerY = this.cameras.main.midPoint.y;
+        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
+        if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            playerDead=false;
+            _health = 3;
+            _maxHealth = 3;
+            sceneEvents.emit('reset-game');
+            this.scene.start('Game');       
+        }
+
+
         }
 
         if (this.slime) {
