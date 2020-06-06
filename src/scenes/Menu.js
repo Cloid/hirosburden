@@ -6,6 +6,10 @@ class Menu extends Phaser.Scene {
         this.load.audio('song', 'assets/sound/fantasyrpgbg.mp3');
         this.load.audio('oof', 'assets/sound/oof.mp3');
         this.load.image('menulogo', 'assests/ui/hirosburdenlogo.png');
+        this.load.spritesheet('player', 'assests/character/player.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        })
     }
     create() {
         this.cameras.main.setBackgroundColor('#FFFFFF')

@@ -34,7 +34,7 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        this.scene.run('game-ui')
+        this.scene.run('game-ui');
         //Play music
         myMusic.play();
         myMusic.loop = true;
@@ -298,8 +298,15 @@ class Game extends Phaser.Scene {
                 }
             }
         } else {
-            this.Faune.setVelocity(0, 0)
+
+            this.Faune.setVelocity(0, 0);
             myMusic.pause();
+            this.physics.world.colliders
+            this.physics.world.colliders.destroy();
+            this.physics.add.collider(this.slime, wallSlayer);
+            this.physics.add.collider(this.turret, wallSlayer);
+
+
 
             let menuConfig = {
                 fontFamily: 'Arial Black',
