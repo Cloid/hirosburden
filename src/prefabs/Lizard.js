@@ -1,70 +1,65 @@
-var direction = ["up", "down", "left", "right"]
-var newDirection2 = 4;
+//var newDirection = 4;
 
 class Lizard extends Phaser.Physics.Arcade.Sprite{
     
     constructor(scene, x, y, texture, frame){
-        super(scene, x, y, texture, frame)
-        scene.add.existing(this)
-        //newDirection2 = this.updateMovement()
+        super(scene, x, y, texture, frame);
+        scene.add.existing(this);
+        scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE,this.updateMovement,this);
+        this.updateMovement();
 
         //A timer to change movement every 2000 seconds
         this.moveEvent = scene.time.addEvent({
             delay: 2000,
             callback: () => {
-                newDirection2 = this.updateMovement()
+                this.updateMovement();
             },
             loop: true
         })
         
-        //let newDirection2 = this.updateMovement;
+        //let newDirection = this.updateMovement;
 
-        //console.log(newDirection2)
-        
+        //console.log(newDirection)
     }
-
-
 
     //Update the current movement of Lizard
     updateMovement(){
-        newDirection2 = Phaser.Math.Between(0,3)
         //console.log('i ran')
-/*
-        while(newDirection2 === exclude){
-            newDirection2 = Phaser.Math.Between(0,3)
-        }*/
+        let newDirection = Phaser.Math.Between(0,3);
 
-        return newDirection2
+        while (newDirection === this.newDirection){
+            newDirection = Phaser.Math.Between(0,3);
+        }
 
+        this.newDirection = newDirection
 
-
+        return this.newDirection;
     }
 
-    preUpdate(){
-        super.preUpdate();
+    preUpdate(time,delta){
+        
+        //Change velcocity based on direction specified
+        super.preUpdate(time,delta);
         const speed = 50;
 
-        if(newDirection2==0){
+        if(this.newDirection==0){
             this.setVelocity(0,-speed)
             this.flipX=false
 
-        } else if(newDirection2==1){
+        } else if(this.newDirection==1){
             this.setVelocity(0,speed)
             this.flipX=false
 
-        } else if(newDirection2==2){
+        } else if(this.newDirection==2){
             this.setVelocity(-speed,0)
             this.flipX=true
 
-        } else if(newDirection2==3){
+        } else if(this.newDirection==3){
             this.setVelocity(speed,0)
             this.flipX=false
 
         }
     }
-
- 
-
     
 
 }

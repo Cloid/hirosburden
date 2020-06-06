@@ -1,4 +1,6 @@
-class Turret extends Phaser.Physics.Arcade.Sprite{
+//var newDirection = 4;
+
+class EyeBall extends Phaser.Physics.Arcade.Sprite{
     
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
@@ -18,10 +20,6 @@ class Turret extends Phaser.Physics.Arcade.Sprite{
         //let newDirection = this.updateMovement;
 
         //console.log(newDirection)
-    }
-
-    shoot(){
-        
     }
 
     //Update the current movement of Lizard

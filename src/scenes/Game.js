@@ -46,8 +46,12 @@ class Game extends Phaser.Scene {
         this.add.existing(this.overlay);
 
         knives = this.physics.add.group({
-            classType: Phaser.Physics.Arcade.Image
+            classType: Phaser.Physics.Arcade.Image,
+            maxSize:1
         })
+
+        
+        
 
 
         //Basic keyboard commands, may need to change to the cursor key configuration
@@ -82,60 +86,16 @@ class Game extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
 
         //Atlas Anims for Faune (Player)
-        this.anims.create({
-            key: 'faune-idle-down',
-            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-idle-up',
-            frames: this.anims.generateFrameNames('player', { start: 21, end: 21 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-idle-side',
-            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('player', { start: 13, end: 20 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
-            repeat: -1,
-            frameRate: 15
-        })
-
-        this.anims.create({
-            key: 'faune-faint',
-            frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
-            frameRate: 15
-        })
+        this.createPlayerAnims();
         //Starts the idle animation
         this.Faune.anims.play('faune-idle-down');
 
         //Declares Slime (Enemy)
         this.slime = new Slime(this, 150, 100, 'slime');
         this.physics.world.enable([this.slime]);
-        this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
+        this.slime.body.onCollide = true;
+        //this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
+        this.physics.add.collider(this.slime, wallSlayer);
         enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
         //Knive collision
@@ -251,6 +211,17 @@ class Game extends Phaser.Scene {
         }
     }
     throwKnive() {
+
+        if(!knives){
+            return;
+        }
+
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+
+        if(!knife2){
+            return;
+        }
+
         const parts = this.Faune.anims.currentAnim.key.split('-');
         const direction = parts[2];
         const vec = new Phaser.Math.Vector2(0, 0);
@@ -274,7 +245,6 @@ class Game extends Phaser.Scene {
 
         const angle = vec.angle();
         //Faune
-        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
         knife2.setActive(true);
         knife2.setVisible(true);
         knife2.setRotation(angle);
@@ -284,10 +254,12 @@ class Game extends Phaser.Scene {
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
+        lastKnife=false;
     }
 
     handleKniveEnemyCollision() {
         knives.killAndHide(knife2);
+        lastKnife=false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         this.slime.destroy();
@@ -303,7 +275,8 @@ class Game extends Phaser.Scene {
         //this.physics.world.collide(this.Lizard, this.Faune);
 
 
-        if (Phaser.Input.Keyboard.JustDown(keyQ)) {
+        if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
+            lastKnife = true;
             this.throwKnive();
             return;
         }
@@ -500,6 +473,57 @@ class Game extends Phaser.Scene {
         }
     }
 */
+
+    createPlayerAnims(){
+        this.anims.create({
+            key: 'faune-idle-down',
+            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-idle-up',
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 21 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-idle-side',
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-down',
+            frames: this.anims.generateFrameNames('player', { start: 13, end: 20 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-up',
+            frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-run-side',
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-faint',
+            frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
+            frameRate: 15
+        })
+    }
+
 
 
 }
