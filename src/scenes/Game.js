@@ -120,7 +120,7 @@ class Game extends Phaser.Scene {
                 this.physics.world.enable([this.turret]);
                 this.turret.body.onCollide = true;
                 this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
-                enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
+                this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
                 this.turret.body.setSize(this.turret.width * 0.5, this.turret.height * 0.9);
                 //turret anims
                 this.anims.create({
