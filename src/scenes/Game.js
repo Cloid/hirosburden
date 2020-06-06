@@ -321,6 +321,7 @@ class Game extends Phaser.Scene {
             playerDead=false;
             _health = 3;
             _maxHealth = 3;
+            this.clean();
             sceneEvents.emit('reset-game');
             this.scene.start('Game');       
         }
