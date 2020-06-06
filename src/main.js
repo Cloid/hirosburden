@@ -22,6 +22,8 @@ let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ;
 let wallSlayer = null;
 let knives = null;
 let knife2;
+let bullet = null;
+let bullets;
 let lastKnife = false;
 let lizards = null;
 let lizard2 = null;

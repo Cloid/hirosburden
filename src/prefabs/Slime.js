@@ -24,7 +24,7 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
 
     //Update the current movement of Lizard
     updateMovement(){
-        console.log('i ran')
+        //console.log('i ran')
         let newDirection = Phaser.Math.Between(0,3);
 
         while (newDirection === this.newDirection){
@@ -41,6 +41,8 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
         //Change velcocity based on direction specified
         super.preUpdate(time,delta);
         const speed = 50;
+
+        //0 = Up, 1 = Down, 2 = Left, 3 = Right
 
         if(this.newDirection==0){
             this.setVelocity(0,-speed)

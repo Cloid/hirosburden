@@ -10,6 +10,7 @@ class Game extends Phaser.Scene {
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
         this.load.image('knife', 'assests/weapon/knife.png');
+        this.load.image('bullet', 'assests/enemies/bullet.png');
         this.load.tilemapTiledJSON('dungeon', 'assests/tiles/dungeon1.json');
         this.load.atlas('faune', 'assests/character/faune.png', 'assests/character/faune.json');
         this.load.atlas('lizard', 'assests/enemies/lizard.png', 'assests/enemies/lizard.json');
@@ -29,28 +30,29 @@ class Game extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
-        //this.load.image('faune', 'assests/character/faune.png')
-
 
     }
 
     create() {
         this.scene.run('game-ui')
         //Play music
-        myMusic.play();
-        myMusic.loop = true;
+        //myMusic.play();
+        //myMusic.loop = true;
         //Overlay to be used for DOT
         this.overlay = new Phaser.GameObjects.Graphics(this);
         this.overlay.clear();
         this.overlay.setDepth(100);
         this.add.existing(this.overlay);
+        this.gotHit = false;
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
             maxSize:1
         })
 
-        
+        bullet = this.physics.add.group({
+            classType: Phaser.Physics.Arcade.Image,
+        })
         
 
 
@@ -103,8 +105,7 @@ class Game extends Phaser.Scene {
         this.physics.add.collider(knives, this.slime, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
-        //this.physics.add.collider(knives,wallSlayer);
-
+        
         //slime anims
         this.anims.create({
             key: 'slime-idle',
@@ -112,10 +113,11 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-        /*
+        
                 //Declares Turret (Enemy)
                 this.turret = new Turret(this, 150, 100, 'turret');
                 this.physics.world.enable([this.turret]);
+                this.turret.body.onCollide = true;
                 this.physics.add.collider(this.turret, wallSlayer, this.turret.updateMovement, undefined, this);
                 enemyCollide = this.physics.add.collider(this.turret, this.Faune, this.handleCollision, undefined, this);
                 this.turret.body.setSize(this.turret.width * 0.5, this.turret.height * 0.9);
@@ -133,7 +135,7 @@ class Game extends Phaser.Scene {
                     frameRate: 10
                 })
         
-                */
+                
         /*
             this.anims.create({
                 key: 'lizard-run',
@@ -143,7 +145,12 @@ class Game extends Phaser.Scene {
             })
     */
         this.slime.anims.play('slime-idle');
-        //this.turret.anims.play('turret-idle');
+        this.turret.anims.play('turret-idle');
+
+        //Turret Bullet Collision
+
+        //this.physics.add.collider(knives,wallSlayer);
+        this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
 
         // lizards = this.physics.add.group({
         //     classType: Lizard,
@@ -175,109 +182,33 @@ class Game extends Phaser.Scene {
         //this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
     }
 
-
-    handleCollision(enemy) {
-        //console.log('i ran')
-        if (playerDead == false) {
-            const dx = this.Faune.x - enemy.x
-            const dy = this.Faune.y - enemy.y
-            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
-            this.Faune.handleDamage(dir)
-
-            this.Faune.setVelocity(dir.x, dir.y)
-            this.hit = 1
-
-            GameUI.handlePlayerHealthChanged;
-            //this.slimeEffect();
-            //this.possessedEffect();
-            this.confusedEffect();
-            sceneEvents.emit('player-health-changed')
-        } else {
-            this.physics.world.removeCollider(enemyCollide);
-            return;
-        }
-
-    }
-
-    checkCollision(player, pickup) {
-        // simple AABB checking
-        if (player.x < pickup.x + pickup.width / 2 &&
-            player.x + player.width / 2 > pickup.x &&
-            player.y < pickup.y + pickup.height / 2 &&
-            player.height / 2 + player.y > pickup.y) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    throwKnive() {
-
-        if(!knives){
-            return;
-        }
-
-        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
-
-        if(!knife2){
-            return;
-        }
-
-        const parts = this.Faune.anims.currentAnim.key.split('-');
-        const direction = parts[2];
-        const vec = new Phaser.Math.Vector2(0, 0);
-        switch (direction) {
-            case 'up':
-                vec.y = -1;
-                break;
-            case 'down':
-                vec.y = 1;
-                break;
-            default:
-            case 'side':
-                if (this.Faune.flipX) {
-                    vec.x = -1
-                } else {
-                    vec.x = 1;
-                }
-                break;
-
-        }
-
-        const angle = vec.angle();
-        //Faune
-        knife2.setActive(true);
-        knife2.setVisible(true);
-        knife2.setRotation(angle);
-        knife2.setVelocity(vec.x * 300, vec.y * 300)
-
-    }
-
-    handleKniveWallCollision() {
-        knives.killAndHide(knife2);
-        lastKnife=false;
-    }
-
-    handleKniveEnemyCollision() {
-        knives.killAndHide(knife2);
-        lastKnife=false;
-        // lizards.killAndHide(lizard2);
-        //lizards.killAndHide(this.lizard3);
-        this.slime.destroy();
-
-    }
-
-
-
     update() {
 
+        //console.log(this.slime.newDirection)
         //console.log(this.hit)
 
         //this.physics.world.collide(this.Lizard, this.Faune);
+
+        
+
+        if(this.turret ){
+            //console.log(this.bulletcd);
+            if(this.bulletcd>0){
+                ++this.bulletcd;
+                if (this.bulletcd > 60) {
+                    this.gotHit = false;
+                    this.bulletcd = 0
+                }
+            } else{
+            this.turretShoot();
+            }
+        }
 
 
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
             lastKnife = true;
             this.throwKnive();
+            //add shit
             return;
         }
 
@@ -522,6 +453,167 @@ class Game extends Phaser.Scene {
             frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
             frameRate: 15
         })
+    }
+
+    handleCollision(enemy) {
+        //console.log(enemy)
+        if (playerDead == false) {
+            const dx = this.Faune.x - enemy.x
+            const dy = this.Faune.y - enemy.y
+            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+            this.Faune.handleDamage(dir)
+
+            this.Faune.setVelocity(dir.x, dir.y)
+            this.hit = 1
+
+            GameUI.handlePlayerHealthChanged;
+            //this.slimeEffect();
+            //this.possessedEffect();
+            this.confusedEffect();
+            sceneEvents.emit('player-health-changed')
+        } else {
+            this.physics.world.removeCollider(enemyCollide);
+            return;
+        }
+
+    }
+
+    handleBulletCollision() {
+        //console.log(enemy)
+        this.bulletcd = 1;
+        if (playerDead == false && this.gotHit == false) {
+            bullet.killAndHide(bullets);
+            const dx = this.Faune.x - this.turret.x
+            const dy = this.Faune.y - this.turret.y
+            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+            this.Faune.handleDamage(dir)
+
+            this.Faune.setVelocity(dir.x, dir.y)
+            this.hit = 1
+            this.gotHit = true;
+
+            GameUI.handlePlayerHealthChanged;
+            //this.slimeEffect();
+            //this.possessedEffect();
+            this.confusedEffect();
+            sceneEvents.emit('player-health-changed')
+        } else {
+            this.physics.world.removeCollider(enemyCollide);
+            return;
+        }
+
+    }
+
+
+    checkCollision(player, pickup) {
+        // simple AABB checking
+        if (player.x < pickup.x + pickup.width / 2 &&
+            player.x + player.width / 2 > pickup.x &&
+            player.y < pickup.y + pickup.height / 2 &&
+            player.height / 2 + player.y > pickup.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    throwKnive() {
+
+        if(!knives){
+            return;
+        }
+
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+
+        if(!knife2){
+            return;
+        }
+
+        const parts = this.Faune.anims.currentAnim.key.split('-');
+        const direction = parts[2];
+        const vec = new Phaser.Math.Vector2(0, 0);
+        switch (direction) {
+            case 'up':
+                vec.y = -1;
+                break;
+            case 'down':
+                vec.y = 1;
+                break;
+            default:
+            case 'side':
+                if (this.Faune.flipX) {
+                    vec.x = -1
+                } else {
+                    vec.x = 1;
+                }
+                break;
+
+        }
+
+        const angle = vec.angle();
+        //Faune
+        knife2.setActive(true);
+        knife2.setVisible(true);
+        knife2.setRotation(angle);
+        knife2.setVelocity(vec.x * 300, vec.y * 300)
+
+    }
+
+    turretShoot(){
+        this.bulletcd=1;
+
+        if(!bullet){
+            return;
+        }
+
+        bullets = bullet.get(this.turret.x, this.turret.y, 'bullet');
+
+        if(!bullets){
+            return;
+        }
+
+        const parts = this.turret.newDirection;
+        //console.log(parts);
+        //const direction = parts;
+        const vec = new Phaser.Math.Vector2(0, 0);
+        switch (parts) {
+            case 0:
+                vec.y = -1;
+                break;
+            case 1:
+                vec.y = 1;
+                break;
+            //For sides    
+            default:
+                if (this.turret.flipX) {
+                    vec.x = -1
+                } else {
+                    vec.x = 1;
+                }
+                break;
+
+        }
+
+        const angle = vec.angle();
+        //Faune
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+    }
+
+    handleKniveWallCollision() {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+    }
+
+    handleKniveEnemyCollision() {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        this.slime.destroy();
+
     }
 
 
