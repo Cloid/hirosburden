@@ -178,8 +178,9 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
         this.healthUpgrade.anims.play('heart-idle');
-        //this.physics.world.enable([this.healthUpgrade]);
-        //this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
+        this.physics.world.enable([this.healthUpgrade]);
+        this.healthUpgrade.setDrag(100,100);
+        this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
     }
 
     update() {
@@ -393,17 +394,18 @@ class Game extends Phaser.Scene {
         }
         return possessedDirection;
     }
-/*
+
     increaseHealth(){
         if(this.healthUpgrade.alpha != 0.5){
             this.healthUpgrade.setAlpha(0.5);
-            _health += 1;
             console.log('health upgraded');
-            //GameUI.handlePlayerHealthChanged;
-            //sceneEvents.emit('player-health-changed');
+            _maxHealth += 1;
+            _health = _maxHealth;
+            this.healthUpgrade.destroy();
+            sceneEvents.emit('player-health-gained');
         }
     }
-*/
+
 
     createPlayerAnims(){
         this.anims.create({

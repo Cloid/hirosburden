@@ -20,13 +20,13 @@ class GameUI extends Phaser.Scene{
                 y: 10,
                 stepX:16
             },
-            quantity: _health+5
+            quantity: _health+7
             //Change 5 to whatever max hearts you want
         })
 
         //For loop to change visibilty of hearts.
         //Remember the first heart starts at 0 and ends at _health + (num) -1
-        for(var i=_health+4;i>_health-1;i--){
+        for(var i=_health+6;i>_health-1;i--){
             //console.log(i);
             this.hearts.getChildren()[i].setVisible(false);
         }
@@ -34,6 +34,11 @@ class GameUI extends Phaser.Scene{
         sceneEvents.on('player-health-changed',this.handlePlayerHealthChanged, this)
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
             sceneEvents.off('player-health-changed', this.handlePlayerHealthChanged,this)
+        })
+
+        sceneEvents.on('player-health-gained',this.handlePlayerHealthGain, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('player-health-gained', this.handlePlayerHealthChanged,this)
         })
 
 
@@ -63,8 +68,15 @@ class GameUI extends Phaser.Scene{
         
     }
 
+    handlePlayerHealthGain(){
+        this.reset();
+        this.hearts.getChildren()[_maxHealth-1].setVisible(true);
+    }
+
     reset(){
-        this.hearts.getChildren()[_health].setTexture('ui-heart-full');
+        for(var i=9;i>=0;i--){
+            this.hearts.getChildren()[i].setTexture('ui-heart-full');
+        }        
     }
 
 }
