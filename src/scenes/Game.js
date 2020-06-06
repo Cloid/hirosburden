@@ -211,14 +211,16 @@ class Game extends Phaser.Scene {
             frameRate: 10
         })
         this.healthUpgrade.anims.play('heart-idle');
+        //this.physics.world.enable([this.healthUpgrade]);
+        //this.physics.add.collider(this.Faune, this.healthUpgrade, this.increaseHealth, undefined, this);
     }
 
 
     handleCollision(enemy) {
         //console.log('i ran')
         if (playerDead == false) {
-            const dx = this.Faune.x - this.slime.x
-            const dy = this.Faune.y - this.slime.y
+            const dx = this.Faune.x - enemy.x
+            const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
             this.Faune.handleDamage(dir)
 
@@ -237,6 +239,17 @@ class Game extends Phaser.Scene {
 
     }
 
+    checkCollision(player, pickup) {
+        // simple AABB checking
+        if (player.x < pickup.x + pickup.width / 2 &&
+            player.x + player.width / 2 > pickup.x &&
+            player.y < pickup.y + pickup.height / 2 &&
+            player.height / 2 + player.y > pickup.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     throwKnive() {
         const parts = this.Faune.anims.currentAnim.key.split('-');
         const direction = parts[2];
@@ -476,7 +489,17 @@ class Game extends Phaser.Scene {
         }
         return possessedDirection;
     }
-
+/*
+    increaseHealth(){
+        if(this.healthUpgrade.alpha != 0.5){
+            this.healthUpgrade.setAlpha(0.5);
+            _health += 1;
+            console.log('health upgraded');
+            //GameUI.handlePlayerHealthChanged;
+            //sceneEvents.emit('player-health-changed');
+        }
+    }
+*/
 
 
 }
