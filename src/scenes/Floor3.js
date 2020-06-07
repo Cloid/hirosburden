@@ -483,7 +483,7 @@ class Floor3 extends Phaser.Scene {
         
     }
 
-    handleGhostCollision(enemy) {
+    handleGhostCollision(obj, enemy) {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
@@ -499,9 +499,17 @@ class Floor3 extends Phaser.Scene {
             this.hit = 1
 
             GameUI.handlePlayerHealthChanged;
-            //this.possessedEffect();
+            this.possessedEffect();
             //this.possessedEffect();
             //this.confusedEffect();
+            this.sound.play('laugh');
+            enemy.destroy();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -527,6 +535,12 @@ class Floor3 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //this.possessedEffect();
             //this.confusedEffect();
             sceneEvents.emit('player-health-changed')
@@ -555,6 +569,12 @@ class Floor3 extends Phaser.Scene {
             //this.possessedEffect();
             //this.confusedEffect();
             this.cameras.main.shake(500);
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -791,5 +811,8 @@ class Floor3 extends Phaser.Scene {
         bullets.setVelocity(vec.x * 300, vec.y * 300)
     }
 
+    notGod() {
+        god = false;
+    }
 }
 

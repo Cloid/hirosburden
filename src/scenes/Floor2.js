@@ -205,25 +205,29 @@ class Floor2 extends Phaser.Scene {
                         this.Faune.setVelocity(-playerSpeed, 0)
 
                         this.Faune.flipX = true;
+                        walk.play();
 
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
+                        walk.play();
 
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
 
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
@@ -438,7 +442,7 @@ class Floor2 extends Phaser.Scene {
         
     }
 
-    handleGhostCollision(enemy) {
+    handleGhostCollision(obj, enemy) {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
@@ -457,6 +461,14 @@ class Floor2 extends Phaser.Scene {
             this.possessedEffect();
             //this.possessedEffect();
             //this.confusedEffect();
+            this.sound.play('laugh');
+            enemy.destroy();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -482,8 +494,15 @@ class Floor2 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //this.possessedEffect();
             //this.confusedEffect();
+            
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -518,6 +537,7 @@ class Floor2 extends Phaser.Scene {
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.sound.play('bubble');
             //create timer for when the overlay will clear
             var slimeTime = this.time.addEvent({
                 delay: 2000,                // 2 seconds
@@ -583,6 +603,8 @@ class Floor2 extends Phaser.Scene {
     NextLevel(){
         this.scene.start('Floor3');       
     }
-
+    notGod() {
+        god = false;
+    }
 }
 

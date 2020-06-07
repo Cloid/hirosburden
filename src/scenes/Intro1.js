@@ -15,7 +15,7 @@ class Intro1 extends Phaser.Scene {
             frameHeight: 32
         });
 
-        
+
 
     }
 
@@ -42,7 +42,7 @@ class Intro1 extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
+            maxSize: 1
         })
 
         //Setting-Up Keys
@@ -83,19 +83,19 @@ class Intro1 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
-        
+
 
         this.slimes = this.physics.add.group({
             classType: Slime,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 var slimeGo = go;
                 slimeGo.body.onCollide = true;
             }
         })
 
         const slimesLayer = map.getObjectLayer('Slime');
-        slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
+        slimesLayer.objects.forEach(slimeObj => {
+            this.slimes.get(slimeObj.x, slimeObj.y, 'slime');
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);
@@ -110,17 +110,17 @@ class Intro1 extends Phaser.Scene {
 
     }
 
-    update(){
+    update() {
 
-        if(playerInv==true){
+        if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
-            if(this.dmgcd>40){
+            if (this.dmgcd > 40) {
                 this.Faune.setTint(0xffffff);
                 this.dmgcd = 0;
-                playerInv=false;
+                playerInv = false;
+            }
         }
-    }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
@@ -132,7 +132,7 @@ class Intro1 extends Phaser.Scene {
             return
         }
 
-        if(this.knifecd>0){
+        if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
                 this.knifecd = 0;
@@ -158,25 +158,28 @@ class Intro1 extends Phaser.Scene {
                         this.Faune.setVelocity(-playerSpeed, 0)
 
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
+                        walk.play();
 
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
 
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
@@ -230,23 +233,23 @@ class Intro1 extends Phaser.Scene {
             }
 
             let centerX = this.cameras.main.midPoint.x;
-        let centerY = this.cameras.main.midPoint.y;
-        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            playerDead=false;
-            _health = 3;
-            _maxHealth = 3;
-            this.clean();
-            //sceneEvents.emit('reset-game');
-            this.scene.start('Start');       
+            let centerY = this.cameras.main.midPoint.y;
+            this.add.text(centerX - 100, centerY, 'Press [ R ] to start', menuConfig);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                playerDead = false;
+                _health = 3;
+                _maxHealth = 3;
+                this.clean();
+                //sceneEvents.emit('reset-game');
+                this.scene.start('Start');
+            }
+
+
         }
 
-
     }
 
-    }
-
-    createPlayerAnims(){
+    createPlayerAnims() {
         this.anims.create({
             key: 'faune-idle-down',
             frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
@@ -298,13 +301,13 @@ class Intro1 extends Phaser.Scene {
 
     throwKnive() {
 
-        if(!knives){
+        if (!knives) {
             return;
         }
 
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
 
-        if(!knife2){
+        if (!knife2) {
             return;
         }
 
@@ -347,6 +350,7 @@ class Intro1 extends Phaser.Scene {
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.sound.play('bubble');
             //create timer for when the overlay will clear
             var slimeTime = this.time.addEvent({
                 delay: 2000,                // 2 seconds
@@ -366,20 +370,20 @@ class Intro1 extends Phaser.Scene {
         playerSpeed = 100;
     }
 
-    increaseHealth(){
-        if(this.healthUpgrade.alpha != 0.5){
+    increaseHealth() {
+        if (this.healthUpgrade.alpha != 0.5) {
             this.healthUpgrade.setAlpha(0.5);
             console.log('health upgraded');
             _maxHealth += 1;
             _health = _maxHealth;
             sceneEvents.emit('player-health-gained');
             this.healthUpgrade.destroy();
-            console.log('Max Health is now: '+ _health);
+            console.log('Max Health is now: ' + _health);
         }
     }
 
-    replenishHealth(){
-        if(this.healthUpgrade2.alpha != 0.5){
+    replenishHealth() {
+        if (this.healthUpgrade2.alpha != 0.5) {
             this.healthUpgrade2.setAlpha(0.5);
             console.log('health replenished');
             _health = _maxHealth;
@@ -393,9 +397,9 @@ class Intro1 extends Phaser.Scene {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -406,6 +410,12 @@ class Intro1 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //this.possessedEffect();
             //this.confusedEffect();
             sceneEvents.emit('player-health-changed')
@@ -420,16 +430,17 @@ class Intro1 extends Phaser.Scene {
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         knife2.destroy();
     }
 
     handleKniveEnemyCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
+        this.sound.play('slimeNoise');
         knife2.destroy();
 
     }
@@ -442,6 +453,7 @@ class Intro1 extends Phaser.Scene {
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.sound.play('bubble');
             //create timer for when the overlay will clear
             var slimeTime = this.time.addEvent({
                 delay: 2000,                // 2 seconds
@@ -452,10 +464,12 @@ class Intro1 extends Phaser.Scene {
         }
     }
 
-    NextLevel(){
+    NextLevel() {
         //console.log('Next ');
-        this.scene.start('Floor1');       
+        this.scene.start('Floor1');
     }
-
+    notGod() {
+        god = false;
+    }
 }
 
