@@ -80,6 +80,9 @@ class Start extends Phaser.Scene {
 
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
+
+        this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
+
         
 
         // const lizardsLayer = map.getObjectLayer('Lizards');
@@ -366,6 +369,20 @@ class Start extends Phaser.Scene {
             this.healthUpgrade2.destroy();
             console.log('Replenished Health. Health is now: ' + _health);
         }
+    }
+
+    handleKniveWallCollision() {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+    }
+
+    handleKniveEnemyCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+
     }
 
     NextLevel(){
