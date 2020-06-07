@@ -201,25 +201,8 @@ class Game extends Phaser.Scene {
         this.dmgcd
 
     }
-<<<<<<< HEAD
-/*
-    checkCollision(player, pickup) {
-        // simple AABB checking
-        if (player.x < pickup.x + pickup.width / 2 &&
-            player.x + player.width / 2 > pickup.x &&
-            player.y < pickup.y + pickup.height / 2 &&
-            player.height / 2 + player.y > pickup.y) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    */
-    throwKnive() {
-=======
 
     update() {
->>>>>>> 11d5cb3ba3534f8acfe1ea4c372999a730387ad4
 
         //console.log(this.slime.newDirection)
         //console.log(this.hit)
@@ -325,8 +308,8 @@ class Game extends Phaser.Scene {
 
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
-                        this.Faune.play(parts.join('-'))
-                        this.Faune.setVelocity(0, 0)
+                        this.Faune.play(parts.join('-'));
+                        this.Faune.setVelocity(0, 0);
                     }
                 }
             }
@@ -716,6 +699,7 @@ class Game extends Phaser.Scene {
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
         lastKnife=false;
+        knife2.destroy();
     }
 
     handleBulletWallCollision() {

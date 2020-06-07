@@ -421,6 +421,7 @@ class Intro1 extends Phaser.Scene {
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
         lastKnife=false;
+        knife2.destroy();
     }
 
     handleKniveEnemyCollision(enemy) {
@@ -429,6 +430,7 @@ class Intro1 extends Phaser.Scene {
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
+        knife2.destroy();
 
     }
 
