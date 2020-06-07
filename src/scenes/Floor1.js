@@ -446,6 +446,7 @@ class Floor1 extends Phaser.Scene {
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.sound.play('bubble');
             //create timer for when the overlay will clear
             var slimeTime = this.time.addEvent({
                 delay: 2000,                // 2 seconds

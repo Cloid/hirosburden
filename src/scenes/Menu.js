@@ -7,6 +7,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('oof', 'assests/sound/oof.mp3');
         this.load.audio('laugh', 'assests/sound/laugh.mp3');
         this.load.audio('slimeNoise', 'assests/sound/slime.ogg');
+        this.load.audio('bubble', 'assests/sound/bubble.ogg');
         //this.load.audio('walk', 'assests/sound/walk.wav');
         this.load.image('menulogo', 'assests/ui/hirosburdenlogo300.png');
     }
@@ -52,7 +53,7 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
-            this.scene.start('Floor2');       
+            this.scene.start('Start');       
         }
         
     }
