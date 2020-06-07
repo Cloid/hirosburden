@@ -24,22 +24,6 @@ class Floor2 extends Phaser.Scene {
             frameHeight: 32
         });
 
-        //DELETE
-        this.load.tilemapTiledJSON('start', 'assests/tiles/start.json');
-        this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
-        this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
-        this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
-        this.load.image('knife', 'assests/weapon/knife.png');
-
-        this.load.spritesheet('player', 'assests/character/player.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.spritesheet('slime', 'assests/enemies/slime.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-
     }
 
     create() {
@@ -86,7 +70,8 @@ class Floor2 extends Phaser.Scene {
         //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'floor2' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
-        map.createStaticLayer('Floor', tileset)
+        map.createStaticLayer('Floor', tileset);
+        map.createStaticLayer('Fake Wall', tileset)
         wallSlayer = map.createStaticLayer('Wall', tileset);
         this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
@@ -279,6 +264,7 @@ class Floor2 extends Phaser.Scene {
             myMusic.pause();
             this.physics.world.colliders.destroy();
             this.physics.add.collider(this.slimes, wallSlayer);
+            this.physics.add.collider(this.ghosts, wallSlayer);
 
 
 
@@ -601,7 +587,7 @@ class Floor2 extends Phaser.Scene {
     }
 
     NextLevel(){
-        console.log('Next Level');
+        this.scene.start('Floor3');       
     }
 
 }

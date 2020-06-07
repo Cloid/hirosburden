@@ -14,7 +14,7 @@ let config = {
             debug: true
         }
     },
-    scene: [Menu, Start, Intro1, Floor1, Floor2, Game, GameUI],
+    scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Game, GameUI],
     scale: {
         zoom: 2
     }
