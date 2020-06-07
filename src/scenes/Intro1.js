@@ -1,15 +1,21 @@
-class Start extends Phaser.Scene {
+class Intro1 extends Phaser.Scene {
     constructor() {
-        super("Start");
+        super("Intro1");
     }
 
     preload() {
-        this.load.tilemapTiledJSON('start', 'assests/tiles/start.json');
+        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/intro1.json');
+
+        this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
+        this.load.image('floortile1', 'assests/tiles/floortile1.png');
+        this.load.image('floortile2', 'assests/tiles/floortile2.png');
+        this.load.image('floortile3', 'assests/tiles/floortile3.png');
+        this.load.image('floortile4', 'assests/tiles/floortile4.png');
+
+
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
-        this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
         this.load.image('knife', 'assests/weapon/knife.png');
-
         this.load.spritesheet('player', 'assests/character/player.png', {
             frameWidth: 32,
             frameHeight: 32
@@ -19,10 +25,17 @@ class Start extends Phaser.Scene {
             frameHeight: 32
         });
 
+        
 
     }
 
     create() {
+        this.anims.create({
+            key: 'slime-idle',
+            frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
+            repeat: -1,
+            frameRate: 10
+        })
         //Runs a seperate scene as overlay for Health-UI
         this.scene.run('game-ui');
 
@@ -51,14 +64,11 @@ class Start extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         //Creating the Map using Tile-Set from Tiled
-        const startMap = this.make.tilemap({ key: 'start' });
-        const tileset = startMap.addTilesetImage('dungeon_tiles', 'tiles');
-        startMap.createStaticLayer('Floor', tileset)
-        wallSlayer = startMap.createStaticLayer('Wall', tileset);
+        const map = this.make.tilemap({ key: 'dungeon' });
+        const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
+        map.createStaticLayer('Floor', tileset)
+        wallSlayer = map.createStaticLayer('Wall', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
-
-        this.door = startMap.createStaticLayer('Door', tileset);
-        this.door.setCollisionByProperty({ collides: true })
 
         const debugGraphics = this.add.graphics().setAlpha(0.7);
         wallSlayer.renderDebug(debugGraphics, {
@@ -67,25 +77,37 @@ class Start extends Phaser.Scene {
             faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         })
 
-
+        //map.createStaticLayer('Ground', tileset)
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create player class to be controlled
-        this.Faune = new Faune(this, 30, 50, 'player');
+        this.Faune = new Faune(this, 95, 160, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-
         this.physics.add.collider(this.Faune, wallSlayer);
-        this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
         
 
-        // const lizardsLayer = map.getObjectLayer('Lizards');
-        // lizardsLayer.objects.forEach(lizObj =>{
-        //     this.lizards.get(lizObj.x,lizObj.y,'lizards');
-        // })
+        this.slimes = this.physics.add.group({
+            classType: Slime,
+            createCallback: (go)=>{
+                var slimeGo = go;
+                slimeGo.body.onCollide = true;
+            }
+        })
+
+        const slimesLayer = map.getObjectLayer('Slime');
+        slimesLayer.objects.forEach(slimeObj =>{
+            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
+        })
+
+        this.physics.add.collider(this.slimes, wallSlayer);
+        this.physics.add.collider(this.slimes, this.Faune, this.handleCollision, undefined, this);
+
+
+
 
 
 
@@ -194,6 +216,9 @@ class Start extends Phaser.Scene {
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
             this.physics.world.colliders.destroy();
+            this.physics.add.collider(this.slimes, wallSlayer);
+
+
 
             let menuConfig = {
                 fontFamily: 'Arial Black',
@@ -216,7 +241,7 @@ class Start extends Phaser.Scene {
             _health = 3;
             _maxHealth = 3;
             this.clean();
-            sceneEvents.emit('reset-game');
+            //sceneEvents.emit('reset-game');
             this.scene.start('Start');       
         }
 
@@ -368,9 +393,49 @@ class Start extends Phaser.Scene {
         }
     }
 
-    NextLevel(){
-        this.scene.stop();
-        this.scene.start('Intro1');       
+    handleCollision(enemy) {
+        //console.log('enemy')
+        //this.scene.start('Floor1');       
+
+        if (playerDead == false && playerInv == false) {
+            playerInv = true;
+            this.dmgcd=0;
+            const dx = this.Faune.x - enemy.x
+            const dy = this.Faune.y - enemy.y
+            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+            this.Faune.handleDamage(dir)
+
+            this.Faune.setVelocity(dir.x, dir.y)
+            this.hit = 1
+
+            GameUI.handlePlayerHealthChanged;
+            //this.slimeEffect();
+            //this.possessedEffect();
+            this.confusedEffect();
+            sceneEvents.emit('player-health-changed')
+        } else {
+            //this.physics.world.removeCollider(enemyCollide);
+            return;
+        }
+
+    }
+
+    confusedEffect() {
+        //If already under control, dont do anything
+        if (confused == false) {
+            console.log('confused');
+            confused = true;
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0xF8E522, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+
+            var confusedTime = this.time.addEvent({
+                delay: 10000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
     }
 
 }

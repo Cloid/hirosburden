@@ -16,6 +16,7 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
             },
             loop: true
         })
+        this.anims.play('slime-idle');
         
         //let newDirection = this.updateMovement;
 

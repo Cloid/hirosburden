@@ -1,4 +1,4 @@
-class Floor1 extends Phaser.Scene {
+class Intro1 extends Phaser.Scene {
     constructor() {
         super("Floor1");
     }
@@ -24,7 +24,6 @@ class Floor1 extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
-
 
     }
 
