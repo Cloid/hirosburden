@@ -155,10 +155,9 @@ class Floor5 extends Phaser.Scene {
 
         this.eyeballs0.setAlpha(0.7);
         this.eyeballs1.setAlpha(0.7);
- 
 
-
-
+        this.eyeballs0.setImmovable(true)
+        this.eyeballs1.setImmovable(true)
 
         //this.physics.add.collider(this.eyeballs, wallSlayer);
         
@@ -272,9 +271,6 @@ class Floor5 extends Phaser.Scene {
             }
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyR)){
-            console.log(this.Faune.x + " " + this.Faune.y)
-        }
 
         //Ability to throw knife
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
