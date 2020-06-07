@@ -49,7 +49,7 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
-            this.scene.start('Game');       
+            this.scene.start('Start');       
         }
         
     }

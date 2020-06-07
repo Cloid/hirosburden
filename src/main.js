@@ -11,10 +11,10 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }
     },
-    scene: [Menu, Floor1, Game, GameUI],
+    scene: [Menu, Start, Floor1, Game, GameUI],
     scale: {
         zoom: 2
     }
