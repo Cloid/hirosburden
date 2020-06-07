@@ -19,6 +19,8 @@ class Floor1 extends Phaser.Scene {
     }
 
     create() {
+        this.clean;
+        lastKnife=false;
         this.anims.create({
             key: 'slime-idle',
             frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),

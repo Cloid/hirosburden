@@ -14,6 +14,8 @@ class Floor3 extends Phaser.Scene {
     }
 
     create() {
+        this.clean;
+        lastKnife=false;
         this.anims.create({
             key: 'ghost-idle',
             frames: this.anims.generateFrameNames('ghost', { start: 0, end: 13 }),

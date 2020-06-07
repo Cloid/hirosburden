@@ -130,6 +130,7 @@ class Start extends Phaser.Scene {
 
         //Ability to throw knife
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
+            console.log('running')
             lastKnife = true;
             this.throwKnive();
             this.knifecd = 1;
