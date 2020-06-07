@@ -198,7 +198,7 @@ class Game extends Phaser.Scene {
         }
 
     }
-
+/*
     checkCollision(player, pickup) {
         // simple AABB checking
         if (player.x < pickup.x + pickup.width / 2 &&
@@ -210,6 +210,7 @@ class Game extends Phaser.Scene {
             return false;
         }
     }
+    */
     throwKnive() {
 
         if(!knives){
