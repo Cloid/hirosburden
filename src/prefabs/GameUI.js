@@ -92,7 +92,7 @@ class GameUI extends Phaser.Scene{
     }
 
     reset(){
-        for(var i=9;i>=0;i--){
+        for(var i=9;i>0;i--){
             this.hearts.getChildren()[i].setTexture('ui-heart-full');
         }        
     }

@@ -19,6 +19,27 @@ class Floor2 extends Phaser.Scene {
             frameHeight: 32
         });
 
+        this.load.spritesheet('heart', 'assests/ui/heartAnimation.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+
+        //DELETE
+        this.load.tilemapTiledJSON('start', 'assests/tiles/start.json');
+        this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
+        this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
+        this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
+        this.load.image('knife', 'assests/weapon/knife.png');
+
+        this.load.spritesheet('player', 'assests/character/player.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+        this.load.spritesheet('slime', 'assests/enemies/slime.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+
     }
 
     create() {
@@ -83,7 +104,7 @@ class Floor2 extends Phaser.Scene {
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create Player class to be controlled
-        this.Faune = new Faune(this, 420, 90, 'player');
+        this.Faune = new Faune(this, 50, 600, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
@@ -130,9 +151,16 @@ class Floor2 extends Phaser.Scene {
         this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
+        this.heartscont = this.physics.add.group({
+            classType: Upgrade,
+        })
 
-
-
+        const heartLayer = map.getObjectLayer('Hearts');
+        heartLayer.objects.forEach(heartObj =>{
+            this.heartscont.get(heartObj.x,heartObj.y,'heart');
+        })
+        this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
+        this.hpcd = 0;
 
     }
 
@@ -156,6 +184,14 @@ class Floor2 extends Phaser.Scene {
                 this.Faune.setTint(0xffffff)
             }
             return
+        }
+
+        if (this.hpcd > 0) {
+            ++this.hpcd;
+            if (this.hpcd > 10) {
+                this.hpcd = 0
+            }
+            //return
         }
 
         if(this.knifecd>0){
@@ -404,15 +440,16 @@ class Floor2 extends Phaser.Scene {
         }
     }
 
-    replenishHealth(){
-        if(this.healthUpgrade2.alpha != 0.5){
-            this.healthUpgrade2.setAlpha(0.5);
+    replenishHealth(obj, obj2){
+        if(this.hpcd==0){
+            obj2.destroy();
+            this.hpcd=1;
             console.log('health replenished');
             _health = _maxHealth;
             sceneEvents.emit('player-health-replenished');
-            this.healthUpgrade2.destroy();
             console.log('Replenished Health. Health is now: ' + _health);
         }
+        
     }
 
     handleGhostCollision(enemy) {
