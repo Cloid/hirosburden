@@ -16,8 +16,8 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
             },
             loop: true
         })
-        
         this.anims.play('slime-idle');
+        
         //let newDirection = this.updateMovement;
 
         //console.log(newDirection)
@@ -32,8 +32,8 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
             newDirection = Phaser.Math.Between(0,3);
         }
 
-        this.newDirection = newDirection;
-        
+        this.newDirection = newDirection
+
         return this.newDirection;
     }
 
@@ -63,6 +63,7 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
 
         }
     }
+    
 
 }
 

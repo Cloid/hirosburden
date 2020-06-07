@@ -11,7 +11,6 @@ class Floor3 extends Phaser.Scene {
         });
         this.load.image('bullet', 'assests/enemies/bullet.png');
 
-        //Delete
     }
 
     create() {
@@ -116,6 +115,13 @@ class Floor3 extends Phaser.Scene {
         this.eyeballs2 = new EyeBall(this, 415, 400, 'eyeball');
         this.eyeballs3 = new EyeBall(this, 415, 250, 'eyeball');
 
+        this.physics.world.enable([this.eyeballs0]);
+        this.physics.world.enable([this.eyeballs1]);
+        this.physics.world.enable([this.eyeballs2]);
+        this.physics.world.enable([this.eyeballs3]);
+
+
+
         this.eyeballs0.setAlpha(0.7);
         this.eyeballs1.setAlpha(0.7);
         this.eyeballs2.setAlpha(0.7);
@@ -133,6 +139,11 @@ class Floor3 extends Phaser.Scene {
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs0, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs1, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs2, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs3, this.Faune, this.handleEyeballCollision, undefined, this);
+
         this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
 
 
@@ -546,12 +557,13 @@ class Floor3 extends Phaser.Scene {
     }
 
     handleEyeballCollision(obj1,obj2) {
+        console.log('iran')
         obj1.setDrag(100,100)
         if (playerDead == false && playerInv == false) {
             playerInv = true;
             this.dmgcd=0;
-            const dx = this.Faune.x - this.eyeballs.x
-            const dy = this.Faune.y - this.eyeballs.y
+            const dx = this.Faune.x - 50
+            const dy = this.Faune.y - 50
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
             this.Faune.handleDamage(dir)
 
