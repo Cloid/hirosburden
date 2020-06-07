@@ -138,7 +138,7 @@ class Floor3 extends Phaser.Scene {
 
 
         this.physics.add.collider(this.ghosts, knives, this.handleKniveGhostCollision, undefined, this);
-        this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
+        //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
         this.physics.add.collider(this.eyeballs0, this.Faune, this.handleEyeballCollision, undefined, this);

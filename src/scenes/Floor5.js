@@ -272,9 +272,6 @@ class Floor5 extends Phaser.Scene {
             }
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyR)){
-            console.log(this.Faune.x + " " + this.Faune.y)
-        }
 
         //Ability to throw knife
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
