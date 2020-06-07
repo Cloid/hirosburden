@@ -201,7 +201,6 @@ class Game extends Phaser.Scene {
         this.dmgcd
 
     }
-<<<<<<< HEAD
 /*
     checkCollision(player, pickup) {
         // simple AABB checking
@@ -216,10 +215,6 @@ class Game extends Phaser.Scene {
     }
     */
     throwKnive() {
-=======
-
-    update() {
->>>>>>> 11d5cb3ba3534f8acfe1ea4c372999a730387ad4
 
         //console.log(this.slime.newDirection)
         //console.log(this.hit)
