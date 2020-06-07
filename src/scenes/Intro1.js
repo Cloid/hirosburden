@@ -106,7 +106,8 @@ class Intro1 extends Phaser.Scene {
         this.physics.add.collider(this.slimes, wallSlayer);
         this.physics.add.collider(this.slimes, this.Faune, this.handleCollision, undefined, this);
 
-
+        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
 
 
@@ -394,7 +395,7 @@ class Intro1 extends Phaser.Scene {
     }
 
     handleCollision(enemy) {
-        //console.log('enemy')
+        //console.log(enemy)
         //this.scene.start('Floor1');       
 
         if (playerDead == false && playerInv == false) {
@@ -409,9 +410,9 @@ class Intro1 extends Phaser.Scene {
             this.hit = 1
 
             GameUI.handlePlayerHealthChanged;
-            //this.slimeEffect();
+            this.slimeEffect();
             //this.possessedEffect();
-            this.confusedEffect();
+            //this.confusedEffect();
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -420,17 +421,33 @@ class Intro1 extends Phaser.Scene {
 
     }
 
-    confusedEffect() {
-        //If already under control, dont do anything
-        if (confused == false) {
-            console.log('confused');
-            confused = true;
-            //create gray rectangle to overlay screen
-            this.overlay.fillStyle(0xF8E522, 0.2)
-            this.overlay.fillRect(-1200, -1200, 2400, 2400);
 
-            var confusedTime = this.time.addEvent({
-                delay: 10000,                // 2 seconds
+
+    handleKniveWallCollision() {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+    }
+
+    handleKniveEnemyCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+
+    }
+
+    slimeEffect() {
+        //If already Slimed, don't do anything
+        if (slimed == false) {
+            slimed = true;
+            playerSpeed = 75;
+            //create green rectangle to overlay screen
+            this.overlay.fillStyle(0x00FF00, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            //create timer for when the overlay will clear
+            var slimeTime = this.time.addEvent({
+                delay: 2000,                // 2 seconds
                 callback: this.clean,
                 callbackScope: this,
                 loop: false
