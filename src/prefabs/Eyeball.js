@@ -16,6 +16,9 @@ class EyeBall extends Phaser.Physics.Arcade.Sprite{
             },
             loop: true
         })
+
+        this.anims.play('eyeball-idle');
+
         
         //let newDirection = this.updateMovement;
 

@@ -1,42 +1,27 @@
-class Floor2 extends Phaser.Scene {
+class Floor3 extends Phaser.Scene {
     constructor() {
-        super("Floor2");
+        super("Floor3");
     }
 
     preload() {
-        this.load.tilemapTiledJSON('floor2', 'assests/tiles/floor2.json');
-        this.load.spritesheet('player', 'assests/character/player.png', {
+        this.load.tilemapTiledJSON('floor3', 'assests/tiles/floor3.json');
+        this.load.spritesheet('eyeball', 'assests/enemies/eyeball.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('slime', 'assests/enemies/slime.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-
-        this.load.spritesheet('ghost', 'assests/enemies/Ghost.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-
-        this.load.spritesheet('heart', 'assests/ui/heartAnimation.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-
     }
 
     create() {
         this.anims.create({
-            key: 'slime-idle',
-            frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
+            key: 'ghost-idle',
+            frames: this.anims.generateFrameNames('ghost', { start: 0, end: 13 }),
             repeat: -1,
             frameRate: 10
         })
 
         this.anims.create({
-            key: 'ghost-idle',
-            frames: this.anims.generateFrameNames('ghost', { start: 0, end: 13 }),
+            key: 'eyeball-idle',
+            frames: this.anims.generateFrameNames('eyeball', { start: 0, end: 10 }),
             repeat: -1,
             frameRate: 10
         })
@@ -68,7 +53,7 @@ class Floor2 extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         //Creating the Map using Tile-Set from Tiled
-        const map = this.make.tilemap({ key: 'floor2' });
+        const map = this.make.tilemap({ key: 'floor3' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset);
         map.createStaticLayer('Fake Wall', tileset)
@@ -89,7 +74,7 @@ class Floor2 extends Phaser.Scene {
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create Player class to be controlled
-        this.Faune = new Faune(this, 50, 600, 'player');
+        this.Faune = new Faune(this, 400, 900, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
@@ -99,20 +84,6 @@ class Floor2 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
         
-        //Grabs the reference from Tiled Slime Object Group
-        this.slimes = this.physics.add.group({
-            classType: Slime,
-            createCallback: (go)=>{
-                var slimeGo = go;
-                slimeGo.body.onCollide = true;
-            }
-        })
-
-        const slimesLayer = map.getObjectLayer('Slimes');
-        slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
-        })
-
         this.ghosts = this.physics.add.group({
             classType: Ghost,
             createCallback: (go)=>{
@@ -126,14 +97,33 @@ class Floor2 extends Phaser.Scene {
             this.ghosts.get(ghostObj.x,ghostObj.y,'ghost');
         })
 
-        this.physics.add.collider(this.slimes, wallSlayer);
+        
+
+        this.eyeballs = this.physics.add.group({
+            classType: EyeBall,
+            createCallback: (go)=>{
+                var eyeGo = go;
+                eyeGo.body.onCollide = true;
+            }
+        })
+
+        const eyeballLayer = map.getObjectLayer('Eyes');
+        eyeballLayer.objects.forEach(eyeObj =>{
+            this.eyeballs.get(eyeObj.x,eyeObj.y,'eyeball');
+        })
+
+       
+
         this.physics.add.collider(this.ghosts, wallSlayer);
-        this.physics.add.collider(this.slimes, this.Faune, this.handleSlimeCollision, undefined, this);
         this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
 
+        this.physics.add.collider(this.eyeballs, wallSlayer);
+        this.physics.add.collider(this.eyeballs, this.Faune, this.handleEyeballCollision, undefined, this);
 
-        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+
+
         this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
         this.heartscont = this.physics.add.group({
@@ -259,8 +249,11 @@ class Floor2 extends Phaser.Scene {
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
             this.physics.world.colliders.destroy();
-            this.physics.add.collider(this.slimes, wallSlayer);
+            //this.physics.add.collider(this.slimes, wallSlayer);
             this.physics.add.collider(this.ghosts, wallSlayer);
+            this.physics.add.collider(this.eyeballs, wallSlayer);
+
+
 
 
 
@@ -454,7 +447,7 @@ class Floor2 extends Phaser.Scene {
             this.hit = 1
 
             GameUI.handlePlayerHealthChanged;
-            this.possessedEffect();
+            //this.possessedEffect();
             //this.possessedEffect();
             //this.confusedEffect();
             sceneEvents.emit('player-health-changed')
@@ -491,6 +484,31 @@ class Floor2 extends Phaser.Scene {
         }
 
     }
+
+    handleEyeballCollision(enemy) {
+        if (playerDead == false && playerInv == false) {
+            playerInv = true;
+            this.dmgcd=0;
+            const dx = this.Faune.x - enemy.x
+            const dy = this.Faune.y - enemy.y
+            const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+            this.Faune.handleDamage(dir)
+
+            this.Faune.setVelocity(dir.x, dir.y)
+            this.hit = 1
+
+            GameUI.handlePlayerHealthChanged;
+            //this.slimeEffect();
+            //this.possessedEffect();
+            //this.confusedEffect();
+            this.cameras.main.shake(500);
+            sceneEvents.emit('player-health-changed')
+        } else {
+            //this.physics.world.removeCollider(enemyCollide);
+            return;
+        }
+    }
+
 
 
 
@@ -581,7 +599,7 @@ class Floor2 extends Phaser.Scene {
     }
 
     NextLevel(){
-        this.scene.start('Floor3');       
+        console.log('Next Level');
     }
 
 }
