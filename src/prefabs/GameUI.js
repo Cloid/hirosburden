@@ -20,13 +20,12 @@ class GameUI extends Phaser.Scene{
                 y: 10,
                 stepX:16
             },
-            quantity: _health+5
-            //Change 5 to whatever max hearts you want
+            quantity: _health+7
         })
 
         //For loop to change visibilty of hearts.
         //Remember the first heart starts at 0 and ends at _health + (num) -1
-        for(var i=_health+4;i>_health-1;i--){
+        for(var i=_health+6;i>_health-1;i--){
             //console.log(i);
             this.hearts.getChildren()[i].setVisible(false);
         }
@@ -36,6 +35,20 @@ class GameUI extends Phaser.Scene{
             sceneEvents.off('player-health-changed', this.handlePlayerHealthChanged,this)
         })
 
+        sceneEvents.on('player-health-gained',this.handlePlayerHealthGain, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('player-health-gained', this.handlePlayerHealthGain,this)
+        })
+
+        sceneEvents.on('player-health-replenished',this.handlePlayerHealthFill, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('player-health-replenished', this.handlePlayerHealthFill,this)
+        })
+
+        sceneEvents.on('reset-game',this.resetGame, this)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off('reset-game', this.resetGame,this)
+        })
 
     }
 
@@ -63,8 +76,31 @@ class GameUI extends Phaser.Scene{
         
     }
 
+    handlePlayerHealthGain(){
+        this.reset();
+        this.hearts.getChildren()[_maxHealth-1].setVisible(true);
+    }
+
+    handlePlayerHealthFill(){
+        this.reset();
+    }
+
+    handleNewLevel(){
+        for(var i=_maxHealth;i>_health-1;i--){
+            this.hearts.getChildren()[i].setTexture('ui-heart-full');
+        } 
+    }
+
     reset(){
-        this.hearts.getChildren()[_health].setTexture('ui-heart-full');
+        for(var i=9;i>=0;i--){
+            this.hearts.getChildren()[i].setTexture('ui-heart-full');
+        }        
+    }
+
+    resetGame(){
+        for(var i=_health+6;i>_health-1;i--){
+            this.hearts.getChildren()[i].setVisible(false);
+        }
     }
 
 }
