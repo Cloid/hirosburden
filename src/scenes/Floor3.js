@@ -122,7 +122,7 @@ class Floor3 extends Phaser.Scene {
 
 
 
-        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveGhostCollision, undefined, this);
         this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
@@ -547,7 +547,16 @@ class Floor3 extends Phaser.Scene {
         knife2.destroy();
 
     }
+    handleKniveGhostCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+        this.sound.play('ghostDeath');
+        knife2.destroy();
 
+    }
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {

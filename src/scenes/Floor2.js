@@ -132,8 +132,8 @@ class Floor2 extends Phaser.Scene {
         this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
 
 
-        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
-        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveGhostCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
         this.heartscont = this.physics.add.group({
@@ -519,16 +519,28 @@ class Floor2 extends Phaser.Scene {
         knife2.destroy();
     }
 
-    handleKniveEnemyCollision(enemy) {
+
+    handleKniveSlimeCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife = false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+        this.sound.play('slimeNoise');
+        knife2.destroy();
+
+    }
+
+    handleKniveGhostCollision(enemy) {
         knives.killAndHide(knife2);
         lastKnife=false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
+        this.sound.play('ghostDeath');
         knife2.destroy();
 
     }
-
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {

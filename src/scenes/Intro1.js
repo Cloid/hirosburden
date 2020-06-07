@@ -101,7 +101,7 @@ class Intro1 extends Phaser.Scene {
         this.physics.add.collider(this.slimes, wallSlayer);
         this.physics.add.collider(this.slimes, this.Faune, this.handleCollision, undefined, this);
 
-        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
 
@@ -434,7 +434,7 @@ class Intro1 extends Phaser.Scene {
         knife2.destroy();
     }
 
-    handleKniveEnemyCollision(enemy) {
+    handleKniveSlimeCollision(enemy) {
         knives.killAndHide(knife2);
         lastKnife = false;
         // lizards.killAndHide(lizard2);
