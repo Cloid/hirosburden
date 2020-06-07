@@ -25,6 +25,7 @@ let knife2;
 let bullet = null;
 let bullets;
 let lastKnife = false;
+let playerInv = false;
 let lizards = null;
 let lizard2 = null;
 let _health = 3;

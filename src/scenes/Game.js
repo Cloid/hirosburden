@@ -197,6 +197,8 @@ class Game extends Phaser.Scene {
         this.physics.world.enable([this.healthUpgrade2]);
         this.physics.add.collider(this.Faune, this.healthUpgrade2, this.replenishHealth, undefined, this);
 
+        this.dmgcd
+
     }
 
     update() {
@@ -241,7 +243,7 @@ class Game extends Phaser.Scene {
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
-            ++this.hit
+            ++this.hit;
             if (this.hit > 10) {
                 this.hit = 0
                 this.Faune.setTint(0xffffff)
@@ -346,6 +348,18 @@ class Game extends Phaser.Scene {
         }
 
 
+    }
+
+    if(playerInv==true){
+        console.log('ran')
+            ++this.dmgcd;
+            this.Faune.setTint(Math.random);
+            if(this.dmgcd>40){
+                this.Faune.setTint(0xffffff);
+                console.log('done')
+                this.dmgcd = 0;
+                playerInv=false;
+        }
     }
 
         if (this.slime) {
@@ -531,7 +545,9 @@ class Game extends Phaser.Scene {
 
     handleCollision(enemy) {
         //console.log(enemy)
-        if (playerDead == false) {
+        if (playerDead == false && playerInv == false) {
+            playerInv = true;
+            this.dmgcd=0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -546,7 +562,7 @@ class Game extends Phaser.Scene {
             this.confusedEffect();
             sceneEvents.emit('player-health-changed')
         } else {
-            this.physics.world.removeCollider(enemyCollide);
+            //this.physics.world.removeCollider(enemyCollide);
             return;
         }
 
@@ -555,7 +571,9 @@ class Game extends Phaser.Scene {
     handleBulletCollision() {
         //console.log(enemy)
         this.bulletcd = 1;
-        if (playerDead == false && this.gotHit == false) {
+        if (playerDead == false && this.gotHit == false && playerInv == false) {
+            playerInv = true;
+            this.dmgcd=false;
             bullet.killAndHide(bullets);
             const dx = this.Faune.x - this.turret.x
             const dy = this.Faune.y - this.turret.y
