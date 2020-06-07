@@ -47,7 +47,6 @@ class Game extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
         })
 
         bullet = this.physics.add.group({
@@ -82,11 +81,11 @@ class Game extends Phaser.Scene {
         })
 
         //Adding Player 'Faune' to in-game, adds physics, sets Hitbox, collider with wall, and camera follow respectively
-        this.Faune = new Faune(this, 50, 100, 'player')
+        this.Faune = new Faune(this, 50, 100, 'player');
         this.physics.world.enable([this.Faune]);
-        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8)
+        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.physics.add.collider(this.Faune, wallSlayer);
-        this.cameras.main.startFollow(this.Faune, true)
+        this.cameras.main.startFollow(this.Faune, true);
 
         //Atlas Anims for Faune (Player)
         this.createPlayerAnims();
@@ -105,6 +104,7 @@ class Game extends Phaser.Scene {
         //this.physics.add.collider(knives,wallSlayer);
         this.physics.add.collider(knives, this.slime, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
+        //this.knifecd = 0;
 
         
         //slime anims
@@ -152,6 +152,8 @@ class Game extends Phaser.Scene {
 
         //this.physics.add.collider(knives,wallSlayer);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
+        this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
+
 
         // lizards = this.physics.add.group({
         //     classType: Lizard,
@@ -219,11 +221,21 @@ class Game extends Phaser.Scene {
             }
         }
 
+        if(this.knifecd>0){
+            console.log('ran')
+            ++this.knifecd;
+            if (this.knifecd > 25) {
+                console.log('finished')
+                this.knifecd = 0
+                lastKnife = false;
+            }
+        }
+
 
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
             lastKnife = true;
             this.throwKnive();
-            //add shit
+            this.knifecd = 1;
             return;
         }
 
@@ -334,7 +346,7 @@ class Game extends Phaser.Scene {
         }
 
 
-        }
+    }
 
         if (this.slime) {
             return;
@@ -667,6 +679,10 @@ class Game extends Phaser.Scene {
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
         lastKnife=false;
+    }
+
+    handleBulletWallCollision() {
+        bullet.killAndHide(bullets);
     }
 
     handleKniveEnemyCollision() {

@@ -5,14 +5,13 @@ class Menu extends Phaser.Scene {
     preload() {
         this.load.audio('song', 'assets/sound/fantasyrpgbg.mp3');
         this.load.audio('oof', 'assets/sound/oof.mp3');
-        this.load.image('menulogo', 'assests/ui/hirosburdenlogo.png');
-        this.load.spritesheet('player', 'assests/character/player.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        })
+        this.load.image('menulogo', 'assests/ui/hirosburdenlogo300.png');
     }
     create() {
+
         this.cameras.main.setBackgroundColor('#FFFFFF')
+        var image = this.add.image(175, 50, 'menulogo');
+        //image.setScale( 1 / 2, 1 / 2 );
 
 
         let menuConfig = {
@@ -28,8 +27,7 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        var image = this.add.image(175, 50, 'menulogo');
-        image.setScale(0.4);
+ 
 
 
         //show menu text
