@@ -463,6 +463,12 @@ class Floor2 extends Phaser.Scene {
             //this.confusedEffect();
             this.sound.play('laugh');
             enemy.destroy();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -488,6 +494,12 @@ class Floor2 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //this.possessedEffect();
             //this.confusedEffect();
             
@@ -591,6 +603,8 @@ class Floor2 extends Phaser.Scene {
     NextLevel(){
         this.scene.start('Floor3');       
     }
-
+    notGod() {
+        god = false;
+    }
 }
 

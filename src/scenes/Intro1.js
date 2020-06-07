@@ -397,7 +397,7 @@ class Intro1 extends Phaser.Scene {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
@@ -410,6 +410,12 @@ class Intro1 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //this.possessedEffect();
             //this.confusedEffect();
             sceneEvents.emit('player-health-changed')
@@ -447,6 +453,7 @@ class Intro1 extends Phaser.Scene {
             //create green rectangle to overlay screen
             this.overlay.fillStyle(0x00FF00, 0.2)
             this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            this.sound.play('bubble');
             //create timer for when the overlay will clear
             var slimeTime = this.time.addEvent({
                 delay: 2000,                // 2 seconds
@@ -461,6 +468,8 @@ class Intro1 extends Phaser.Scene {
         //console.log('Next ');
         this.scene.start('Floor1');
     }
-
+    notGod() {
+        god = false;
+    }
 }
 
