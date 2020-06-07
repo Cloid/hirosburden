@@ -27,8 +27,8 @@ class Start extends Phaser.Scene {
         this.scene.run('game-ui');
 
         //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
+        myMusic.play();
+        myMusic.loop = true;
 
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);
