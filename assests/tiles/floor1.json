@@ -83,8 +83,8 @@
                  "type":"Slimes",
                  "visible":true,
                  "width":16,
-                 "x":753,
-                 "y":368
+                 "x":768,
+                 "y":349.5
                 }, 
                 {
                  "gid":641,
@@ -124,15 +124,15 @@
                 }, 
                 {
                  "gid":641,
-                 "height":16,
+                 "height":7,
                  "id":6,
                  "name":"Slime6",
                  "rotation":0,
                  "type":"Slimes",
                  "visible":true,
-                 "width":16,
-                 "x":399,
-                 "y":478
+                 "width":9,
+                 "x":411.333333333333,
+                 "y":480.166666666667
                 }, 
                 {
                  "gid":641,
@@ -143,20 +143,20 @@
                  "type":"Slimes",
                  "visible":true,
                  "width":16,
-                 "x":241,
-                 "y":351
+                 "x":48.5,
+                 "y":332.5
                 }, 
                 {
                  "gid":641,
-                 "height":16,
+                 "height":9,
                  "id":8,
                  "name":"Slime8",
                  "rotation":0,
                  "type":"Slimes",
                  "visible":true,
-                 "width":16,
-                 "x":143,
-                 "y":369
+                 "width":5.5,
+                 "x":246,
+                 "y":347
                 }, 
                 {
                  "gid":641,
@@ -179,8 +179,8 @@
                  "type":"Slimes",
                  "visible":true,
                  "width":16,
-                 "x":415,
-                 "y":560
+                 "x":410,
+                 "y":586
                 }, 
                 {
                  "gid":641,
@@ -196,15 +196,15 @@
                 }, 
                 {
                  "gid":641,
-                 "height":16,
+                 "height":7,
                  "id":13,
                  "name":"Slime12",
                  "rotation":0,
                  "type":"Slimes",
                  "visible":true,
-                 "width":16,
-                 "x":592,
-                 "y":350
+                 "width":6.5,
+                 "x":567.5,
+                 "y":345.833333333333
                 }, 
                 {
                  "gid":641,
@@ -215,8 +215,8 @@
                  "type":"Slimes",
                  "visible":true,
                  "width":16,
-                 "x":719,
-                 "y":496
+                 "x":713,
+                 "y":570.5
                 }],
          "opacity":1,
          "type":"objectgroup",

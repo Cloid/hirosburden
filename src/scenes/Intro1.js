@@ -27,7 +27,7 @@ class Intro1 extends Phaser.Scene {
             frameRate: 10
         })
         //Runs a seperate scene as overlay for Health-UI
-        this.scene.run('game-ui');
+        //this.scene.run('game-ui');
 
         //Play the music and put on loop
         // myMusic.play();

@@ -26,7 +26,7 @@ class Floor1 extends Phaser.Scene {
             frameRate: 10
         })
         //Runs a seperate scene as overlay for Health-UI
-        this.scene.run('game-ui');
+        //this.scene.run('game-ui');
 
         //Play the music and put on loop
         // myMusic.play();
@@ -88,14 +88,14 @@ class Floor1 extends Phaser.Scene {
         this.slimes = this.physics.add.group({
             classType: Slime,
             createCallback: (go)=>{
-                var slimeGo = go;
-                slimeGo.body.onCollide = true;
+                // var slimeGo = go;
+                // slimeGo.body.onCollide = true;
             }
         })
 
         const slimesLayer = map.getObjectLayer('Slimes');
         slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
+            this.slimes.get(slimeObj.x - slimeObj.width * 0.5,slimeObj.y - slimeObj.height * 0.5,'slime');
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);

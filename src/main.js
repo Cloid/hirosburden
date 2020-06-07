@@ -11,7 +11,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }
     },
     scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Game, GameUI],
@@ -51,7 +51,7 @@ let lizard2 = null;
 let _health = 3;
 let _maxHealth = 3;
 var enemyCollide;
-var playerSpeed = 100;
+var playerSpeed = 300;
 var god = false;
 
 //Debuff Effects

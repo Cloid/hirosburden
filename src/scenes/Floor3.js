@@ -29,7 +29,7 @@ class Floor3 extends Phaser.Scene {
             frameRate: 10
         })
         //Runs a seperate scene as overlay for Health-UI
-        this.scene.run('game-ui');
+        //this.scene.run('game-ui');
 
         //Play the music and put on loop
         // myMusic.play();
@@ -166,42 +166,36 @@ class Floor3 extends Phaser.Scene {
         if(this.bulletcd>0){
             ++this.bulletcd;
             if (this.bulletcd > 300) {
+                bullet.killAndHide(bullets);
                 this.gotHit = false;
                 this.bulletcd = 0
             }
         } else{
         this.eyeballShoot0();
-        }
-
-        if(this.bulletcd1>0){
-            ++this.bulletcd1;
-            if (this.bulletcd1 > 400) {
-                this.gotHit = false;
-                this.bulletcd1 = 0
-            }
-        } else{
         this.eyeballShoot1();
-        }
-
-        if(this.bulletcd2>0){
-            ++this.bulletcd2;
-            if (this.bulletcd2 > 500) {
-                this.gotHit = false;
-                this.bulletcd2 = 0
-            }
-        } else{
         this.eyeballShoot2();
-        }
-
-        if(this.bulletcd3>0){
-            ++this.bulletcd3;
-            if (this.bulletcd3 > 600) {
-                this.gotHit = false;
-                this.bulletcd3 = 0
-            }
-        } else{
         this.eyeballShoot3();
         }
+
+        // if(this.bulletcd2>0){
+        //     ++this.bulletcd2;
+        //     if (this.bulletcd2 > 500) {
+        //         this.gotHit = false;
+        //         this.bulletcd2 = 0
+        //     }
+        // } else{
+        // this.eyeballShoot2();
+        // }
+
+        // if(this.bulletcd3>0){
+        //     ++this.bulletcd3;
+        //     if (this.bulletcd3 > 600) {
+        //         this.gotHit = false;
+        //         this.bulletcd3 = 0
+        //     }
+        // } else{
+        // this.eyeballShoot3();
+        // }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
@@ -678,18 +672,22 @@ class Floor3 extends Phaser.Scene {
     handleBulletWallCollision() {
         //bullets.destroy();
         bullet.killAndHide(bullets);
+        bullets.destroy();
     }
 
     handleBulletCollision() {
         //console.log(enemy)
         this.bulletcd = 1;
-        this.bulletcd1 = 1;
-        this.bulletcd2 = 1;
-        this.bulletcd3 = 1;
+        bullet.killAndHide(bullets);
+        bullets.destroy();
+        //this.bulletcd1 = 1;
+        //this.bulletcd2 = 1;
+        //this.bulletcd3 = 1;
         if (playerDead == false && this.gotHit == false && playerInv == false) {
+            this.cameras.main.shake(500);
             playerInv = true;
             this.dmgcd=0;
-            bullet.killAndHide(bullets);
+            //bullet.killAndHide(bullets);
             const dx = this.Faune.x;
             const dy = this.Faune.y;
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -737,7 +735,7 @@ class Floor3 extends Phaser.Scene {
     }
 
     eyeballShoot1(){
-        this.bulletcd1=1;
+        //this.bulletcd1=1;
 
         if(!bullet){
             return;
@@ -762,7 +760,7 @@ class Floor3 extends Phaser.Scene {
     }
 
     eyeballShoot2(){
-        this.bulletcd2=1;
+        //this.bulletcd2=1;
 
         if(!bullet){
             return;
@@ -787,7 +785,7 @@ class Floor3 extends Phaser.Scene {
     }
 
     eyeballShoot3(){
-        this.bulletcd3=1;
+        //this.bulletcd3=1;
 
         if(!bullet){
             return;
