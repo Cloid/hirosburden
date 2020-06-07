@@ -123,7 +123,7 @@ class Floor2 extends Phaser.Scene {
 
         const ghostLayer = map.getObjectLayer('Ghosts');
         ghostLayer.objects.forEach(ghostObj =>{
-            this.ghosts.get(ghostObj.x,ghostObj.y,'ghost');
+            this.ghosts.get(ghostObj.x,ghostObj.y,'ghost').setAlpha(0.8);
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);

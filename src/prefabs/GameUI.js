@@ -56,23 +56,7 @@ class GameUI extends Phaser.Scene{
         //console.log('test')
         //this.hearts extends Phaser.GameObjects.Image;
         this.hearts.getChildren()[_health].setTexture('ui-heart-empty');
-        //this.hearts.getChildren().iterate(e=>e.setTexture('ui-heart-empty'));
-        //this.hearts.setTexture('ui-heart-empty');
 
-
-        //this.hearts.children.iterate(e=>e.setTexture());
-    
-        
-
-        /*
-        this.hearts.children.each((go, idx) => {
-            const heart extends Phaser.GameObjects.Image
-          if(idx < 3){
-                this.hearts.setTexture('ui-heart-full')
-            } else {
-                this.hearts.setTexture('ui-heart-empty')
-            }
-        })*/
         
     }
 
@@ -98,9 +82,11 @@ class GameUI extends Phaser.Scene{
     }
 
     resetGame(){
+
         for(var i=_health+6;i>_health-1;i--){
             this.hearts.getChildren()[i].setVisible(false);
         }
+
     }
 
 }
