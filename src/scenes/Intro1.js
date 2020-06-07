@@ -68,7 +68,10 @@ class Intro1 extends Phaser.Scene {
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset)
         wallSlayer = map.createStaticLayer('Wall', tileset);
+        this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
+        this.door.setCollisionByProperty({ collides: true });
+
 
         const debugGraphics = this.add.graphics().setAlpha(0.7);
         wallSlayer.renderDebug(debugGraphics, {
@@ -88,6 +91,8 @@ class Intro1 extends Phaser.Scene {
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
         this.physics.add.collider(this.Faune, wallSlayer);
+        this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
+
         
 
         this.slimes = this.physics.add.group({
@@ -453,6 +458,10 @@ class Intro1 extends Phaser.Scene {
                 loop: false
             });
         }
+    }
+
+    NextLevel(){
+        console.log('Next Level');
     }
 
 }
