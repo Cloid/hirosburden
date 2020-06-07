@@ -55,7 +55,8 @@ class Floor1 extends Phaser.Scene {
         //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'floor1' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
-        map.createStaticLayer('Floor', tileset)
+        map.createStaticLayer('Floor', tileset);
+        map.createStaticLayer('FakeWall', tileset)
         wallSlayer = map.createStaticLayer('Wall', tileset);
         this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
@@ -450,7 +451,7 @@ class Floor1 extends Phaser.Scene {
     }
 
     NextLevel(){
-        console.log('Next Level');
+        this.scene.start('Floor2');       
     }
 
 }

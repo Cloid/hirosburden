@@ -121,11 +121,13 @@ class Floor2 extends Phaser.Scene {
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);
+        this.physics.add.collider(this.ghosts, wallSlayer);
         this.physics.add.collider(this.slimes, this.Faune, this.handleSlimeCollision, undefined, this);
-        //this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
 
 
         this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
 
@@ -524,6 +526,33 @@ class Floor2 extends Phaser.Scene {
                 loop: false
             });
         }
+    }
+
+    updatePossesed() {
+        console.log('updated movement');
+        possessedDirection = Phaser.Math.Between(0, 3);
+        if (playerDead == false) {
+            if (possessedDirection == 0) {
+                this.Faune.anims.play('faune-run-side', true);
+                this.Faune.setVelocity(-playerSpeed, 0);
+                this.Faune.flipX = true;
+
+            } else if (possessedDirection == 1) {
+                this.Faune.anims.play('faune-run-side', true);
+                this.Faune.setVelocity(playerSpeed, 0);
+                this.Faune.flipX = false;
+
+            } else if (possessedDirection == 2) {
+                this.Faune.anims.play('faune-run-down', true);
+                this.Faune.setVelocity(0, playerSpeed);
+
+            } else if (possessedDirection == 3) {
+                this.Faune.anims.play('faune-run-up', true);
+                this.Faune.setVelocity(0, -playerSpeed);
+
+            }
+        }
+        return possessedDirection;
     }
 
     NextLevel(){
