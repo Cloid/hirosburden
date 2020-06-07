@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="15">
  <tileset firstgid="1" source="dungeon_tiles.tsx"/>
  <layer id="2" name="Floor" width="100" height="100">
   <data encoding="csv">
@@ -105,6 +105,21 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="Slimes">
+  <object id="1" name="Slime1" type="Slimes" gid="641" x="703" y="318" width="16" height="16"/>
+  <object id="2" name="Slime2" type="Slimes" gid="641" x="753" y="368" width="16" height="16"/>
+  <object id="3" name="Slime3" type="Slimes" gid="641" x="720" y="126" width="16" height="16"/>
+  <object id="4" name="Slime4" type="Slimes" gid="641" x="769" y="79" width="16" height="16"/>
+  <object id="5" name="Slime5" type="Slimes" gid="641" x="46" y="111" width="16" height="16"/>
+  <object id="6" name="Slime6" type="Slimes" gid="641" x="399" y="478" width="16" height="16"/>
+  <object id="7" name="Slime7" type="Slimes" gid="641" x="237" y="366" width="16" height="16"/>
+  <object id="8" name="Slime8" type="Slimes" gid="641" x="143" y="369" width="16" height="16"/>
+  <object id="9" name="Slime9" type="Slimes" gid="641" x="31" y="607" width="16" height="16"/>
+  <object id="10" name="Slime10" type="Slimes" gid="641" x="415" y="560" width="16" height="16"/>
+  <object id="11" name="Slime11" type="Slimes" gid="641" x="782" y="625" width="16" height="16"/>
+  <object id="13" name="Slime12" type="Slimes" gid="641" x="593" y="366" width="16" height="16"/>
+  <object id="14" name="Slime13" type="Slimes" gid="641" x="719" y="496" width="16" height="16"/>
+ </objectgroup>
  <layer id="1" name="Wall" width="100" height="100">
   <data encoding="csv">
 5,103,103,103,103,103,104,104,104,104,104,6,0,0,0,0,0,0,0,0,5,103,103,103,103,103,104,104,104,104,104,6,0,0,0,0,0,0,0,0,5,103,103,103,103,103,104,104,104,104,104,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
