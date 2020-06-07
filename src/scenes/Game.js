@@ -544,7 +544,7 @@ class Game extends Phaser.Scene {
     }
 
     handleCollision(enemy) {
-        //console.log(enemy)
+        console.log('enemy')
         if (playerDead == false && playerInv == false) {
             playerInv = true;
             this.dmgcd=0;
@@ -573,7 +573,7 @@ class Game extends Phaser.Scene {
         this.bulletcd = 1;
         if (playerDead == false && this.gotHit == false && playerInv == false) {
             playerInv = true;
-            this.dmgcd=false;
+            this.dmgcd=0;
             bullet.killAndHide(bullets);
             const dx = this.Faune.x - this.turret.x
             const dy = this.Faune.y - this.turret.y
