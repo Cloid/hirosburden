@@ -1,11 +1,10 @@
-class Intro1 extends Phaser.Scene {
+class Floor1 extends Phaser.Scene {
     constructor() {
-        super("Intro1");
+        super("Floor1");
     }
 
     preload() {
-        this.load.tilemapTiledJSON('dungeon', 'assests/tiles/intro1.json');
-        //this.load.image('tiles', 'assests/tiles/dungeon_tiles.png');
+        this.load.tilemapTiledJSON('floor1', 'assests/tiles/floor1.json');
         this.load.spritesheet('player', 'assests/character/player.png', {
             frameWidth: 32,
             frameHeight: 32
@@ -54,7 +53,7 @@ class Intro1 extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         //Creating the Map using Tile-Set from Tiled
-        const map = this.make.tilemap({ key: 'dungeon' });
+        const map = this.make.tilemap({ key: 'floor1' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset)
         wallSlayer = map.createStaticLayer('Wall', tileset);
@@ -62,7 +61,7 @@ class Intro1 extends Phaser.Scene {
         wallSlayer.setCollisionByProperty({ collides: true });
         this.door.setCollisionByProperty({ collides: true });
 
-
+        //Deugging Graphics for Wall
         const debugGraphics = this.add.graphics().setAlpha(0.7);
         wallSlayer.renderDebug(debugGraphics, {
             tileColor: null,
@@ -73,8 +72,8 @@ class Intro1 extends Phaser.Scene {
         //map.createStaticLayer('Ground', tileset)
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
-        //Create player class to be controlled
-        this.Faune = new Faune(this, 95, 160, 'player');
+        //Create Player class to be controlled
+        this.Faune = new Faune(this, 420, 90, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
@@ -84,7 +83,7 @@ class Intro1 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
         
-
+        //Grabs the reference from Tiled Slime Object Group
         this.slimes = this.physics.add.group({
             classType: Slime,
             createCallback: (go)=>{
@@ -93,7 +92,7 @@ class Intro1 extends Phaser.Scene {
             }
         })
 
-        const slimesLayer = map.getObjectLayer('Slime');
+        const slimesLayer = map.getObjectLayer('Slimes');
         slimesLayer.objects.forEach(slimeObj =>{
             this.slimes.get(slimeObj.x,slimeObj.y,'slime');
         })
@@ -451,8 +450,7 @@ class Intro1 extends Phaser.Scene {
     }
 
     NextLevel(){
-        //console.log('Next ');
-        this.scene.start('Floor1');       
+        console.log('Next Level');
     }
 
 }
