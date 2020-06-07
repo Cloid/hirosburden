@@ -86,7 +86,8 @@ class Floor2 extends Phaser.Scene {
         //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'floor2' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
-        map.createStaticLayer('Floor', tileset)
+        map.createStaticLayer('Floor', tileset);
+        map.createStaticLayer('Fake Wall', tileset)
         wallSlayer = map.createStaticLayer('Wall', tileset);
         this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
