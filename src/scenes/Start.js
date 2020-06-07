@@ -4,6 +4,7 @@ class Start extends Phaser.Scene {
     }
 
     preload() {
+        
         this.load.tilemapTiledJSON('start', 'assests/tiles/start.json');
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
