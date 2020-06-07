@@ -135,6 +135,15 @@ class Floor4 extends Phaser.Scene {
         this.eyeballs5.setAlpha(0.7);
         this.eyeballs6.setAlpha(0.7);
 
+        this.eyeballs0.setImmovable(true)
+        this.eyeballs1.setImmovable(true)
+        this.eyeballs2.setImmovable(true)
+        this.eyeballs3.setImmovable(true)
+        this.eyeballs4.setImmovable(true)
+        this.eyeballs5.setImmovable(true)
+        this.eyeballs6.setImmovable(true)
+
+
 
 
 

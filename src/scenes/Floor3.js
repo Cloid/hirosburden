@@ -129,6 +129,12 @@ class Floor3 extends Phaser.Scene {
         this.eyeballs2.setAlpha(0.7);
         this.eyeballs3.setAlpha(0.7);
 
+        this.eyeballs0.setImmovable(true)
+        this.eyeballs1.setImmovable(true)
+        this.eyeballs2.setImmovable(true)
+        this.eyeballs3.setImmovable(true)
+
+
 
 
         //this.physics.add.collider(this.eyeballs, wallSlayer);
