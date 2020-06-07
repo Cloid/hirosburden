@@ -220,25 +220,29 @@ class Floor2 extends Phaser.Scene {
                         this.Faune.setVelocity(-playerSpeed, 0)
 
                         this.Faune.flipX = true;
+                        walk.play();
 
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
+                        walk.play();
 
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
 
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
@@ -452,7 +456,7 @@ class Floor2 extends Phaser.Scene {
         
     }
 
-    handleGhostCollision(enemy) {
+    handleGhostCollision(obj, enemy) {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
@@ -471,6 +475,8 @@ class Floor2 extends Phaser.Scene {
             this.possessedEffect();
             //this.possessedEffect();
             //this.confusedEffect();
+            this.sound.play('laugh');
+            enemy.destroy();
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);

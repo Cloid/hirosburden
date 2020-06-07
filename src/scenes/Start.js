@@ -4,7 +4,7 @@ class Start extends Phaser.Scene {
     }
 
     preload() {
-        
+
         this.load.tilemapTiledJSON('start', 'assests/tiles/start.json');
         this.load.image('ui-heart-empty', 'assests/ui/ui_heart_empty.png');
         this.load.image('ui-heart-full', 'assests/ui/ui_heart_full.png');
@@ -40,7 +40,7 @@ class Start extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
+            maxSize: 1
         })
 
         //Setting-Up Keys
@@ -84,7 +84,7 @@ class Start extends Phaser.Scene {
 
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
-        
+
 
         // const lizardsLayer = map.getObjectLayer('Lizards');
         // lizardsLayer.objects.forEach(lizObj =>{
@@ -96,17 +96,17 @@ class Start extends Phaser.Scene {
 
     }
 
-    update(){
+    update() {
 
-        if(playerInv==true){
+        if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
-            if(this.dmgcd>40){
+            if (this.dmgcd > 40) {
                 this.Faune.setTint(0xffffff);
                 this.dmgcd = 0;
-                playerInv=false;
+                playerInv = false;
+            }
         }
-    }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
@@ -118,7 +118,7 @@ class Start extends Phaser.Scene {
             return
         }
 
-        if(this.knifecd>0){
+        if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
                 this.knifecd = 0;
@@ -144,25 +144,27 @@ class Start extends Phaser.Scene {
                         this.Faune.setVelocity(-playerSpeed, 0)
 
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
 
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
@@ -213,23 +215,23 @@ class Start extends Phaser.Scene {
             }
 
             let centerX = this.cameras.main.midPoint.x;
-        let centerY = this.cameras.main.midPoint.y;
-        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            playerDead=false;
-            _health = 3;
-            _maxHealth = 3;
-            this.clean();
-            sceneEvents.emit('reset-game');
-            this.scene.start('Start');       
+            let centerY = this.cameras.main.midPoint.y;
+            this.add.text(centerX - 100, centerY, 'Press [ R ] to start', menuConfig);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                playerDead = false;
+                _health = 3;
+                _maxHealth = 3;
+                this.clean();
+                sceneEvents.emit('reset-game');
+                this.scene.start('Start');
+            }
+
+
         }
 
-
     }
 
-    }
-
-    createPlayerAnims(){
+    createPlayerAnims() {
         this.anims.create({
             key: 'faune-idle-down',
             frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
@@ -281,13 +283,13 @@ class Start extends Phaser.Scene {
 
     throwKnive() {
 
-        if(!knives){
+        if (!knives) {
             return;
         }
 
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
 
-        if(!knife2){
+        if (!knife2) {
             return;
         }
 
@@ -349,20 +351,20 @@ class Start extends Phaser.Scene {
         playerSpeed = 100;
     }
 
-    increaseHealth(){
-        if(this.healthUpgrade.alpha != 0.5){
+    increaseHealth() {
+        if (this.healthUpgrade.alpha != 0.5) {
             this.healthUpgrade.setAlpha(0.5);
             console.log('health upgraded');
             _maxHealth += 1;
             _health = _maxHealth;
             sceneEvents.emit('player-health-gained');
             this.healthUpgrade.destroy();
-            console.log('Max Health is now: '+ _health);
+            console.log('Max Health is now: ' + _health);
         }
     }
 
-    replenishHealth(){
-        if(this.healthUpgrade2.alpha != 0.5){
+    replenishHealth() {
+        if (this.healthUpgrade2.alpha != 0.5) {
             this.healthUpgrade2.setAlpha(0.5);
             console.log('health replenished');
             _health = _maxHealth;
@@ -374,21 +376,21 @@ class Start extends Phaser.Scene {
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
     }
 
     handleKniveEnemyCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
 
     }
 
-    NextLevel(){
+    NextLevel() {
         this.scene.stop();
-        this.scene.start('Intro1');       
+        this.scene.start('Intro1');
     }
 
 }
