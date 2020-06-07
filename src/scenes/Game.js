@@ -38,6 +38,7 @@ class Game extends Phaser.Scene {
         //Play music
         myMusic.play();
         myMusic.loop = true;
+
         //Overlay to be used for DOT
         this.overlay = new Phaser.GameObjects.Graphics(this);
         this.overlay.clear();
@@ -45,10 +46,12 @@ class Game extends Phaser.Scene {
         this.add.existing(this.overlay);
         this.gotHit = false;
 
+        //Create knives group for player to throw
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
         })
 
+        //Create Bullets for Turrets to throw
         bullet = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
         })
@@ -98,7 +101,7 @@ class Game extends Phaser.Scene {
         this.slime.body.onCollide = true;
         //this.physics.add.collider(this.slime, wallSlayer, this.slime.updateMovement, undefined, this);
         this.physics.add.collider(this.slime, wallSlayer);
-        enemyCollide = this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
+        this.physics.add.collider(this.slime, this.Faune, this.handleCollision, undefined, this);
 
         //Knive collision
         //this.physics.add.collider(knives,wallSlayer);
@@ -154,7 +157,6 @@ class Game extends Phaser.Scene {
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
         this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
 
-
         // lizards = this.physics.add.group({
         //     classType: Lizard,
         // })
@@ -171,8 +173,6 @@ class Game extends Phaser.Scene {
         // lizard3.setActive(true);
         // lizard3.setVisible(true);
 
-
-
         this.healthUpgrade = new Upgrade(this, 50, 50, 'healthUpgrade').setAlpha(1);
         this.anims.create({
             key: 'heart-idle',
@@ -180,6 +180,7 @@ class Game extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
+
         this.healthUpgrade.anims.play('heart-idle');
         this.healthUpgrade.setTint(0xff0000)
         this.physics.world.enable([this.healthUpgrade]);
@@ -210,6 +211,7 @@ class Game extends Phaser.Scene {
 
         
 
+        //Turret CD if it exists
         if(this.turret){
             //console.log(this.bulletcd);
             if(this.bulletcd>0){
@@ -223,17 +225,17 @@ class Game extends Phaser.Scene {
             }
         }
 
+        //Knife CD
         if(this.knifecd>0){
-            console.log('ran')
             ++this.knifecd;
             if (this.knifecd > 25) {
-                console.log('finished')
                 this.knifecd = 0
                 lastKnife = false;
             }
         }
 
 
+        //Ability to throw knife
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
             lastKnife = true;
             this.throwKnive();
@@ -315,7 +317,6 @@ class Game extends Phaser.Scene {
 
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
-            this.physics.world.colliders
             this.physics.world.colliders.destroy();
             this.physics.add.collider(this.slime, wallSlayer);
             this.physics.add.collider(this.turret, wallSlayer);
@@ -351,7 +352,6 @@ class Game extends Phaser.Scene {
     }
 
     if(playerInv==true){
-        console.log('ran')
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
             if(this.dmgcd>40){
@@ -544,7 +544,9 @@ class Game extends Phaser.Scene {
     }
 
     handleCollision(enemy) {
-        console.log('enemy')
+        //console.log('enemy')
+        //this.scene.start('Floor1');       
+
         if (playerDead == false && playerInv == false) {
             playerInv = true;
             this.dmgcd=0;
@@ -590,7 +592,7 @@ class Game extends Phaser.Scene {
             this.confusedEffect();
             sceneEvents.emit('player-health-changed')
         } else {
-            this.physics.world.removeCollider(enemyCollide);
+            //this.physics.world.removeCollider(enemyCollide);
             return;
         }
 

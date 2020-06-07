@@ -56,18 +56,21 @@ class Floor1 extends Phaser.Scene {
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+        //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'dungeon' });
         const tileset = map.addTilesetImage('dungeon', 'tiles');
         //map.createStaticLayer('Ground', tileset)
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
+        //Create player class to be controlled
         this.Faune = new Faune(this, 30, 50, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
-        this.physics.add.collider(this.Faune, wallSlayer);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
+        //this.physics.add.collider(this.Faune, wallSlayer);
+        
 
         // const lizardsLayer = map.getObjectLayer('Lizards');
         // lizardsLayer.objects.forEach(lizObj =>{
@@ -81,6 +84,44 @@ class Floor1 extends Phaser.Scene {
 
     update(){
 
+        if(playerInv==true){
+            ++this.dmgcd;
+            this.Faune.setTint(Math.random);
+            if(this.dmgcd>40){
+                this.Faune.setTint(0xffffff);
+                this.dmgcd = 0;
+                playerInv=false;
+        }
+    }
+
+        if (this.hit > 0) {
+            this.Faune.setTint(0xff0000)
+            ++this.hit;
+            if (this.hit > 10) {
+                this.hit = 0
+                this.Faune.setTint(0xffffff)
+            }
+            return
+        }
+
+        if(this.knifecd>0){
+            ++this.knifecd;
+            if (this.knifecd > 25) {
+                this.knifecd = 0;
+                knives.killAndHide(knife2);
+                lastKnife = false;
+            }
+        }
+
+        //Ability to throw knife
+        if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
+            lastKnife = true;
+            this.throwKnive();
+            this.knifecd = 1;
+            return;
+        }
+
+        //Player Movement
         if (playerDead == false) {
             if (possessed == false) {
                 if (confused == false) {
@@ -142,7 +183,6 @@ class Floor1 extends Phaser.Scene {
 
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
-            this.physics.world.colliders
             this.physics.world.colliders.destroy();
             this.physics.add.collider(this.slime, wallSlayer);
             this.physics.add.collider(this.turret, wallSlayer);
@@ -227,6 +267,99 @@ class Floor1 extends Phaser.Scene {
             frames: this.anims.generateFrameNames('player', { start: 1, end: 12 }),
             frameRate: 15
         })
+    }
+
+    throwKnive() {
+
+        if(!knives){
+            return;
+        }
+
+        knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
+
+        if(!knife2){
+            return;
+        }
+
+        const parts = this.Faune.anims.currentAnim.key.split('-');
+        const direction = parts[2];
+        const vec = new Phaser.Math.Vector2(0, 0);
+        switch (direction) {
+            case 'up':
+                vec.y = -1;
+                break;
+            case 'down':
+                vec.y = 1;
+                break;
+            default:
+            case 'side':
+                if (this.Faune.flipX) {
+                    vec.x = -1
+                } else {
+                    vec.x = 1;
+                }
+                break;
+
+        }
+
+        const angle = vec.angle();
+        //Faune
+        knife2.setActive(true);
+        knife2.setVisible(true);
+        knife2.setRotation(angle);
+        knife2.setVelocity(vec.x * 300, vec.y * 300)
+
+    }
+
+    slimeEffect() {
+        //If already Slimed, don't do anything
+        if (slimed == false) {
+            console.log('slimed');
+            slimed = true;
+            playerSpeed = 75;
+            //create green rectangle to overlay screen
+            this.overlay.fillStyle(0x00FF00, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+            //create timer for when the overlay will clear
+            var slimeTime = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
+
+    clean() {
+        this.overlay.clear();
+        console.log('Cleared Effect');
+        slimed = false;
+        possessed = false;
+        confused = false;
+        playerSpeed = 100;
+    }
+
+    increaseHealth(){
+        if(this.healthUpgrade.alpha != 0.5){
+            this.healthUpgrade.setAlpha(0.5);
+            console.log('health upgraded');
+            _maxHealth += 1;
+            _health = _maxHealth;
+            sceneEvents.emit('player-health-gained');
+            this.healthUpgrade.destroy();
+            console.log('Max Health is now: '+ _health);
+        }
+    }
+
+    replenishHealth(){
+        if(this.healthUpgrade2.alpha != 0.5){
+            this.healthUpgrade2.setAlpha(0.5);
+            console.log('health replenished');
+            _health = _maxHealth;
+            sceneEvents.emit('player-health-replenished');
+            this.healthUpgrade2.destroy();
+            console.log('Replenished Health. Health is now: ' + _health);
+        }
     }
 
 }

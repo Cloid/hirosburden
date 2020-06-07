@@ -21,7 +21,6 @@ class GameUI extends Phaser.Scene{
                 stepX:16
             },
             quantity: _health+7
-            //Change 5 to whatever max hearts you want
         })
 
         //For loop to change visibilty of hearts.
@@ -84,6 +83,12 @@ class GameUI extends Phaser.Scene{
 
     handlePlayerHealthFill(){
         this.reset();
+    }
+
+    handleNewLevel(){
+        for(var i=_maxHealth;i>_health-1;i--){
+            this.hearts.getChildren()[i].setTexture('ui-heart-full');
+        } 
     }
 
     reset(){

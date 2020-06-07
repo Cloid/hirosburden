@@ -1,3 +1,8 @@
+// Hiro's Burden
+// A Phaser Game by Brent Hopkins, Modesto Amador, Miguelcloid Reniva
+// Made for CMPM 120/ARTG 120 Final Game Project
+
+//Game Configuation
 let config = {
     type: Phaser.AUTO,
     width: 400,
@@ -6,7 +11,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }
     },
     scene: [Menu, Floor1, Game, GameUI],
@@ -15,10 +20,21 @@ let config = {
     }
 };
 
+//Creating the Game with Game Config
 let game = new Phaser.Game(config);
+
+//Setting up music variables to be played
 var myMusic = new Audio("assests/sound/gameMusic.mp3");
 var oof = new Audio("assests/sound/oof.mp3");
+
+//Setting up keyboard variables for use later on
 let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ, keyR;
+
+//Scene Emitter for player-health change
+const sceneEvents = new Phaser.Events.EventEmitter();
+
+
+//Global Variables for use later on
 let wallSlayer = null;
 let knives = null;
 let knife2;
@@ -32,8 +48,6 @@ let _health = 3;
 let _maxHealth = 3;
 var enemyCollide;
 var playerSpeed = 100;
-//var playerHearts = 4;
-const sceneEvents = new Phaser.Events.EventEmitter();
 
 //Debuff Effects
 var slimed = false;
