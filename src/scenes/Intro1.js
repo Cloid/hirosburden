@@ -20,6 +20,8 @@ class Intro1 extends Phaser.Scene {
     }
 
     create() {
+        this.clean;
+        lastKnife=false;
         this.anims.create({
             key: 'slime-idle',
             frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
@@ -27,7 +29,7 @@ class Intro1 extends Phaser.Scene {
             frameRate: 10
         })
         //Runs a seperate scene as overlay for Health-UI
-        this.scene.run('game-ui');
+        //this.scene.run('game-ui');
 
         //Play the music and put on loop
         // myMusic.play();

@@ -1,6 +1,6 @@
 //var newDirection = 4;
 
-class Slime extends Phaser.Physics.Arcade.Sprite{
+class Hand extends Phaser.Physics.Arcade.Sprite{
     
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
@@ -16,7 +16,7 @@ class Slime extends Phaser.Physics.Arcade.Sprite{
             },
             loop: true
         })
-        this.anims.play('slime-idle');
+        this.anims.play('hand-idle');
         
         //let newDirection = this.updateMovement;
 

@@ -14,19 +14,25 @@ class Floor1 extends Phaser.Scene {
             frameHeight: 32
         });
 
+        this.load.spritesheet('heart', 'assests/ui/heartAnimation.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         
 
     }
 
     create() {
+        this.clean;
+        lastKnife=false;
         this.anims.create({
-            key: 'slime-idle',
-            frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
+            key: 'heart-idle',
+            frames: this.anims.generateFrameNames('heart', { start: 0, end: 10 }),
             repeat: -1,
             frameRate: 10
         })
         //Runs a seperate scene as overlay for Health-UI
-        this.scene.run('game-ui');
+        //this.scene.run('game-ui');
 
         //Play the music and put on loop
         // myMusic.play();
@@ -74,7 +80,7 @@ class Floor1 extends Phaser.Scene {
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create Player class to be controlled
-        this.Faune = new Faune(this, 30, 50, 'player');
+        this.Faune = new Faune(this, 420, 350, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
@@ -88,14 +94,14 @@ class Floor1 extends Phaser.Scene {
         this.slimes = this.physics.add.group({
             classType: Slime,
             createCallback: (go)=>{
-                var slimeGo = go;
-                slimeGo.body.onCollide = true;
+                // var slimeGo = go;
+                // slimeGo.body.onCollide = true;
             }
         })
 
         const slimesLayer = map.getObjectLayer('Slimes');
         slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
+            this.slimes.get(slimeObj.x - slimeObj.width * 0.5,slimeObj.y - slimeObj.height * 0.5,'slime');
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);
@@ -104,8 +110,25 @@ class Floor1 extends Phaser.Scene {
         this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
+        this.heartscont = this.physics.add.group({
+            classType: Upgrade,
+        })
 
+        const heartLayer = map.getObjectLayer('Hearts');
+        heartLayer.objects.forEach(heartObj =>{
+            this.heartscont.get(heartObj.x,heartObj.y,'heart');
+        })
+        this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
 
+        this.heartup = this.physics.add.group({
+                classType: Upgrade,
+            })
+    
+            const secretLayer = map.getObjectLayer('Secret');
+            secretLayer.objects.forEach(upObj =>{
+                this.heartup.get(upObj.x,upObj.y,'heart').setTint(0xff0000);
+            })
+            this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
 
 
     }
@@ -369,27 +392,24 @@ class Floor1 extends Phaser.Scene {
         playerSpeed = 100;
     }
 
-    increaseHealth(){
-        if(this.healthUpgrade.alpha != 0.5){
-            this.healthUpgrade.setAlpha(0.5);
+    increaseHealth(obj, obj2){
+            obj2.destroy();
+            this.clean;
             console.log('health upgraded');
             _maxHealth += 1;
             _health = _maxHealth;
             sceneEvents.emit('player-health-gained');
-            this.healthUpgrade.destroy();
             console.log('Max Health is now: '+ _health);
-        }
+
     }
 
-    replenishHealth(){
-        if(this.healthUpgrade2.alpha != 0.5){
-            this.healthUpgrade2.setAlpha(0.5);
+    replenishHealth(obj, obj2){
+            obj2.destroy();
+            this.clean;
             console.log('health replenished');
             _health = _maxHealth;
             sceneEvents.emit('player-health-replenished');
-            this.healthUpgrade2.destroy();
-            console.log('Replenished Health. Health is now: ' + _health);
-        }
+            console.log('Replenished Health. Health is now: ' + _health);        
     }
 
     handleCollision(enemy) {

@@ -75,7 +75,8 @@ class Start extends Phaser.Scene {
         this.Faune = new Faune(this, 30, 50, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
-        this.cameras.main.startFollow(this.Faune, true)
+        this.cameras.main.startFollow(this.Faune, true);
+
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
 
@@ -129,6 +130,7 @@ class Start extends Phaser.Scene {
 
         //Ability to throw knife
         if (Phaser.Input.Keyboard.JustDown(keyQ) && lastKnife == false) {
+            console.log('running')
             lastKnife = true;
             this.throwKnive();
             this.knifecd = 1;
