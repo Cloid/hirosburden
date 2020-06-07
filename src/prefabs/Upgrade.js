@@ -3,6 +3,7 @@ class Upgrade extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture, frame);
         scene.add.existing(this); //add object to existing scene, displayList, updateList
         var pickedup = false;
+        this.anims.play('heart-idle');
     }
 
     hide(){

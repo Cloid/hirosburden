@@ -1,15 +1,15 @@
-class Floor3 extends Phaser.Scene {
+class Floor4 extends Phaser.Scene {
     constructor() {
-        super("Floor3");
+        super("Floor4");
     }
 
     preload() {
-        this.load.tilemapTiledJSON('floor3', 'assests/tiles/floor3.json');
-        this.load.spritesheet('eyeball', 'assests/enemies/eyeball.png', {
+        this.load.tilemapTiledJSON('floor4', 'assests/tiles/floor4.json');
+        this.load.spritesheet('hand', 'assests/enemies/hand.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.image('bullet', 'assests/enemies/bullet.png');
+        this.l
 
     }
 
@@ -17,18 +17,12 @@ class Floor3 extends Phaser.Scene {
         this.clean;
         lastKnife=false;
         this.anims.create({
-            key: 'ghost-idle',
-            frames: this.anims.generateFrameNames('ghost', { start: 0, end: 13 }),
+            key: 'hand-idle',
+            frames: this.anims.generateFrameNames('hand', { start: 0, end: 20 }),
             repeat: -1,
             frameRate: 10
         })
 
-        this.anims.create({
-            key: 'eyeball-idle',
-            frames: this.anims.generateFrameNames('eyeball', { start: 0, end: 10 }),
-            repeat: -1,
-            frameRate: 10
-        })
         //Runs a seperate scene as overlay for Health-UI
         //this.scene.run('game-ui');
 
@@ -63,7 +57,7 @@ class Floor3 extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         //Creating the Map using Tile-Set from Tiled
-        const map = this.make.tilemap({ key: 'floor3' });
+        const map = this.make.tilemap({ key: 'floor4' });
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset);
         map.createStaticLayer('Fake Wall', tileset)
@@ -84,7 +78,7 @@ class Floor3 extends Phaser.Scene {
         //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create Player class to be controlled
-        this.Faune = new Faune(this, 350, 900, 'player');
+        this.Faune = new Faune(this, 365, 75, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true)
@@ -94,33 +88,43 @@ class Floor3 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
         
-        this.ghosts = this.physics.add.group({
-            classType: Ghost,
+        this.hands = this.physics.add.group({
+            classType: Hand,
             createCallback: (go)=>{
-                var ghostGo = go;
-                ghostGo.body.onCollide = true;
+                var handGo = go;
+                handGo.body.onCollide = true;
             }
         })
 
-        const ghostLayer = map.getObjectLayer('Ghosts');
-        ghostLayer.objects.forEach(ghostObj =>{
-            this.ghosts.get(ghostObj.x,ghostObj.y,'ghost');
+        const handLayer = map.getObjectLayer('Hands');
+        handLayer.objects.forEach(handObj =>{
+            this.hands.get(handObj.x,handObj.y,'ghost');
         })
 
     
-        this.physics.add.collider(this.ghosts, wallSlayer);
-        this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
+        this.physics.add.collider(this.hands, wallSlayer);
+        this.physics.add.collider(this.hands, this.Faune, this.handleHandCollision, undefined, this);
 
 
-        this.eyeballs0 = new EyeBall(this, 415, 700, 'eyeball');
-        this.eyeballs1 = new EyeBall(this, 415, 550, 'eyeball');
-        this.eyeballs2 = new EyeBall(this, 415, 400, 'eyeball');
-        this.eyeballs3 = new EyeBall(this, 415, 250, 'eyeball');
+        this.eyeballs0 = new EyeBall(this, 40, 190, 'eyeball');
+        this.eyeballs1 = new EyeBall(this, 160, 630, 'eyeball');
+        this.eyeballs2 = new EyeBall(this, 288, 630, 'eyeball');
+        this.eyeballs3 = new EyeBall(this, 416, 630, 'eyeball');
+        this.eyeballs4 = new EyeBall(this, 544, 630, 'eyeball');
+        this.eyeballs5 = new EyeBall(this, 672, 630, 'eyeball');
+        this.eyeballs6 = new EyeBall(this, 793, 190, 'eyeball');
+
+
+
 
         this.physics.world.enable([this.eyeballs0]);
         this.physics.world.enable([this.eyeballs1]);
         this.physics.world.enable([this.eyeballs2]);
         this.physics.world.enable([this.eyeballs3]);
+        this.physics.world.enable([this.eyeballs4]);
+        this.physics.world.enable([this.eyeballs5]);
+        this.physics.world.enable([this.eyeballs6]);
+
 
 
 
@@ -128,6 +132,10 @@ class Floor3 extends Phaser.Scene {
         this.eyeballs1.setAlpha(0.7);
         this.eyeballs2.setAlpha(0.7);
         this.eyeballs3.setAlpha(0.7);
+        this.eyeballs4.setAlpha(0.7);
+        this.eyeballs5.setAlpha(0.7);
+        this.eyeballs6.setAlpha(0.7);
+
 
 
 
@@ -137,7 +145,7 @@ class Floor3 extends Phaser.Scene {
 
 
 
-        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
@@ -185,6 +193,7 @@ class Floor3 extends Phaser.Scene {
     }
 
         //console.log(this.bulletcd);
+
         if(this.bulletcd>0){
             ++this.bulletcd;
             if (this.bulletcd > 300) {
@@ -197,6 +206,10 @@ class Floor3 extends Phaser.Scene {
         this.eyeballShoot1();
         this.eyeballShoot2();
         this.eyeballShoot3();
+        this.eyeballShoot4();
+        this.eyeballShoot5();
+        this.eyeballShoot6();
+
         }
 
         // if(this.bulletcd2>0){
@@ -244,6 +257,10 @@ class Floor3 extends Phaser.Scene {
                 knives.killAndHide(knife2);
                 lastKnife = false;
             }
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(keyR)){
+            console.log(this.Faune.x + " " + this.Faune.y)
         }
 
         //Ability to throw knife
@@ -318,7 +335,7 @@ class Floor3 extends Phaser.Scene {
             myMusic.pause();
             this.physics.world.colliders.destroy();
             //this.physics.add.collider(this.slimes, wallSlayer);
-            this.physics.add.collider(this.ghosts, wallSlayer);
+            this.physics.add.collider(this.hands, wallSlayer);
             this.physics.add.collider(bullet, wallSlayer);
 
 
@@ -493,7 +510,7 @@ replenishHealth(obj, obj2){
         console.log('Replenished Health. Health is now: ' + _health);        
 }
 
-    handleGhostCollision(obj, enemy) {
+    handleHandCollision(obj, enemy) {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
@@ -509,17 +526,17 @@ replenishHealth(obj, obj2){
             this.hit = 1
 
             GameUI.handlePlayerHealthChanged;
-            this.possessedEffect();
             //this.possessedEffect();
-            //this.confusedEffect();
-            this.sound.play('laugh');
-            enemy.destroy();
-            god = true;
-            var notGod = this.time.addEvent({
-                delay: 2000,                // 2 seconds
-                callback: this.notGod,
-                callbackScope: this,
-            });
+            //this.possessedEffect();
+            this.confusedEffect();
+            //this.sound.play('laugh');
+            //enemy.destroy();
+            //od = true;
+            // var notGod = this.time.addEvent({
+            //     delay: 2000,                // 2 seconds
+            //     callback: this.notGod,
+            //     callbackScope: this,
+            // });
             sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
@@ -682,8 +699,26 @@ replenishHealth(obj, obj2){
         return possessedDirection;
     }
 
+    confusedEffect() {
+        //If already under control, dont do anything
+        if (confused == false) {
+            console.log('confused');
+            confused = true;
+            //create gray rectangle to overlay screen
+            this.overlay.fillStyle(0xF8E522, 0.2)
+            this.overlay.fillRect(-1200, -1200, 2400, 2400);
+
+            var confusedTime = this.time.addEvent({
+                delay: 10000,                // 2 seconds
+                callback: this.clean,
+                callbackScope: this,
+                loop: false
+            });
+        }
+    }
+
     NextLevel(){
-        this.scene.start('Floor4');       
+        console.log('Next Level');
     }
 
     handleBulletWallCollision() {
@@ -740,7 +775,7 @@ replenishHealth(obj, obj2){
         }
 
         const vec = new Phaser.Math.Vector2(0, 0);
-        vec.y = 1;
+        vec.x = 1;
 
         const angle = vec.angle();
 
@@ -765,7 +800,7 @@ replenishHealth(obj, obj2){
         }
 
         const vec = new Phaser.Math.Vector2(0, 0);
-        vec.y = 1;
+        vec.y = -1;
 
         const angle = vec.angle();
 
@@ -790,7 +825,7 @@ replenishHealth(obj, obj2){
         }
 
         const vec = new Phaser.Math.Vector2(0, 0);
-        vec.y = 1;
+        vec.y = -1;
 
         const angle = vec.angle();
 
@@ -815,7 +850,82 @@ replenishHealth(obj, obj2){
         }
 
         const vec = new Phaser.Math.Vector2(0, 0);
-        vec.y = 1;
+        vec.y = -1;
+
+        const angle = vec.angle();
+
+        //Faune
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+    }
+
+    eyeballShoot4(){
+        //this.bulletcd3=1;
+
+        if(!bullet){
+            return;
+        }
+
+        bullets = bullet.get(this.eyeballs4.x, this.eyeballs4.y, 'bullet');
+
+        if(!bullets){
+            return;
+        }
+
+        const vec = new Phaser.Math.Vector2(0, 0);
+        vec.y = -1;
+
+        const angle = vec.angle();
+
+        //Faune
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+    }
+
+    eyeballShoot5(){
+        //this.bulletcd3=1;
+
+        if(!bullet){
+            return;
+        }
+
+        bullets = bullet.get(this.eyeballs5.x, this.eyeballs5.y, 'bullet');
+
+        if(!bullets){
+            return;
+        }
+
+        const vec = new Phaser.Math.Vector2(0, 0);
+        vec.y = -1;
+
+        const angle = vec.angle();
+
+        //Faune
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+    }
+
+    eyeballShoot6(){
+        //this.bulletcd3=1;
+
+        if(!bullet){
+            return;
+        }
+
+        bullets = bullet.get(this.eyeballs6.x, this.eyeballs6.y, 'bullet');
+
+        if(!bullets){
+            return;
+        }
+
+        const vec = new Phaser.Math.Vector2(0, 0);
+        vec.x = -1;
 
         const angle = vec.angle();
 

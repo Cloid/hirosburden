@@ -5,24 +5,13 @@ class Floor2 extends Phaser.Scene {
 
     preload() {
         this.load.tilemapTiledJSON('floor2', 'assests/tiles/floor2.json');
-        this.load.spritesheet('player', 'assests/character/player.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.spritesheet('slime', 'assests/enemies/slime.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
 
         this.load.spritesheet('ghost', 'assests/enemies/Ghost.png', {
             frameWidth: 32,
             frameHeight: 32
         });
 
-        this.load.spritesheet('heart', 'assests/ui/heartAnimation.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
+        
 
     }
 
@@ -147,7 +136,17 @@ class Floor2 extends Phaser.Scene {
             this.heartscont.get(heartObj.x,heartObj.y,'heart');
         })
         this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
-        this.hpcd = 0;
+
+
+        this.heartup = this.physics.add.group({
+            classType: Upgrade,
+        })
+
+        const secretLayer = map.getObjectLayer('Secret');
+        secretLayer.objects.forEach(upObj =>{
+            this.heartup.get(upObj.x,upObj.y,'heart').setTint(0xff0000);
+        })
+        this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
 
     }
 
@@ -173,13 +172,6 @@ class Floor2 extends Phaser.Scene {
             return
         }
 
-        if (this.hpcd > 0) {
-            ++this.hpcd;
-            if (this.hpcd > 10) {
-                this.hpcd = 0
-            }
-            //return
-        }
 
         if(this.knifecd>0){
             ++this.knifecd;
@@ -420,28 +412,22 @@ class Floor2 extends Phaser.Scene {
         playerSpeed = 100;
     }
 
-    increaseHealth(){
-        if(this.healthUpgrade.alpha != 0.5){
-            this.healthUpgrade.setAlpha(0.5);
+    increaseHealth(obj, obj2){
+            obj2.destroy();
             console.log('health upgraded');
             _maxHealth += 1;
             _health = _maxHealth;
             sceneEvents.emit('player-health-gained');
-            this.healthUpgrade.destroy();
             console.log('Max Health is now: '+ _health);
-        }
+
     }
 
     replenishHealth(obj, obj2){
-        if(this.hpcd==0){
             obj2.destroy();
-            this.hpcd=1;
             console.log('health replenished');
             _health = _maxHealth;
             sceneEvents.emit('player-health-replenished');
-            console.log('Replenished Health. Health is now: ' + _health);
-        }
-        
+            console.log('Replenished Health. Health is now: ' + _health);        
     }
 
     handleGhostCollision(obj, enemy) {
