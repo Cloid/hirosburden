@@ -186,6 +186,8 @@ class Start extends Phaser.Scene {
                         flipped = false;
                     } else {
 
+                        const parts = this.Faune.anims.currentAnim.key.split('-');
+                        parts[1] = 'idle';
                         if(flipped){
                             this.Faune.anims.play('faune-left-idle-side', true)
                         } else{
@@ -216,7 +218,7 @@ class Start extends Phaser.Scene {
                 },
                 fixedWidth: 0
             }
-            let centerX = this.cameras.main.midPoint.x;
+               let centerX = this.cameras.main.midPoint.x;
             let centerY = this.cameras.main.midPoint.y;
             this.add.text(centerX, centerY, 'Press [ R ] to start', textConfig);
             if (Phaser.Input.Keyboard.JustDown(keyR)) {

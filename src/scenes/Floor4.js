@@ -339,6 +339,8 @@ class Floor4 extends Phaser.Scene {
                         flipped = false;
                     } else {
 
+                        const parts = this.Faune.anims.currentAnim.key.split('-');
+                        parts[1] = 'idle';
                         if(flipped){
                             this.Faune.anims.play('faune-left-idle-side', true)
                         } else{
