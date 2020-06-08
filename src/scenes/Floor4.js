@@ -79,7 +79,7 @@ class Floor4 extends Phaser.Scene {
         //Create Player class to be controlled
         this.Faune = new Faune(this, 365, 75, 'player');
         this.physics.world.enable([this.Faune]);
-        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
+        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
         this.Faune.setOffset(8,5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
