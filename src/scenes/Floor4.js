@@ -147,7 +147,7 @@ class Floor4 extends Phaser.Scene {
 
 
 
-        this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
@@ -279,54 +279,54 @@ class Floor4 extends Phaser.Scene {
                     if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
                     if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
             }
@@ -530,7 +530,7 @@ replenishHealth(obj, obj2){
             //this.possessedEffect();
             //this.possessedEffect();
             this.confusedEffect();
-            //this.sound.play('laugh');
+            this.sound.play('confused');
             //enemy.destroy();
             //od = true;
             // var notGod = this.time.addEvent({
@@ -629,6 +629,15 @@ replenishHealth(obj, obj2){
 
     }
 
+    handleKniveHandCollision(enemy){
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+        this.sound.play('handDeath');
+        knife2.destroy();
+    }
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {
@@ -811,6 +820,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot1(){
@@ -836,6 +846,8 @@ replenishHealth(obj, obj2){
         bullets2.setVisible(true);
         bullets2.setRotation(angle);
         bullets2.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
+
     }
 
     eyeballShoot2(){
@@ -861,6 +873,8 @@ replenishHealth(obj, obj2){
         bullets3.setVisible(true);
         bullets3.setRotation(angle);
         bullets3.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
+
     }
 
     eyeballShoot3(){
@@ -886,6 +900,7 @@ replenishHealth(obj, obj2){
         bullets4.setVisible(true);
         bullets4.setRotation(angle);
         bullets4.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot4(){
@@ -911,6 +926,7 @@ replenishHealth(obj, obj2){
         bullets5.setVisible(true);
         bullets5.setRotation(angle);
         bullets5.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot5(){
@@ -936,6 +952,7 @@ replenishHealth(obj, obj2){
         bullets6.setVisible(true);
         bullets6.setRotation(angle);
         bullets6.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot6(){
@@ -961,6 +978,7 @@ replenishHealth(obj, obj2){
         bullets7.setVisible(true);
         bullets7.setRotation(angle);
         bullets7.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     notGod() {

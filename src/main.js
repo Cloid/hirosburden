@@ -28,7 +28,7 @@ let game = new Phaser.Game(config);
 var myMusic = new Audio("assests/sound/gameMusic.mp3");
 var oof = new Audio("assests/sound/oof.mp3");
 var walk = new Audio("assests/sound/walk.wav");
-walk.volume = 0.2;
+walk.volume = 0.5;
 //walk.loop = true;
 //var slimeNoise = new Audio("assests/sound/slime.ogg");
 

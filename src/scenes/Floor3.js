@@ -272,54 +272,54 @@ class Floor3 extends Phaser.Scene {
                     if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
                     if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
             }
@@ -791,6 +791,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot1(){
@@ -812,10 +813,18 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
+<<<<<<< HEAD
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
+=======
         bullets2.setActive(true);
         bullets2.setVisible(true);
         bullets2.setRotation(angle);
         bullets2.setVelocity(vec.x * 300, vec.y * 300)
+>>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
     }
 
     eyeballShoot2(){
@@ -837,10 +846,18 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
+<<<<<<< HEAD
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
+=======
         bullets3.setActive(true);
         bullets3.setVisible(true);
         bullets3.setRotation(angle);
         bullets3.setVelocity(vec.x * 300, vec.y * 300)
+>>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
     }
 
     eyeballShoot3(){
@@ -862,10 +879,18 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
+<<<<<<< HEAD
+        bullets.setActive(true);
+        bullets.setVisible(true);
+        bullets.setRotation(angle);
+        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
+=======
         bullets4.setActive(true);
         bullets4.setVisible(true);
         bullets4.setRotation(angle);
         bullets4.setVelocity(vec.x * 300, vec.y * 300)
+>>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
     }
 
     notGod() {

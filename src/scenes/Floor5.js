@@ -166,17 +166,21 @@ class Floor5 extends Phaser.Scene {
 
 
 
+<<<<<<< HEAD
+        this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
+=======
         this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
 
 
+>>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
         this.physics.add.collider(this.eyeballs0, this.Faune, this.handleEyeballCollision, undefined, this);
         this.physics.add.collider(this.eyeballs1, this.Faune, this.handleEyeballCollision, undefined, this);
-
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveGhostCollision, undefined, this);
         this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
 
 
@@ -293,54 +297,54 @@ class Floor5 extends Phaser.Scene {
                     if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
                     if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
             }
@@ -544,7 +548,7 @@ replenishHealth(obj, obj2){
             //this.possessedEffect();
             //this.possessedEffect();
             this.confusedEffect();
-            //this.sound.play('laugh');
+            this.sound.play('confused');
             //enemy.destroy();
             //od = true;
             // var notGod = this.time.addEvent({
@@ -644,6 +648,27 @@ replenishHealth(obj, obj2){
 
     }
 
+    
+    handleKniveHandCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+        this.sound.play('handDeath');
+        knife2.destroy();
+
+    }
+    handleKniveGhostCollision(enemy) {
+        knives.killAndHide(knife2);
+        lastKnife=false;
+        // lizards.killAndHide(lizard2);
+        //lizards.killAndHide(this.lizard3);
+        enemy.destroy();
+        this.sound.play('ghostDeath');
+        knife2.destroy();
+
+    }
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {
@@ -835,6 +860,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot1(){
@@ -860,6 +886,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     notGod() {
