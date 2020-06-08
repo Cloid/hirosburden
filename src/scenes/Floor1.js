@@ -31,12 +31,6 @@ class Floor1 extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-        //Runs a seperate scene as overlay for Health-UI
-        //this.scene.run('game-ui');
-
-        //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
 
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);

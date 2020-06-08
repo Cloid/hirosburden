@@ -12,12 +12,12 @@ class Menu extends Phaser.Scene {
         this.load.audio('confused', 'assests/sound/confused.ogg');
         this.load.audio('handDeath', 'assests/sound/handDeath.wav');
         //this.load.audio('walk', 'assests/sound/walk.wav');
-        this.load.image('menulogo', 'assests/ui/hirosburdenlogo300.png');
+        this.load.image('menulogo', 'assests/ui/hiromenu.png');
     }
     create() {
 
         this.cameras.main.setBackgroundColor('#808080')
-        var image = this.add.image(175, 50, 'menulogo');
+        var image = this.add.image(200, 125, 'menulogo');
         //image.setScale( 1 / 2, 1 / 2 );
 
 
@@ -46,7 +46,7 @@ class Menu extends Phaser.Scene {
 
 
         // this.add.text(centerX, centerY - centerY / 2, "The Hero's Burden", menuConfig).setOrigin(0.5);
-         this.add.text(centerX, centerY, 'Press [ SPACEBAR ] to start', menuConfig).setOrigin(0.5);
+         this.add.text(centerX, centerY+20, 'Press [ SPACEBAR ] to start', menuConfig).setOrigin(0.5);
         // menuConfig.backgroundColor = '#00FF00';
         // menuConfig.color = '#000';
 
