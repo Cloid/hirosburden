@@ -15,7 +15,7 @@ let config = {
             debug: false
         }
     },
-    scene: [Menu, Start, Tutorial, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Lore1, Lore2, Lore3, Lore4, Lore5, Lore6, LoreSecret],
+    scene: [Menu, Start, Tutorial, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Lore1, Lore2, Lore3, Lore4, Lore5, Lore6, LoreSecret, Credits],
     scale: {
         zoom: 2
     }

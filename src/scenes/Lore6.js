@@ -51,7 +51,7 @@ class Lore6 extends Phaser.Scene {
                 
             }
             if(textCount == 3){
-                this.scene.start('Menu')
+                this.scene.start('Credits')
             }
             textCount+=1;
         }
