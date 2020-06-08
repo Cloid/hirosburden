@@ -331,7 +331,7 @@ class Floor3 extends Phaser.Scene {
             this.physics.world.colliders.destroy();
             //this.physics.add.collider(this.slimes, wallSlayer);
             this.physics.add.collider(this.ghosts, wallSlayer);
-            this.physics.add.collider(bullet, wallSlayer);
+            this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
 
 
 
