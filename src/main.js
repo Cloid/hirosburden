@@ -26,6 +26,7 @@ let config = {
 let game = new Phaser.Game(config);
 var textCount;
 
+var flipped=true;
 
 //Setting up music variables to be played
 var myMusic = new Audio("assests/sound/gameMusic.mp3");

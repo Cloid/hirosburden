@@ -131,58 +131,68 @@ class Start extends Phaser.Scene {
             if (possessed == false) {
                 if (confused == false) {
                     if (keyLEFT.isDown) {
-                        this.Faune.anims.play('faune-run-side', true)
+                        this.Faune.anims.play('faune-lef-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
 
-                        this.Faune.flipX = true;
+                        flipped = true;
                         walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
-                        this.Faune.flipX = false;
+                        flipped = false;
                         walk.play();
                     } else if (keyDOWN.isDown) {
-                        this.Faune.anims.play('faune-run-down', true)
-                        this.Faune.setVelocity(0, playerSpeed)
+                        this.Faune.anims.play('faune-run-down', true);
+                        this.Faune.setVelocity(0, playerSpeed);
+                        flipped = false;
                         walk.play();
                     } else if (keyUP.isDown) {
-                        this.Faune.anims.play('faune-run-up', true)
-                        this.Faune.setVelocity(0, -playerSpeed)
+                        this.Faune.anims.play('faune-run-up', true);
+                        this.Faune.setVelocity(0, -playerSpeed);
+                        flipped = false;
                         walk.play();
                     } else {
 
-                        const parts = this.Faune.anims.currentAnim.key.split('-')
-                        parts[1] = 'idle'
-                        this.Faune.play(parts.join('-'))
+                        const parts = this.Faune.anims.currentAnim.key.split('-');
+                        parts[1] = 'idle';
+                        if(flipped){
+                            this.Faune.anims.play('faune-left-idle-side', true)
+                        } else{
+                            this.Faune.play(parts.join('-'))
+                        }
                         this.Faune.setVelocity(0, 0)
                         walk.pause();
                     }
                 }
                 else if (confused == true) {
                     if (keyRIGHT.isDown) {
-                        this.Faune.anims.play('faune-run-side', true)
-                        this.Faune.setVelocity(-playerSpeed, 0)
-
-                        this.Faune.flipX = true;
+                        this.Faune.anims.play('faune-lef-side', true)
+                        this.Faune.setVelocity(-playerSpeed, 0);
+                        flipped = false;
 
                     } else if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
-                        this.Faune.flipX = false;
+                        flipped = true;
 
 
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        flipped = false;
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        flipped = false;
                     } else {
 
-                        const parts = this.Faune.anims.currentAnim.key.split('-')
-                        parts[1] = 'idle'
-                        this.Faune.play(parts.join('-'))
+                        if(flipped){
+                            this.Faune.anims.play('faune-left-idle-side', true)
+                        } else{
+                            this.Faune.play(parts.join('-'))
+                        }
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
             }
@@ -241,7 +251,14 @@ class Start extends Phaser.Scene {
 
         this.anims.create({
             key: 'faune-idle-side',
-            frames: this.anims.generateFrameNames('player', { start: 37, end: 44 }),
+            frames: this.anims.generateFrameNames('player', { start: 37, end: 37 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-left-idle-side',
+            frames: this.anims.generateFrameNames('player', { start: 33, end: 33 }),
             repeat: -1,
             frameRate: 15
         })
@@ -256,6 +273,13 @@ class Start extends Phaser.Scene {
         this.anims.create({
             key: 'faune-run-up',
             frames: this.anims.generateFrameNames('player', { start: 21, end: 28 }),
+            repeat: -1,
+            frameRate: 15
+        })
+
+        this.anims.create({
+            key: 'faune-lef-side',
+            frames: this.anims.generateFrameNames('player', { start: 30, end: 36 }),
             repeat: -1,
             frameRate: 15
         })
@@ -299,7 +323,7 @@ class Start extends Phaser.Scene {
                 break;
             default:
             case 'side':
-                if (this.Faune.flipX) {
+                if (flipped) {
                     vec.x = -1
                 } else {
                     vec.x = 1;
