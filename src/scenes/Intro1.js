@@ -28,12 +28,6 @@ class Intro1 extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-        //Runs a seperate scene as overlay for Health-UI
-        //this.scene.run('game-ui');
-
-        //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
 
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);
@@ -73,9 +67,6 @@ class Intro1 extends Phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         // })
 
-        //map.createStaticLayer('Ground', tileset)
-        //const floor = map.addTilesetImage('floor1', 'floortile1');
-
         //Create player class to be controlled
         this.Faune = new Faune(this, 95, 160, 'player');
         this.physics.world.enable([this.Faune]);
@@ -87,7 +78,7 @@ class Intro1 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
 
-
+        //Create slimes group to be grabbed later with Slimes layer in Tiled
         this.slimes = this.physics.add.group({
             classType: Slime,
             createCallback: (go) => {
@@ -95,15 +86,15 @@ class Intro1 extends Phaser.Scene {
                 slimeGo.body.onCollide = true;
             }
         })
-
+        //Create slimes fomr Slimes layer in Tiled
         const slimesLayer = map.getObjectLayer('Slime');
         slimesLayer.objects.forEach(slimeObj => {
             this.slimes.get(slimeObj.x, slimeObj.y, 'slime');
         })
 
+        //Add Colliders with Slimes, Wall, Knives, and Player.
         this.physics.add.collider(this.slimes, wallSlayer);
         this.physics.add.collider(this.slimes, this.Faune, this.handleCollision, undefined, this);
-
         this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
 
@@ -119,6 +110,7 @@ class Intro1 extends Phaser.Scene {
             this.NextLevel();
         }
 
+        //Invunerabilty for the player after getting hit
         if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
@@ -129,6 +121,7 @@ class Intro1 extends Phaser.Scene {
             }
         }
 
+        //Color change for being hit
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
             ++this.hit;
@@ -139,6 +132,7 @@ class Intro1 extends Phaser.Scene {
             return
         }
 
+        //Knife CD after pressing a button
         if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
@@ -229,14 +223,13 @@ class Intro1 extends Phaser.Scene {
                     }
                 }
             }
-        } else {
 
+        //Else the player is dead
+        } else {
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
             this.physics.world.colliders.destroy();
             this.physics.add.collider(this.slimes, wallSlayer);
-
-
 
             let textConfig = {
                 fontFamily: 'Courier',
@@ -262,10 +255,7 @@ class Intro1 extends Phaser.Scene {
                 //sceneEvents.emit('reset-game');
                 this.scene.start('Start');
             }
-
-
         }
-
     }
 
     createPlayerAnims() {
@@ -333,17 +323,13 @@ class Intro1 extends Phaser.Scene {
     }
 
     throwKnive() {
-
         if (!knives) {
             return;
         }
-
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
-
         if (!knife2) {
             return;
         }
-
         const parts = this.Faune.anims.currentAnim.key.split('-');
         const direction = parts[2];
         const vec = new Phaser.Math.Vector2(0, 0);
@@ -362,9 +348,7 @@ class Intro1 extends Phaser.Scene {
                     vec.x = 1;
                 }
                 break;
-
         }
-
         const angle = vec.angle();
         //Faune
         knife2.setActive(true);
@@ -374,6 +358,7 @@ class Intro1 extends Phaser.Scene {
         this.sound.play('throw');
     }
 
+    //Slime Effect debuff function
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {
@@ -394,6 +379,7 @@ class Intro1 extends Phaser.Scene {
         }
     }
 
+    //Clean all Debuff-Effects
     clean() {
         this.overlay.clear();
         console.log('Cleared Effect');
@@ -404,6 +390,7 @@ class Intro1 extends Phaser.Scene {
         god = false;
     }
 
+    //Increase the Health
     increaseHealth() {
         if (this.healthUpgrade.alpha != 0.5) {
             this.healthUpgrade.setAlpha(0.5);
@@ -417,6 +404,7 @@ class Intro1 extends Phaser.Scene {
         }
     }
 
+    //Replenish the health
     replenishHealth() {
         if (this.healthUpgrade2.alpha != 0.5) {
             this.healthUpgrade2.setAlpha(0.5);
@@ -429,10 +417,10 @@ class Intro1 extends Phaser.Scene {
         }
     }
 
+    //Handle the enemy collision
     handleCollision(enemy) {
         //console.log(enemy)
         //this.scene.start('Floor1');       
-
         if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd = 0;
@@ -462,14 +450,14 @@ class Intro1 extends Phaser.Scene {
 
     }
 
-
-
+    //Handles Knife Wall Collision
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
         lastKnife = false;
         knife2.destroy();
     }
 
+    //Handles Slime Collision
     handleKniveSlimeCollision(enemy) {
         knives.killAndHide(knife2);
         lastKnife = false;
@@ -481,6 +469,7 @@ class Intro1 extends Phaser.Scene {
 
     }
 
+    //Slimes Effect
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {
@@ -500,6 +489,7 @@ class Intro1 extends Phaser.Scene {
         }
     }
 
+    //Move onto NextLevel after colliding with door
     NextLevel() {
         //console.log('Next '); 
         if(god == false){
@@ -508,6 +498,8 @@ class Intro1 extends Phaser.Scene {
             this.scene.start('Lore1');
         }
     }
+    
+    //Damage Knockback
     notGod() {
         god = false;
     }
