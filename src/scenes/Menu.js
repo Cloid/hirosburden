@@ -3,13 +3,11 @@ class Menu extends Phaser.Scene {
         super("Menu");
     }
     preload() {
-        //this.load.audio('song', 'assests/sound/gameMusic.mp3');
         this.load.audio('oof', 'assests/sound/oof.mp3');
         this.load.audio('laugh', 'assests/sound/laugh.mp3');
         this.load.audio('slimeNoise', 'assests/sound/slime.ogg');
         this.load.audio('bubble', 'assests/sound/bubble.ogg');
         this.load.audio('ghostDeath', 'assests/sound/ghostDeath.ogg');
-        //this.load.audio('walk', 'assests/sound/walk.wav');
         this.load.image('menulogo', 'assests/ui/hirosburdenlogo300.png');
     }
     create() {

@@ -52,8 +52,6 @@ class Floor3 extends Phaser.Scene {
             classType: Phaser.Physics.Arcade.Image,
         })
 
-
-
         //Setting-Up Keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
