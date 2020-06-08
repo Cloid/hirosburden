@@ -288,12 +288,12 @@ class Floor5 extends Phaser.Scene {
                     this.Faune.anims.play('faune-lef-side', true)
                     this.Faune.setVelocity(-playerSpeed, 0)
 
-                    flipped = false;
+                    flipped = true;
                     walk.play();
                 } else if (keyRIGHT.isDown) {
                     this.Faune.anims.play('faune-run-side', true)
                     this.Faune.setVelocity(playerSpeed, 0)
-                    flipped = true;
+                    flipped = false;
                     walk.play();
                 } else if (keyDOWN.isDown) {
                     this.Faune.anims.play('faune-run-down', true);
@@ -322,12 +322,12 @@ class Floor5 extends Phaser.Scene {
                 if (keyRIGHT.isDown) {
                     this.Faune.anims.play('faune-lef-side', true)
                     this.Faune.setVelocity(-playerSpeed, 0);
-                    flipped = false;
+                    flipped = true;
 
                 } else if (keyLEFT.isDown) {
                     this.Faune.anims.play('faune-run-side', true)
                     this.Faune.setVelocity(playerSpeed, 0)
-                    flipped = true;
+                    flipped = false;
 
 
                 } else if (keyUP.isDown) {
