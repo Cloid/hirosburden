@@ -79,7 +79,7 @@ class Floor5 extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-        this.physics.add.collider(this.Faune, wallSlayer);
+        //this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
 
@@ -830,10 +830,12 @@ class Floor5 extends Phaser.Scene {
                 _maxHealth = 3;
                 _health = 3;
                 this.scene.start('LoreSecret');
+                sceneEvents.emit('reset-game');
             } else {
                 _maxHealth = 3;
                 _health = 3;
                 this.scene.start('Lore6');
+                sceneEvents.emit('reset-game');
 
             }
         }
