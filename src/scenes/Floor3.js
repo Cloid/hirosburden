@@ -269,54 +269,54 @@ class Floor3 extends Phaser.Scene {
                     if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
                 else if (confused == true) {
                     if (keyRIGHT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(-playerSpeed, 0)
-
                         this.Faune.flipX = true;
-
+                        walk.play();
                     } else if (keyLEFT.isDown) {
                         this.Faune.anims.play('faune-run-side', true)
                         this.Faune.setVelocity(playerSpeed, 0)
                         this.Faune.flipX = false;
-
-
+                        walk.play();
                     } else if (keyUP.isDown) {
                         this.Faune.anims.play('faune-run-down', true)
                         this.Faune.setVelocity(0, playerSpeed)
+                        walk.play();
                     } else if (keyDOWN.isDown) {
                         this.Faune.anims.play('faune-run-up', true)
                         this.Faune.setVelocity(0, -playerSpeed)
+                        walk.play();
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-')
                         parts[1] = 'idle'
                         this.Faune.play(parts.join('-'))
                         this.Faune.setVelocity(0, 0)
+                        walk.pause();
                     }
                 }
             }
@@ -768,6 +768,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot1(){
@@ -793,6 +794,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot2(){
@@ -818,6 +820,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     eyeballShoot3(){
@@ -843,6 +846,7 @@ replenishHealth(obj, obj2){
         bullets.setVisible(true);
         bullets.setRotation(angle);
         bullets.setVelocity(vec.x * 300, vec.y * 300)
+        this.sound.play('laser');
     }
 
     notGod() {
