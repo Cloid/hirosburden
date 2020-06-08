@@ -795,6 +795,9 @@ class Floor5 extends Phaser.Scene {
     NextLevel() {
         if (god == false) {
             this.clean();
+            playerDead = false;
+            _maxHealth = 3;
+            _health = 3;
             this.scene.remove('game-ui')
             if (_maxHealth == 8) {
                 this.scene.start('LoreSecret');
