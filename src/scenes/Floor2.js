@@ -264,6 +264,7 @@ class Floor2 extends Phaser.Scene {
                     }
                     this.Faune.setVelocity(0, 0)
                     walk.pause();
+                }
             }
         }
         } else {

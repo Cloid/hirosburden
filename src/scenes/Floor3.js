@@ -325,7 +325,6 @@ class Floor3 extends Phaser.Scene {
                         this.Faune.setVelocity(0, -playerSpeed)
                         flipped = false;
                     } else {
-
                         const parts = this.Faune.anims.currentAnim.key.split('-');
                         parts[1] = 'idle';
                         if(flipped){
@@ -335,6 +334,7 @@ class Floor3 extends Phaser.Scene {
                         }
                         this.Faune.setVelocity(0, 0)
                         walk.pause();
+                    }
                 }
             }
         } else {
