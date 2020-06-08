@@ -9,9 +9,9 @@ class Text1 extends Phaser.Scene {
         let textConfig = {
             fontFamily: 'Courier',
             fontSize: '12px',
-            color: '#000000',
+            color: '#FFFFFF',
             stroke: '#cc99ff',
-            strokeThickness: 3,
+            strokeThickness: 1,
             align: 'center',
             padding: {
                 top: 5,
