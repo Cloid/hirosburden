@@ -49,6 +49,7 @@ class Floor5 extends Phaser.Scene {
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'floor5' });
@@ -762,6 +763,7 @@ replenishHealth(obj, obj2){
     }
 
     NextLevel(){
+        this.clean();
         this.scene.start('Menu');       
     }
 

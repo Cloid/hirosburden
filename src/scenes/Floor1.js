@@ -57,6 +57,7 @@ class Floor1 extends Phaser.Scene {
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         //Creating the Map using Tile-Set from Tiled
         const map = this.make.tilemap({ key: 'floor1' });
@@ -135,6 +136,9 @@ class Floor1 extends Phaser.Scene {
 
     update(){
 
+        if (Phaser.Input.Keyboard.JustDown(keyP) ) {
+            this.NextLevel();
+        }
         if(playerInv==true){
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
@@ -485,6 +489,7 @@ class Floor1 extends Phaser.Scene {
     }
 
     NextLevel(){
+        this.clean();
         this.scene.start('Floor2');       
     }
     notGod() {
