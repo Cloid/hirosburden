@@ -422,7 +422,7 @@ class Floor1 extends Phaser.Scene {
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd=0;
             const dx = this.Faune.x - enemy.x
@@ -492,7 +492,7 @@ class Floor1 extends Phaser.Scene {
 
     NextLevel(){
         this.clean();
-        this.scene.start('Floor2');       
+        this.scene.start('Lore2');       
     }
     notGod() {
         god = false;

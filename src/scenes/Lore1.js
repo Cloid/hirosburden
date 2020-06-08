@@ -1,6 +1,6 @@
-class Text1 extends Phaser.Scene {
+class Lore1 extends Phaser.Scene {
     constructor() {
-        super("Text1");
+        super("Lore1");
     }
     create() {
         textCount = 0;
@@ -56,7 +56,7 @@ class Text1 extends Phaser.Scene {
                 
             }
             if(textCount == 4){
-                this.scene.start('Start')
+                this.scene.start('Floor1')
             }
             textCount+=1;
         }
