@@ -13,7 +13,7 @@ class Floor4 extends Phaser.Scene {
     }
 
     create() {
-        lastKnife=false;
+        lastKnife = false;
         this.anims.create({
             key: 'hand-idle',
             frames: this.anims.generateFrameNames('hand', { start: 0, end: 20 }),
@@ -37,7 +37,7 @@ class Floor4 extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
+            maxSize: 1
         })
 
         bullet = this.physics.add.group({
@@ -80,28 +80,28 @@ class Floor4 extends Phaser.Scene {
         this.Faune = new Faune(this, 365, 75, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
-        this.Faune.setOffset(8,5);
+        this.Faune.setOffset(8, 5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
-        
+
         this.hands = this.physics.add.group({
             classType: Hand,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 var handGo = go;
                 handGo.body.onCollide = true;
             }
         })
 
         const handLayer = map.getObjectLayer('Hands');
-        handLayer.objects.forEach(handObj =>{
-            this.hands.get(handObj.x,handObj.y,'ghost');
+        handLayer.objects.forEach(handObj => {
+            this.hands.get(handObj.x, handObj.y, 'ghost');
         })
 
-    
+
         this.physics.add.collider(this.hands, wallSlayer);
         this.physics.add.collider(this.hands, this.Faune, this.handleHandCollision, undefined, this);
 
@@ -143,7 +143,7 @@ class Floor4 extends Phaser.Scene {
 
 
         //this.physics.add.collider(this.eyeballs, wallSlayer);
-        
+
         //this.physics.add.collider(this.eyeballs, this.Faune, this.handleEyeballCollision, undefined, this);
 
 
@@ -171,8 +171,8 @@ class Floor4 extends Phaser.Scene {
         })
 
         const heartLayer = map.getObjectLayer('Hearts');
-        heartLayer.objects.forEach(heartObj =>{
-            this.heartscont.get(heartObj.x,heartObj.y,'heart');
+        heartLayer.objects.forEach(heartObj => {
+            this.heartscont.get(heartObj.x, heartObj.y, 'heart');
         })
         this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
 
@@ -181,45 +181,45 @@ class Floor4 extends Phaser.Scene {
         })
 
         const secretLayer = map.getObjectLayer('Secret');
-        secretLayer.objects.forEach(upObj =>{
-            this.heartup.get(upObj.x,upObj.y,'heart').setTint(0xff0000);
+        secretLayer.objects.forEach(upObj => {
+            this.heartup.get(upObj.x, upObj.y, 'heart').setTint(0xff0000);
         })
         this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
 
         //this.eyeballShoot();
     }
 
-    update(){
-        if (Phaser.Input.Keyboard.JustDown(keyP) ) {
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(keyP)) {
             this.NextLevel();
         }
-        if(playerInv==true){
+        if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
-            if(this.dmgcd>40){
+            if (this.dmgcd > 40) {
                 this.Faune.setTint(0xffffff);
                 this.dmgcd = 0;
-                playerInv=false;
+                playerInv = false;
+            }
         }
-    }
 
         //console.log(this.bulletcd);
 
-        if(this.bulletcd>0){
+        if (this.bulletcd > 0) {
             ++this.bulletcd;
             if (this.bulletcd > 300) {
                 bullet.killAndHide(bullets);
                 this.gotHit = false;
                 this.bulletcd = 0
             }
-        } else{
-        this.eyeballShoot0();
-        this.eyeballShoot1();
-        this.eyeballShoot2();
-        this.eyeballShoot3();
-        this.eyeballShoot4();
-        this.eyeballShoot5();
-        this.eyeballShoot6();
+        } else {
+            this.eyeballShoot0();
+            this.eyeballShoot1();
+            this.eyeballShoot2();
+            this.eyeballShoot3();
+            this.eyeballShoot4();
+            this.eyeballShoot5();
+            this.eyeballShoot6();
 
         }
 
@@ -261,7 +261,7 @@ class Floor4 extends Phaser.Scene {
             //return
         }
 
-        if(this.knifecd>0){
+        if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
                 this.knifecd = 0;
@@ -350,12 +350,13 @@ class Floor4 extends Phaser.Scene {
 
 
 
-            let menuConfig = {
-                fontFamily: 'Arial Black',
+            let textConfig = {
+                fontFamily: 'Courier',
                 fontSize: '20px',
-                backgroundColor: '#F3B141',
-                color: '#843605',
-                align: 'right',
+                color: '#FFFFFF',
+                stroke: '#cc99ff',
+                strokeThickness: 1,
+                align: 'center',
                 padding: {
                     top: 5,
                     bottom: 5,
@@ -363,24 +364,22 @@ class Floor4 extends Phaser.Scene {
                 fixedWidth: 0
             }
 
-            let centerX = this.cameras.main.midPoint.x;
-        let centerY = this.cameras.main.midPoint.y;
-        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            playerDead=false;
-            _health = 3;
-            _maxHealth = 3;
-            this.clean();
-            //sceneEvents.emit('reset-game');
-            this.scene.start('Start');       
+            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                playerDead = false;
+                _health = 3;
+                _maxHealth = 3;
+                this.clean();
+                //sceneEvents.emit('reset-game');
+                this.scene.start('Start');
+            }
+
+
         }
 
-
     }
 
-    }
-
-    createPlayerAnims(){
+    createPlayerAnims() {
         this.anims.create({
             key: 'faune-idle-down',
             frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
@@ -432,13 +431,13 @@ class Floor4 extends Phaser.Scene {
 
     throwKnive() {
 
-        if(!knives){
+        if (!knives) {
             return;
         }
 
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
 
-        if(!knife2){
+        if (!knife2) {
             return;
         }
 
@@ -501,23 +500,25 @@ class Floor4 extends Phaser.Scene {
         god = false;
     }
 
-    increaseHealth(obj, obj2){
+    increaseHealth(obj, obj2) {
         obj2.destroy();
         console.log('health upgraded');
         _maxHealth += 1;
         _health = _maxHealth;
         sceneEvents.emit('player-health-gained');
-        console.log('Max Health is now: '+ _health);
+        console.log('Max Health is now: ' + _health);
+        this.sound.play('secret');
 
-}
+    }
 
-replenishHealth(obj, obj2){
+    replenishHealth(obj, obj2) {
         obj2.destroy();
         console.log('health replenished');
         _health = _maxHealth;
         sceneEvents.emit('player-health-replenished');
-        console.log('Replenished Health. Health is now: ' + _health);        
-}
+        console.log('Replenished Health. Health is now: ' + _health);
+        this.sound.play('pickup');
+    }
 
     handleHandCollision(obj, enemy) {
         //console.log(enemy)
@@ -525,7 +526,7 @@ replenishHealth(obj, obj2){
 
         if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -566,7 +567,7 @@ replenishHealth(obj, obj2){
 
         if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -593,11 +594,11 @@ replenishHealth(obj, obj2){
 
     }
 
-    handleEyeballCollision(obj1,obj2) {
-        obj1.setDrag(100,100)
+    handleEyeballCollision(obj1, obj2) {
+        obj1.setDrag(100, 100)
         if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - 50
             const dy = this.Faune.y - 50
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -629,13 +630,13 @@ replenishHealth(obj, obj2){
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         knife2.destroy();
     }
 
     handleKniveEnemyCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
@@ -643,9 +644,9 @@ replenishHealth(obj, obj2){
 
     }
 
-    handleKniveHandCollision(enemy){
+    handleKniveHandCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
@@ -740,56 +741,56 @@ replenishHealth(obj, obj2){
         }
     }
 
-    NextLevel(){
-        if(god == false){
+    NextLevel() {
+        if (god == false) {
             this.clean();
             this.scene.start('Lore5');
-        }      
+        }
     }
 
     handleBulletWallCollision(obj) {
         //bullets.destroy();
-            obj.destroy();
+        obj.destroy();
     }
 
     handleBulletCollision() {
         //console.log(enemy)
         this.bulletcd = 1;
         //bullet.killAndHide(bullets);
-        if(bullet){
+        if (bullet) {
             bullets.destroy();
         }
 
-        if(bullets2){
+        if (bullets2) {
             bullets2.destroy();
         }
 
-        if(bullets3){
+        if (bullets3) {
             bullets3.destroy();
         }
 
-        if(bullets4){
+        if (bullets4) {
             bullets4.destroy();
-        }   
-        
-        if(bullets5){
+        }
+
+        if (bullets5) {
             bullets5.destroy();
         }
-        
-        if(bullets6){
+
+        if (bullets6) {
             bullets6.destroy();
         }
-        
-        if(bullets7){
+
+        if (bullets7) {
             bullets7.destroy();
-        }  
+        }
         //this.bulletcd1 = 1;
         //this.bulletcd2 = 1;
         //this.bulletcd3 = 1;
         if (playerDead == false && this.gotHit == false && playerInv == false && god == false) {
             this.cameras.main.shake(500);
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             //bullet.killAndHide(bullets);
             const dx = this.Faune.x;
             const dy = this.Faune.y;
@@ -817,16 +818,16 @@ replenishHealth(obj, obj2){
 
     }
 
-    eyeballShoot0(){
-        this.bulletcd=1;
+    eyeballShoot0() {
+        this.bulletcd = 1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets = bullet.get(this.eyeballs0.x, this.eyeballs0.y, 'bullet');
 
-        if(!bullets){
+        if (!bullets) {
             return;
         }
 
@@ -843,16 +844,16 @@ replenishHealth(obj, obj2){
         this.sound.play('laser');
     }
 
-    eyeballShoot1(){
+    eyeballShoot1() {
         //this.bulletcd1=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets2 = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
 
-        if(!bullets2){
+        if (!bullets2) {
             return;
         }
 
@@ -870,16 +871,16 @@ replenishHealth(obj, obj2){
 
     }
 
-    eyeballShoot2(){
+    eyeballShoot2() {
         //this.bulletcd2=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets3 = bullet.get(this.eyeballs2.x, this.eyeballs2.y, 'bullet');
 
-        if(!bullets3){
+        if (!bullets3) {
             return;
         }
 
@@ -897,16 +898,16 @@ replenishHealth(obj, obj2){
 
     }
 
-    eyeballShoot3(){
+    eyeballShoot3() {
         //this.bulletcd3=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets4 = bullet.get(this.eyeballs3.x, this.eyeballs3.y, 'bullet');
 
-        if(!bullets4){
+        if (!bullets4) {
             return;
         }
 
@@ -923,16 +924,16 @@ replenishHealth(obj, obj2){
         this.sound.play('laser');
     }
 
-    eyeballShoot4(){
+    eyeballShoot4() {
         //this.bulletcd3=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets5 = bullet.get(this.eyeballs4.x, this.eyeballs4.y, 'bullet');
 
-        if(!bullets5){
+        if (!bullets5) {
             return;
         }
 
@@ -949,16 +950,16 @@ replenishHealth(obj, obj2){
         this.sound.play('laser');
     }
 
-    eyeballShoot5(){
+    eyeballShoot5() {
         //this.bulletcd3=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets6 = bullet.get(this.eyeballs5.x, this.eyeballs5.y, 'bullet');
 
-        if(!bullets6){
+        if (!bullets6) {
             return;
         }
 
@@ -975,16 +976,16 @@ replenishHealth(obj, obj2){
         this.sound.play('laser');
     }
 
-    eyeballShoot6(){
+    eyeballShoot6() {
         //this.bulletcd3=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets7 = bullet.get(this.eyeballs6.x, this.eyeballs6.y, 'bullet');
 
-        if(!bullets7){
+        if (!bullets7) {
             return;
         }
 

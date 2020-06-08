@@ -100,8 +100,8 @@ class LoreSecret extends Phaser.Scene {
             }
             if (textCount == 11) {
                 this.line1.text = '';
-                this.line2.text = 'And the rain stopped.';
-                this.line3.text = '';
+                this.line2.text = '';
+                this.line3.text = 'And the rain stopped.';
                 
             }
             if(textCount == 12){

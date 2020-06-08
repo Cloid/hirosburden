@@ -12,6 +12,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('confused', 'assests/sound/confused.ogg');
         this.load.audio('handDeath', 'assests/sound/handDeath.wav');
         this.load.audio('throw', 'assests/sound/throw.wav');
+        this.load.audio('secret', 'assests/sound/Secret.mp3');
+        this.load.audio('pickup', 'assests/sound/Pickup.mp3');
         //this.load.audio('walk', 'assests/sound/walk.wav');
         this.load.image('menulogo', 'assests/ui/hiromenu.png');
     }

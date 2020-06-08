@@ -224,22 +224,20 @@ class Intro1 extends Phaser.Scene {
 
 
 
-            let menuConfig = {
-                fontFamily: 'Arial Black',
+            let textConfig = {
+                fontFamily: 'Courier',
                 fontSize: '20px',
-                backgroundColor: '#F3B141',
-                color: '#843605',
-                align: 'right',
+                color: '#FFFFFF',
+                stroke: '#cc99ff',
+                strokeThickness: 1,
+                align: 'center',
                 padding: {
                     top: 5,
                     bottom: 5,
                 },
                 fixedWidth: 0
             }
-
-            let centerX = this.cameras.main.midPoint.x;
-            let centerY = this.cameras.main.midPoint.y;
-            this.add.text(centerX - 100, centerY, 'Press [ R ] to start', menuConfig);
+            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
             if (Phaser.Input.Keyboard.JustDown(keyR)) {
                 playerDead = false;
                 _health = 3;
@@ -385,6 +383,7 @@ class Intro1 extends Phaser.Scene {
             sceneEvents.emit('player-health-gained');
             this.healthUpgrade.destroy();
             console.log('Max Health is now: ' + _health);
+            this.sound.play('secret');
         }
     }
 
@@ -396,6 +395,7 @@ class Intro1 extends Phaser.Scene {
             sceneEvents.emit('player-health-replenished');
             this.healthUpgrade2.destroy();
             console.log('Replenished Health. Health is now: ' + _health);
+            this.sound.play('pickup');
         }
     }
 
