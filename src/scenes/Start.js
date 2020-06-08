@@ -38,12 +38,13 @@ class Start extends Phaser.Scene {
         this.add.existing(this.overlay);
         this.gotHit = false;
 
+        //Creates a knives group for throwing
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
             maxSize: 1
         })
 
-        //Setting-Up Keys
+        //Setting-Up Basic Keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -51,54 +52,39 @@ class Start extends Phaser.Scene {
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        //Creating the Map using Tile-Set from Tiled
+        //Creating the Map using Tile-Set from Tiled Layers
         const startMap = this.make.tilemap({ key: 'start' });
         const tileset = startMap.addTilesetImage('dungeon_tiles', 'tiles');
         startMap.createStaticLayer('Floor', tileset)
         wallSlayer = startMap.createStaticLayer('Wall', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
-
         this.door = startMap.createStaticLayer('Door', tileset);
         this.door.setCollisionByProperty({ collides: true })
 
-        const debugGraphics = this.add.graphics().setAlpha(0.7);
-        wallSlayer.renderDebug(debugGraphics, {
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-        })
-
-
-        //const floor = map.addTilesetImage('floor1', 'floortile1');
+        // Wall Debugging
+        // const debugGraphics = this.add.graphics().setAlpha(0.7);
+        // wallSlayer.renderDebug(debugGraphics, {
+        //     tileColor: null,
+        //     collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
+        // })
 
         //Create player class to be controlled
         this.Faune = new Faune(this, 30, 50, 'player');
+        //Enable Phaser Arcade Physics, Adjust Hitbox, Camera Follow, Colliders w/ Player
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
         this.cameras.main.startFollow(this.Faune, true);
-
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
-
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
-
-
-
-        // const lizardsLayer = map.getObjectLayer('Lizards');
-        // lizardsLayer.objects.forEach(lizObj =>{
-        //     this.lizards.get(lizObj.x,lizObj.y,'lizards');
-        // })
-
-
-
 
     }
 
     update() {
-
+        //Damage cooldown until player can get hit again
         if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
@@ -109,6 +95,7 @@ class Start extends Phaser.Scene {
             }
         }
 
+        //Knockback Color Change for 10 Frames
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
             ++this.hit;
@@ -119,6 +106,7 @@ class Start extends Phaser.Scene {
             return
         }
 
+        //Knife CD until Player can shoot again
         if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
@@ -138,7 +126,7 @@ class Start extends Phaser.Scene {
             return;
         }
 
-        //Player Movement
+        //Player Movement and Debuffs Logic
         if (playerDead == false) {
             if (possessed == false) {
                 if (confused == false) {
@@ -200,6 +188,7 @@ class Start extends Phaser.Scene {
             }
         } else {
 
+            //If Player is 'DEAD'
             this.Faune.setVelocity(0, 0);
             myMusic.pause();
             this.physics.world.colliders.destroy();
@@ -234,6 +223,7 @@ class Start extends Phaser.Scene {
 
     }
 
+    //Create the anims for the player
     createPlayerAnims() {
         this.anims.create({
             key: 'faune-idle-down',
@@ -284,6 +274,7 @@ class Start extends Phaser.Scene {
         })
     }
 
+    //Function to throw knives
     throwKnive() {
 
         if (!knives) {
@@ -326,6 +317,7 @@ class Start extends Phaser.Scene {
 
     }
 
+    //Slime Effect for later on
     slimeEffect() {
         //If already Slimed, don't do anything
         if (slimed == false) {
@@ -346,6 +338,7 @@ class Start extends Phaser.Scene {
         }
     }
 
+    //Clean all debuffs
     clean() {
         this.overlay.clear();
         console.log('Cleared Effect');
@@ -355,6 +348,7 @@ class Start extends Phaser.Scene {
         playerSpeed = 100;
     }
 
+    //Increase the Max health
     increaseHealth() {
         if (this.healthUpgrade.alpha != 0.5) {
             this.healthUpgrade.setAlpha(0.5);
@@ -367,6 +361,7 @@ class Start extends Phaser.Scene {
         }
     }
 
+    //Replenish Health
     replenishHealth() {
         if (this.healthUpgrade2.alpha != 0.5) {
             this.healthUpgrade2.setAlpha(0.5);
@@ -378,11 +373,13 @@ class Start extends Phaser.Scene {
         }
     }
 
+    //If Knives hit the wall, delete knife
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
         lastKnife = false;
     }
 
+    //If Knife hits enemy, delete enemy and knife
     handleKniveEnemyCollision(enemy) {
         knives.killAndHide(knife2);
         lastKnife = false;
@@ -392,6 +389,7 @@ class Start extends Phaser.Scene {
 
     }
 
+    //Stops current scene and advances to next level
     NextLevel() {
         this.scene.stop();
         this.scene.start('Intro1');
