@@ -373,6 +373,7 @@ class Intro1 extends Phaser.Scene {
         possessed = false;
         confused = false;
         playerSpeed = 100;
+        god = false;
     }
 
     increaseHealth() {
@@ -415,15 +416,15 @@ class Intro1 extends Phaser.Scene {
 
             GameUI.handlePlayerHealthChanged;
             this.slimeEffect();
+            //this.possessedEffect();
+            //this.confusedEffect();
+            sceneEvents.emit('player-health-changed')
             god = true;
             var notGod = this.time.addEvent({
                 delay: 2000,                // 2 seconds
                 callback: this.notGod,
                 callbackScope: this,
             });
-            //this.possessedEffect();
-            //this.confusedEffect();
-            sceneEvents.emit('player-health-changed')
         } else {
             //this.physics.world.removeCollider(enemyCollide);
             return;
@@ -470,9 +471,11 @@ class Intro1 extends Phaser.Scene {
     }
 
     NextLevel() {
-        //console.log('Next ');
-        this.clean();
-        this.scene.start('Lore1');
+        //console.log('Next '); 
+        if(god == false){
+            this.clean();
+            this.scene.start('Lore1');
+        }
     }
     notGod() {
         god = false;

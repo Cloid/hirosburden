@@ -484,7 +484,8 @@ class Floor3 extends Phaser.Scene {
         slimed = false;
         possessed = false;
         confused = false;
-        playerSpeed = 100;
+        playerSpeed = 100
+        god = false;;
     }
 
     increaseHealth(obj, obj2){
@@ -704,8 +705,10 @@ replenishHealth(obj, obj2){
     }
 
     NextLevel(){
-        this.clean();
-        this.scene.start('Lore4');       
+        if(god == false){
+            this.clean();
+            this.scene.start('Lore4');
+        } 
     }
 
     handleBulletWallCollision(obj) {
