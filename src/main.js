@@ -15,7 +15,7 @@ let config = {
             debug: false
         }
     },
-    scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Lore1, Lore2, Lore3, Lore4, Lore5],
+    scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Lore1, Lore2, Lore3, Lore4, Lore5, Lore6, LoreSecret],
     scale: {
         zoom: 2
     }
@@ -28,6 +28,7 @@ var textCount;
 
 //Setting up music variables to be played
 var myMusic = new Audio("assests/sound/gameMusic.mp3");
+myMusic.volume = 0.75;
 var oof = new Audio("assests/sound/oof.mp3");
 var walk = new Audio("assests/sound/walk.wav");
 walk.volume = 0.5;

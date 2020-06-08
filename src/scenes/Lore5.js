@@ -24,28 +24,29 @@ class Lore5 extends Phaser.Scene {
         let centerY = game.config.height / 2;
         let textSpacer = 32;
         SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.line1 = this.add.text(centerX, centerY - textSpacer, 'I feel as if I am moving at a snails pace', textConfig).setOrigin(0.5);
-        this.line2 = this.add.text(centerX, centerY, 'Hardly able to tell that I have progressed at all.', textConfig).setOrigin(0.5);
-        this.line3 = this.add.text(centerX, centerY + textSpacer, 'How long will it be before I can reach the end?', textConfig).setOrigin(0.5);
+        this.line1 = this.add.text(centerX, centerY - textSpacer, 'The green hands of distinguished men fill this cave', textConfig).setOrigin(0.5);
+        this.line2 = this.add.text(centerX, centerY, 'Confusing my thoughts three times a day', textConfig).setOrigin(0.5);
+        this.line3 = this.add.text(centerX, centerY + textSpacer, 'Telling me not to worry or care or feel.', textConfig).setOrigin(0.5);
         this.bottomtext = this.add.text(centerX, centerY*2 - textSpacer, 'PRESS [SPACE] TO CONTINUE', textConfig).setOrigin(0.5);
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(SPACE)) {
             if (textCount == 0) {
-                this.line1.text = 'The rain taunts me with its impunity';
-                this.line2.text = 'Splashing and rolling down the outer walls';
-                this.line3.text = 'Leaping from the precipice of misery.';
+                this.line1.text = 'They tell me to not fall for the tricks of the rain';
+                this.line2.text = 'But without the somber chords of raindrops';
+                this.line3.text = 'All that fills reverberates is crackling thunder';
                 
             }
             if (textCount == 1) {
                 this.line1.text = '';
-                this.line2.text = 'Stay strong, Hiro.';
+                this.line2.setFontStyle('italic');
+                this.line2.text = 'It will be better tomorrow, Hiro.';
                 this.line3.text = '';
                
             }
          
             if(textCount == 2){
-                this.scene.start('Floor2')
+                this.scene.start('Floor5')
             }
             textCount+=1;
         }

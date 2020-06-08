@@ -24,7 +24,7 @@ class Lore2 extends Phaser.Scene {
         let centerY = game.config.height / 2;
         let textSpacer = 32;
         SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.line1 = this.add.text(centerX, centerY - textSpacer, 'I feel as if I am moving at a snails pace', textConfig).setOrigin(0.5);
+        this.line1 = this.add.text(centerX, centerY - textSpacer, "I feel as if I am moving at a snail's pace", textConfig).setOrigin(0.5);
         this.line2 = this.add.text(centerX, centerY, 'Hardly able to tell that I have progressed at all.', textConfig).setOrigin(0.5);
         this.line3 = this.add.text(centerX, centerY + textSpacer, 'How long will it be before I can reach the end?', textConfig).setOrigin(0.5);
         this.bottomtext = this.add.text(centerX, centerY*2 - textSpacer, 'PRESS [SPACE] TO CONTINUE', textConfig).setOrigin(0.5);
@@ -39,6 +39,7 @@ class Lore2 extends Phaser.Scene {
             }
             if (textCount == 1) {
                 this.line1.text = '';
+                this.line2.setFontStyle('italic');
                 this.line2.text = 'Stay strong, Hiro.';
                 this.line3.text = '';
                

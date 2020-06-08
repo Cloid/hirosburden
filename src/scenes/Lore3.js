@@ -39,6 +39,7 @@ class Lore3 extends Phaser.Scene {
             }
             if (textCount == 1) {
                 this.line1.text = '';
+                this.line2.setFontStyle('italic');
                 this.line2.text = 'Hang in there, Hiro.';
                 this.line3.text = '';
 

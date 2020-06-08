@@ -75,7 +75,7 @@ class Floor5 extends Phaser.Scene {
         this.Faune = new Faune(this, 660, 640, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
-        this.Faune.setOffset(8,5);
+        this.Faune.setOffset(8, 5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
@@ -203,7 +203,9 @@ class Floor5 extends Phaser.Scene {
     }
 
     update() {
-
+        if (Phaser.Input.Keyboard.JustDown(keyP)) {
+            this.NextLevel();
+        }
         if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
@@ -505,6 +507,7 @@ class Floor5 extends Phaser.Scene {
         possessed = false;
         confused = false;
         playerSpeed = 100;
+        god = false;
     }
 
     increaseHealth(obj, obj2) {
@@ -512,13 +515,13 @@ class Floor5 extends Phaser.Scene {
         _maxHealth += 1;
         _health = _maxHealth;
         sceneEvents.emit('player-health-gained');
-}
+    }
 
     replenishHealth(obj, obj2) {
         obj2.destroy();
         _health = _maxHealth;
         sceneEvents.emit('player-health-replenished');
-}
+    }
 
     handleHandCollision(obj, enemy) {
         //console.log(enemy)
@@ -790,19 +793,19 @@ class Floor5 extends Phaser.Scene {
     }
 
     NextLevel() {
-        this.clean();
-        playerDead = false;
-        _health = 3;
-        _maxHealth = 3;
-        this.clean();
-        this.scene.remove('game-ui')
-        if(_maxHealth==8){
-            this.scene.start('Menu');       
-        } else {
-            this.scene.start('Start');       
+        if (god == false) {
+            this.clean();
+            playerDead = false;
+            _maxHealth = 3;
+            _health = 3;
+            this.scene.remove('game-ui')
+            if (_maxHealth == 8) {
+                this.scene.start('LoreSecret');
+            } else {
+                this.scene.start('Lore6');
 
+            }
         }
-
     }
 
     handleBulletWallCollision(obj) {

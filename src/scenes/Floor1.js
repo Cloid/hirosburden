@@ -390,6 +390,7 @@ class Floor1 extends Phaser.Scene {
         possessed = false;
         confused = false;
         playerSpeed = 100;
+        god = false;
     }
 
     increaseHealth(obj, obj2){
@@ -485,8 +486,10 @@ class Floor1 extends Phaser.Scene {
     }
 
     NextLevel(){
-        this.clean();
-        this.scene.start('Lore2');       
+        if(god == false){
+            this.clean();
+            this.scene.start('Lore2');
+        }     
     }
     notGod() {
         god = false;

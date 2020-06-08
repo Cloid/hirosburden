@@ -1,6 +1,6 @@
-class Lore4 extends Phaser.Scene {
+class Lore6 extends Phaser.Scene {
     constructor() {
-        super("Lore4");
+        super("Lore6");
     }
     create() {
         textCount = 0;
@@ -8,7 +8,7 @@ class Lore4 extends Phaser.Scene {
 
         let textConfig = {
             fontFamily: 'Courier',
-            fontSize: '12px',
+            fontSize: '11px',
             color: '#FFFFFF',
             stroke: '#cc99ff',
             strokeThickness: 1,
@@ -24,29 +24,34 @@ class Lore4 extends Phaser.Scene {
         let centerY = game.config.height / 2;
         let textSpacer = 32;
         SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.line1 = this.add.text(centerX, centerY - textSpacer, 'Those eyes: whose are they?', textConfig).setOrigin(0.5);
-        this.line2 = this.add.text(centerX, centerY, 'Attentively watching my every movement', textConfig).setOrigin(0.5);
-        this.line3 = this.add.text(centerX, centerY + textSpacer, 'I know what you all think of me.', textConfig).setOrigin(0.5);
+        this.line1 = this.add.text(centerX, centerY - textSpacer, 'The rain... it meets its violent end', textConfig).setOrigin(0.5);
+        this.line2 = this.add.text(centerX, centerY, 'Exploding across the harsh rocky Earth', textConfig).setOrigin(0.5);
+        this.line3 = this.add.text(centerX, centerY + textSpacer, 'Oh, how I long to be like it.', textConfig).setOrigin(0.5);
         this.bottomtext = this.add.text(centerX, centerY*2 - textSpacer, 'PRESS [SPACE] TO CONTINUE', textConfig).setOrigin(0.5);
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(SPACE)) {
             if (textCount == 0) {
-                this.line1.text = 'They cry, the water exploding against the ground';
-                this.line2.text = 'As they witness what I have done again';
-                this.line3.text = 'The sound of their tears reminds me of the rain.';
+                this.line1.text = 'This cave is cold. The fires I build bring me';
+                this.line2.text = 'No warmth, dim light that I must squint to perceive.';
+                this.line3.text = 'I might as well snuff it out, and be enraptured in the dark.';
                 
             }
             if (textCount == 1) {
-                this.line1.text = '';
-                this.line2.setFontStyle('italic');
-                this.line2.text = 'It is going to be okay, Hiro.';
-                this.line3.text = '';
+                this.line1.text = 'Perhaps, maybe this time';
+                this.line2.text = 'I can be a little selfish';
+                this.line3.text = 'And sing the song of the rain.';
                
             }
-         
-            if(textCount == 2){
-                this.scene.start('Floor4')
+            if (textCount == 2) {
+                this.line1.text = '';
+                this.line2.setFontStyle('italic');
+                this.line2.text = 'Pitter-patter.';
+                this.line3.text = '';
+                
+            }
+            if(textCount == 3){
+                this.scene.start('Menu')
             }
             textCount+=1;
         }
