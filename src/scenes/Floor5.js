@@ -79,7 +79,7 @@ class Floor5 extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-        //this.physics.add.collider(this.Faune, wallSlayer);
+        this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
 
