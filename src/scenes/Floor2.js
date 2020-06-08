@@ -237,13 +237,12 @@ class Floor2 extends Phaser.Scene {
                 if (keyRIGHT.isDown) {
                     this.Faune.anims.play('faune-lef-side', true)
                     this.Faune.setVelocity(-playerSpeed, 0);
-                    flipped = false;
+                    flipped = true;
 
                 } else if (keyLEFT.isDown) {
                     this.Faune.anims.play('faune-run-side', true)
                     this.Faune.setVelocity(playerSpeed, 0)
-                    flipped = true;
-
+                    flipped = false;
 
                 } else if (keyUP.isDown) {
                     this.Faune.anims.play('faune-run-down', true)
