@@ -744,6 +744,7 @@ class Floor4 extends Phaser.Scene {
     NextLevel() {
         if (god == false) {
             this.clean();
+            this.sound.play('door');
             this.scene.start('Lore5');
         }
     }

@@ -707,6 +707,7 @@ replenishHealth(obj, obj2){
     NextLevel(){
         if(god == false){
             this.clean();
+            this.sound.play('door');
             this.scene.start('Lore4');
         } 
     }

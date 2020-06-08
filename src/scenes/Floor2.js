@@ -606,6 +606,7 @@ class Floor2 extends Phaser.Scene {
     NextLevel() {
         if(god == false){
             this.clean();
+            this.sound.play('door');
             this.scene.start('Lore3');
         }
     }

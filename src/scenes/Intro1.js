@@ -474,6 +474,7 @@ class Intro1 extends Phaser.Scene {
         //console.log('Next '); 
         if(god == false){
             this.clean();
+            this.sound.play('door');
             this.scene.start('Lore1');
         }
     }

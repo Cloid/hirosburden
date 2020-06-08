@@ -392,6 +392,7 @@ class Start extends Phaser.Scene {
     //Stops current scene and advances to next level
     NextLevel() {
         this.scene.stop();
+        this.sound.play('door');
         this.scene.start('Intro1');
     }
 
