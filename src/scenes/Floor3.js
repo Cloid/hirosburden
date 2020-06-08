@@ -249,6 +249,7 @@ class Floor3 extends Phaser.Scene {
             if (this.knifecd > 25) {
                 this.knifecd = 0;
                 knives.killAndHide(knife2);
+                knife2.destroy();
                 lastKnife = false;
             }
         }
