@@ -156,6 +156,12 @@ class Floor4 extends Phaser.Scene {
         this.physics.add.collider(this.eyeballs1, this.Faune, this.handleEyeballCollision, undefined, this);
         this.physics.add.collider(this.eyeballs2, this.Faune, this.handleEyeballCollision, undefined, this);
         this.physics.add.collider(this.eyeballs3, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs4, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs5, this.Faune, this.handleEyeballCollision, undefined, this);
+        this.physics.add.collider(this.eyeballs6, this.Faune, this.handleEyeballCollision, undefined, this);
+
+
+
 
         this.physics.add.collider(bullet, wallSlayer, this.handleBulletWallCollision, undefined, this);
 
