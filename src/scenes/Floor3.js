@@ -146,7 +146,7 @@ class Floor3 extends Phaser.Scene {
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
-        this.physics.add.collider(this.eyeballs0, this.Faune, this.handleEyeballCollision, undefined, this);
+
         this.physics.add.collider(this.eyeballs1, this.Faune, this.handleEyeballCollision, undefined, this);
         this.physics.add.collider(this.eyeballs2, this.Faune, this.handleEyeballCollision, undefined, this);
         this.physics.add.collider(this.eyeballs3, this.Faune, this.handleEyeballCollision, undefined, this);
@@ -754,6 +754,7 @@ replenishHealth(obj, obj2){
             this.Faune.setVelocity(dir.x, dir.y)
             this.hit = 1
             this.gotHit = true;
+            
 
             GameUI.handlePlayerHealthChanged;
             //this.slimeEffect();
