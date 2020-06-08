@@ -9,7 +9,7 @@ class Floor5 extends Phaser.Scene {
 
     create() {
         this.clean;
-        lastKnife=false;
+        lastKnife = false;
         this.anims.create({
             key: 'hand-idle',
             frames: this.anims.generateFrameNames('hand', { start: 0, end: 20 }),
@@ -33,7 +33,7 @@ class Floor5 extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
+            maxSize: 1
         })
 
         bullet = this.physics.add.group({
@@ -82,48 +82,48 @@ class Floor5 extends Phaser.Scene {
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
-        
+
         this.hands = this.physics.add.group({
             classType: Hand,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 var handGo = go;
                 handGo.body.onCollide = true;
             }
         })
 
         const handLayer = map.getObjectLayer('Hands');
-        handLayer.objects.forEach(handObj =>{
-            this.hands.get(handObj.x,handObj.y,'ghost');
+        handLayer.objects.forEach(handObj => {
+            this.hands.get(handObj.x, handObj.y, 'ghost');
         })
 
-    
+
         this.physics.add.collider(this.hands, wallSlayer);
         this.physics.add.collider(this.hands, this.Faune, this.handleHandCollision, undefined, this);
 
         this.slimes = this.physics.add.group({
             classType: Slime,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 var slimeGo = go;
                 slimeGo.body.onCollide = true;
             }
         })
 
         const slimesLayer = map.getObjectLayer('Slimes');
-        slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x,slimeObj.y,'slime');
+        slimesLayer.objects.forEach(slimeObj => {
+            this.slimes.get(slimeObj.x, slimeObj.y, 'slime');
         })
 
         this.ghosts = this.physics.add.group({
             classType: Ghost,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 var ghostGo = go;
                 ghostGo.body.onCollide = true;
             }
         })
 
         const ghostLayer = map.getObjectLayer('Ghosts');
-        ghostLayer.objects.forEach(ghostObj =>{
-            this.ghosts.get(ghostObj.x,ghostObj.y,'ghost').setAlpha(0.8);
+        ghostLayer.objects.forEach(ghostObj => {
+            this.ghosts.get(ghostObj.x, ghostObj.y, 'ghost').setAlpha(0.8);
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);
@@ -161,20 +161,15 @@ class Floor5 extends Phaser.Scene {
         this.eyeballs1.setImmovable(true)
 
         //this.physics.add.collider(this.eyeballs, wallSlayer);
-        
+
         //this.physics.add.collider(this.eyeballs, this.Faune, this.handleEyeballCollision, undefined, this);
 
 
 
-<<<<<<< HEAD
         this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
-=======
-        this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
-        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
-        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
 
 
->>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
@@ -189,8 +184,8 @@ class Floor5 extends Phaser.Scene {
         })
 
         const heartLayer = map.getObjectLayer('Hearts');
-        heartLayer.objects.forEach(heartObj =>{
-            this.heartscont.get(heartObj.x,heartObj.y,'heart');
+        heartLayer.objects.forEach(heartObj => {
+            this.heartscont.get(heartObj.x, heartObj.y, 'heart');
         })
         this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
 
@@ -199,38 +194,38 @@ class Floor5 extends Phaser.Scene {
         })
 
         const secretLayer = map.getObjectLayer('Secret');
-        secretLayer.objects.forEach(upObj =>{
-            this.heartup.get(upObj.x,upObj.y,'heart').setTint(0xff0000);
+        secretLayer.objects.forEach(upObj => {
+            this.heartup.get(upObj.x, upObj.y, 'heart').setTint(0xff0000);
         })
         this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
 
         //this.eyeballShoot();
     }
 
-    update(){
+    update() {
 
-        if(playerInv==true){
+        if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
-            if(this.dmgcd>40){
+            if (this.dmgcd > 40) {
                 this.Faune.setTint(0xffffff);
                 this.dmgcd = 0;
-                playerInv=false;
+                playerInv = false;
+            }
         }
-    }
 
         //console.log(this.bulletcd);
 
-        if(this.bulletcd>0){
+        if (this.bulletcd > 0) {
             ++this.bulletcd;
             if (this.bulletcd > 300) {
                 bullet.killAndHide(bullets);
                 this.gotHit = false;
                 this.bulletcd = 0
             }
-        } else{
-        this.eyeballShoot0();
-        this.eyeballShoot1();
+        } else {
+            this.eyeballShoot0();
+            this.eyeballShoot1();
         }
 
         // if(this.bulletcd2>0){
@@ -271,7 +266,7 @@ class Floor5 extends Phaser.Scene {
             //return
         }
 
-        if(this.knifecd>0){
+        if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
                 this.knifecd = 0;
@@ -375,23 +370,23 @@ class Floor5 extends Phaser.Scene {
             }
 
             let centerX = this.cameras.main.midPoint.x;
-        let centerY = this.cameras.main.midPoint.y;
-        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            playerDead=false;
-            _health = 3;
-            _maxHealth = 3;
-            this.clean();
-            //sceneEvents.emit('reset-game');
-            this.scene.start('Start');       
+            let centerY = this.cameras.main.midPoint.y;
+            this.add.text(centerX - 100, centerY, 'Press [ R ] to start', menuConfig);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                playerDead = false;
+                _health = 3;
+                _maxHealth = 3;
+                this.clean();
+                //sceneEvents.emit('reset-game');
+                this.scene.start('Start');
+            }
+
+
         }
 
-
     }
 
-    }
-
-    createPlayerAnims(){
+    createPlayerAnims() {
         this.anims.create({
             key: 'faune-idle-down',
             frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
@@ -443,13 +438,13 @@ class Floor5 extends Phaser.Scene {
 
     throwKnive() {
 
-        if(!knives){
+        if (!knives) {
             return;
         }
 
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
 
-        if(!knife2){
+        if (!knife2) {
             return;
         }
 
@@ -511,23 +506,23 @@ class Floor5 extends Phaser.Scene {
         playerSpeed = 100;
     }
 
-    increaseHealth(obj, obj2){
+    increaseHealth(obj, obj2) {
         obj2.destroy();
         console.log('health upgraded');
         _maxHealth += 1;
         _health = _maxHealth;
         sceneEvents.emit('player-health-gained');
-        console.log('Max Health is now: '+ _health);
+        console.log('Max Health is now: ' + _health);
 
-}
+    }
 
-replenishHealth(obj, obj2){
+    replenishHealth(obj, obj2) {
         obj2.destroy();
         console.log('health replenished');
         _health = _maxHealth;
         sceneEvents.emit('player-health-replenished');
-        console.log('Replenished Health. Health is now: ' + _health);        
-}
+        console.log('Replenished Health. Health is now: ' + _health);
+    }
 
     handleHandCollision(obj, enemy) {
         //console.log(enemy)
@@ -535,7 +530,7 @@ replenishHealth(obj, obj2){
 
         if (playerDead == false && playerInv == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -570,7 +565,7 @@ replenishHealth(obj, obj2){
 
         if (playerDead == false && playerInv == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -597,12 +592,12 @@ replenishHealth(obj, obj2){
 
     }
 
-    handleEyeballCollision(obj1,obj2) {
+    handleEyeballCollision(obj1, obj2) {
         console.log('iran')
-        obj1.setDrag(100,100)
+        obj1.setDrag(100, 100)
         if (playerDead == false && playerInv == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - 50
             const dy = this.Faune.y - 50
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -634,24 +629,24 @@ replenishHealth(obj, obj2){
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         knife2.destroy();
     }
 
-    handleKniveEnemyCollision(enemy) {
+    handleKniveSlimeCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
         knife2.destroy();
-
+        this.sound.play('bubble');
     }
 
-    
+
     handleKniveHandCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
@@ -661,7 +656,7 @@ replenishHealth(obj, obj2){
     }
     handleKniveGhostCollision(enemy) {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         // lizards.killAndHide(lizard2);
         //lizards.killAndHide(this.lizard3);
         enemy.destroy();
@@ -745,7 +740,7 @@ replenishHealth(obj, obj2){
 
         if (playerDead == false && playerInv == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -792,9 +787,9 @@ replenishHealth(obj, obj2){
         }
     }
 
-    NextLevel(){
+    NextLevel() {
         this.clean();
-        this.scene.start('Menu');       
+        this.scene.start('Menu');
     }
 
     handleBulletWallCollision() {
@@ -814,7 +809,7 @@ replenishHealth(obj, obj2){
         if (playerDead == false && this.gotHit == false && playerInv == false) {
             this.cameras.main.shake(500);
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             //bullet.killAndHide(bullets);
             const dx = this.Faune.x;
             const dy = this.Faune.y;
@@ -837,16 +832,16 @@ replenishHealth(obj, obj2){
 
     }
 
-    eyeballShoot0(){
-        this.bulletcd=1;
+    eyeballShoot0() {
+        this.bulletcd = 1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets = bullet.get(this.eyeballs0.x, this.eyeballs0.y, 'bullet');
 
-        if(!bullets){
+        if (!bullets) {
             return;
         }
 
@@ -863,16 +858,16 @@ replenishHealth(obj, obj2){
         this.sound.play('laser');
     }
 
-    eyeballShoot1(){
+    eyeballShoot1() {
         //this.bulletcd1=1;
 
-        if(!bullet){
+        if (!bullet) {
             return;
         }
 
         bullets = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
 
-        if(!bullets){
+        if (!bullets) {
             return;
         }
 

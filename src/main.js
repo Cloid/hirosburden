@@ -14,7 +14,7 @@ let config = {
             debug: true
         }
     },
-    scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI],
+    scene: [Menu, Start, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Text1],
     scale: {
         zoom: 2
     }
@@ -22,6 +22,7 @@ let config = {
 
 //Creating the Game with Game Config
 let game = new Phaser.Game(config);
+var textCount;
 
 
 //Setting up music variables to be played
@@ -33,7 +34,7 @@ walk.volume = 0.5;
 //var slimeNoise = new Audio("assests/sound/slime.ogg");
 
 //Setting up keyboard variables for use later on
-let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ, keyR, keyP;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ, keyR, keyP, SPACE;
 
 //Scene Emitter for player-health change
 const sceneEvents = new Phaser.Events.EventEmitter();
