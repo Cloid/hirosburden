@@ -29,12 +29,6 @@ class Floor3 extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-        //Runs a seperate scene as overlay for Health-UI
-        //this.scene.run('game-ui');
-
-        //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
 
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);
@@ -79,9 +73,6 @@ class Floor3 extends Phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         // })
 
-        //map.createStaticLayer('Ground', tileset)
-        //const floor = map.addTilesetImage('floor1', 'floortile1');
-
         //Create Player class to be controlled
         this.Faune = new Faune(this, 350, 900, 'player');
         this.physics.world.enable([this.Faune]);
@@ -122,8 +113,6 @@ class Floor3 extends Phaser.Scene {
         this.physics.world.enable([this.eyeballs2]);
         this.physics.world.enable([this.eyeballs3]);
 
-
-
         this.eyeballs0.setAlpha(0.7);
         this.eyeballs1.setAlpha(0.7);
         this.eyeballs2.setAlpha(0.7);
@@ -133,15 +122,6 @@ class Floor3 extends Phaser.Scene {
         this.eyeballs1.setImmovable(true)
         this.eyeballs2.setImmovable(true)
         this.eyeballs3.setImmovable(true)
-
-
-
-
-        //this.physics.add.collider(this.eyeballs, wallSlayer);
-        
-        //this.physics.add.collider(this.eyeballs, this.Faune, this.handleEyeballCollision, undefined, this);
-
-
 
         this.physics.add.collider(this.ghosts, knives, this.handleKniveGhostCollision, undefined, this);
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
@@ -209,26 +189,6 @@ class Floor3 extends Phaser.Scene {
         this.eyeballShoot2();
         this.eyeballShoot3();
         }
-
-        // if(this.bulletcd2>0){
-        //     ++this.bulletcd2;
-        //     if (this.bulletcd2 > 500) {
-        //         this.gotHit = false;
-        //         this.bulletcd2 = 0
-        //     }
-        // } else{
-        // this.eyeballShoot2();
-        // }
-
-        // if(this.bulletcd3>0){
-        //     ++this.bulletcd3;
-        //     if (this.bulletcd3 > 600) {
-        //         this.gotHit = false;
-        //         this.bulletcd3 = 0
-        //     }
-        // } else{
-        // this.eyeballShoot3();
-        // }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)

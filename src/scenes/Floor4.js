@@ -21,13 +21,6 @@ class Floor4 extends Phaser.Scene {
             frameRate: 10
         })
 
-        //Runs a seperate scene as overlay for Health-UI
-        //this.scene.run('game-ui');
-
-        //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
-
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);
         this.overlay.clear();
@@ -43,8 +36,6 @@ class Floor4 extends Phaser.Scene {
         bullet = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
         })
-
-
 
         //Setting-Up Keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -72,9 +63,6 @@ class Floor4 extends Phaser.Scene {
         //     collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         // })
-
-        //map.createStaticLayer('Ground', tileset)
-        //const floor = map.addTilesetImage('floor1', 'floortile1');
 
         //Create Player class to be controlled
         this.Faune = new Faune(this, 365, 75, 'player');

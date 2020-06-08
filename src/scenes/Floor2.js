@@ -16,8 +16,11 @@ class Floor2 extends Phaser.Scene {
     }
 
     create() {
+        //Cleans overlay
         this.clean;
+        //If Knife was used preivously, give back ability for player
         lastKnife = false;
+        //Preload the anims idle for enemies
         this.anims.create({
             key: 'slime-idle',
             frames: this.anims.generateFrameNames('slime', { start: 0, end: 16 }),
@@ -31,12 +34,6 @@ class Floor2 extends Phaser.Scene {
             repeat: -1,
             frameRate: 10
         })
-        //Runs a seperate scene as overlay for Health-UI
-        //this.scene.run('game-ui');
-
-        //Play the music and put on loop
-        // myMusic.play();
-        // myMusic.loop = true;
 
         //Setting-up Overlay for alignment effects
         this.overlay = new Phaser.GameObjects.Graphics(this);
@@ -45,6 +42,7 @@ class Floor2 extends Phaser.Scene {
         this.add.existing(this.overlay);
         this.gotHit = false;
 
+        //Creates Physics Knife Group
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
             maxSize: 1
@@ -77,10 +75,7 @@ class Floor2 extends Phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         // })
 
-        //map.createStaticLayer('Ground', tileset)
-        //const floor = map.addTilesetImage('floor1', 'floortile1');
-
-        //Create Player class to be controlled
+        //Create Player class to be controlled and add physics
         this.Faune = new Faune(this, 50, 600, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
@@ -101,6 +96,7 @@ class Floor2 extends Phaser.Scene {
             }
         })
 
+        //
         const slimesLayer = map.getObjectLayer('Slimes');
         slimesLayer.objects.forEach(slimeObj => {
             this.slimes.get(slimeObj.x, slimeObj.y, 'slime');
@@ -153,9 +149,11 @@ class Floor2 extends Phaser.Scene {
     }
 
     update() {
+        
         if (Phaser.Input.Keyboard.JustDown(keyP)) {
             this.NextLevel();
         }
+
         if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
