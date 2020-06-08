@@ -813,18 +813,11 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-<<<<<<< HEAD
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
-        this.sound.play('laser');
-=======
         bullets2.setActive(true);
         bullets2.setVisible(true);
         bullets2.setRotation(angle);
         bullets2.setVelocity(vec.x * 300, vec.y * 300)
->>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
+        this.sound.play('laser');
     }
 
     eyeballShoot2(){
@@ -846,18 +839,12 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-<<<<<<< HEAD
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
-        this.sound.play('laser');
-=======
         bullets3.setActive(true);
         bullets3.setVisible(true);
         bullets3.setRotation(angle);
         bullets3.setVelocity(vec.x * 300, vec.y * 300)
->>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
+        this.sound.play('laser');
+
     }
 
     eyeballShoot3(){
@@ -879,18 +866,11 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-<<<<<<< HEAD
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
-        this.sound.play('laser');
-=======
         bullets4.setActive(true);
         bullets4.setVisible(true);
         bullets4.setRotation(angle);
         bullets4.setVelocity(vec.x * 300, vec.y * 300)
->>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
+        this.sound.play('laser');
     }
 
     notGod() {

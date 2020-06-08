@@ -166,15 +166,11 @@ class Floor5 extends Phaser.Scene {
 
 
 
-<<<<<<< HEAD
-        this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
-=======
         this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
 
 
->>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
