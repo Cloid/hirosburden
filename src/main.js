@@ -32,7 +32,7 @@ walk.volume = 0.2;
 //var slimeNoise = new Audio("assests/sound/slime.ogg");
 
 //Setting up keyboard variables for use later on
-let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ, keyR;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM, keyQ, keyR, keyP;
 
 //Scene Emitter for player-health change
 const sceneEvents = new Phaser.Events.EventEmitter();
