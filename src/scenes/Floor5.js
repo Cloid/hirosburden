@@ -791,6 +791,10 @@ class Floor5 extends Phaser.Scene {
 
     NextLevel() {
         this.clean();
+        playerDead = false;
+        _health = 3;
+        _maxHealth = 3;
+        this.clean();
         this.scene.remove('game-ui')
         if(_maxHealth==8){
             this.scene.start('Menu');       
