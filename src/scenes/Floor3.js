@@ -52,8 +52,6 @@ class Floor3 extends Phaser.Scene {
             classType: Phaser.Physics.Arcade.Image,
         })
 
-
-
         //Setting-Up Keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -251,6 +249,7 @@ class Floor3 extends Phaser.Scene {
             if (this.knifecd > 25) {
                 this.knifecd = 0;
                 knives.killAndHide(knife2);
+                knife2.destroy();
                 lastKnife = false;
             }
         }

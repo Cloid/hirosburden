@@ -3,7 +3,6 @@ class Menu extends Phaser.Scene {
         super("Menu");
     }
     preload() {
-        //this.load.audio('song', 'assests/sound/gameMusic.mp3');
         this.load.audio('oof', 'assests/sound/oof.mp3');
         this.load.audio('laugh', 'assests/sound/laugh.mp3');
         this.load.audio('slimeNoise', 'assests/sound/slime.ogg');
