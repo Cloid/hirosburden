@@ -113,9 +113,6 @@ class Floor4 extends Phaser.Scene {
         this.eyeballs5 = new EyeBall(this, 672, 630, 'eyeball');
         this.eyeballs6 = new EyeBall(this, 793, 190, 'eyeball');
 
-
-
-
         this.physics.world.enable([this.eyeballs0]);
         this.physics.world.enable([this.eyeballs1]);
         this.physics.world.enable([this.eyeballs2]);
@@ -123,9 +120,6 @@ class Floor4 extends Phaser.Scene {
         this.physics.world.enable([this.eyeballs4]);
         this.physics.world.enable([this.eyeballs5]);
         this.physics.world.enable([this.eyeballs6]);
-
-
-
 
         this.eyeballs0.setAlpha(0.7);
         this.eyeballs1.setAlpha(0.7);
@@ -746,8 +740,34 @@ replenishHealth(obj, obj2){
     handleBulletCollision() {
         //console.log(enemy)
         this.bulletcd = 1;
-        bullet.killAndHide(bullets);
-        bullets.destroy();
+        //bullet.killAndHide(bullets);
+        if(bullet){
+            bullets.destroy();
+        }
+
+        if(bullets2){
+            bullets2.destroy();
+        }
+
+        if(bullets3){
+            bullets3.destroy();
+        }
+
+        if(bullets4){
+            bullets4.destroy();
+        }   
+        
+        if(bullets5){
+            bullets5.destroy();
+        }
+        
+        if(bullets6){
+            bullets6.destroy();
+        }
+        
+        if(bullets7){
+            bullets7.destroy();
+        }  
         //this.bulletcd1 = 1;
         //this.bulletcd2 = 1;
         //this.bulletcd3 = 1;
@@ -810,9 +830,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
+        bullets2 = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets2){
             return;
         }
 
@@ -822,11 +842,12 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets2.setActive(true);
+        bullets2.setVisible(true);
+        bullets2.setRotation(angle);
+        bullets2.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
+
     }
 
     eyeballShoot2(){
@@ -836,9 +857,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs2.x, this.eyeballs2.y, 'bullet');
+        bullets3 = bullet.get(this.eyeballs2.x, this.eyeballs2.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets3){
             return;
         }
 
@@ -848,11 +869,12 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets3.setActive(true);
+        bullets3.setVisible(true);
+        bullets3.setRotation(angle);
+        bullets3.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
+
     }
 
     eyeballShoot3(){
@@ -862,9 +884,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs3.x, this.eyeballs3.y, 'bullet');
+        bullets4 = bullet.get(this.eyeballs3.x, this.eyeballs3.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets4){
             return;
         }
 
@@ -874,10 +896,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets4.setActive(true);
+        bullets4.setVisible(true);
+        bullets4.setRotation(angle);
+        bullets4.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
     }
 
@@ -888,9 +910,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs4.x, this.eyeballs4.y, 'bullet');
+        bullets5 = bullet.get(this.eyeballs4.x, this.eyeballs4.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets5){
             return;
         }
 
@@ -900,10 +922,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets5.setActive(true);
+        bullets5.setVisible(true);
+        bullets5.setRotation(angle);
+        bullets5.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
     }
 
@@ -914,9 +936,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs5.x, this.eyeballs5.y, 'bullet');
+        bullets6 = bullet.get(this.eyeballs5.x, this.eyeballs5.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets6){
             return;
         }
 
@@ -926,10 +948,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets6.setActive(true);
+        bullets6.setVisible(true);
+        bullets6.setRotation(angle);
+        bullets6.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
     }
 
@@ -940,9 +962,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs6.x, this.eyeballs6.y, 'bullet');
+        bullets7 = bullet.get(this.eyeballs6.x, this.eyeballs6.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets7){
             return;
         }
 
@@ -952,10 +974,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets7.setActive(true);
+        bullets7.setVisible(true);
+        bullets7.setRotation(angle);
+        bullets7.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
     }
 

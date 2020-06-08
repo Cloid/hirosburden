@@ -166,8 +166,14 @@ class Floor5 extends Phaser.Scene {
 
 
 
+<<<<<<< HEAD
         this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
         this.physics.add.collider(this.slimes, knives, this.handleKniveSlimeCollision, undefined, this);
+=======
+        this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+>>>>>>> 2a9775a9ffbf4266fed39887d8159a8eea349274
 
 
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
@@ -499,7 +505,6 @@ class Floor5 extends Phaser.Scene {
 
     clean() {
         this.overlay.clear();
-        console.log('Cleared Effect');
         slimed = false;
         possessed = false;
         confused = false;
@@ -508,21 +513,27 @@ class Floor5 extends Phaser.Scene {
 
     increaseHealth(obj, obj2) {
         obj2.destroy();
-        console.log('health upgraded');
         _maxHealth += 1;
         _health = _maxHealth;
         sceneEvents.emit('player-health-gained');
+<<<<<<< HEAD
         console.log('Max Health is now: ' + _health);
 
     }
+=======
+}
+>>>>>>> 2a9775a9ffbf4266fed39887d8159a8eea349274
 
     replenishHealth(obj, obj2) {
         obj2.destroy();
-        console.log('health replenished');
         _health = _maxHealth;
         sceneEvents.emit('player-health-replenished');
+<<<<<<< HEAD
         console.log('Replenished Health. Health is now: ' + _health);
     }
+=======
+}
+>>>>>>> 2a9775a9ffbf4266fed39887d8159a8eea349274
 
     handleHandCollision(obj, enemy) {
         //console.log(enemy)
@@ -789,7 +800,18 @@ class Floor5 extends Phaser.Scene {
 
     NextLevel() {
         this.clean();
+<<<<<<< HEAD
         this.scene.start('Menu');
+=======
+        this.scene.remove('game-ui')
+        if(_maxHealth==8){
+            this.scene.start('Menu');       
+        } else {
+            this.scene.start('Start');       
+
+        }
+
+>>>>>>> 2a9775a9ffbf4266fed39887d8159a8eea349274
     }
 
     handleBulletWallCollision() {

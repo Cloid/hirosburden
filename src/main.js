@@ -53,7 +53,9 @@ let bullets;
 let bullets2;
 let bullets3;
 let bullets4;
-
+let bullets5;
+let bullets6;
+let bullets7;
 
 let lastKnife = false;
 let playerInv = false;
@@ -62,7 +64,7 @@ let lizard2 = null;
 let _health = 3;
 let _maxHealth = 3;
 var enemyCollide;
-var playerSpeed = 300;
+var playerSpeed = 100;
 var god = false;
 
 //Debuff Effects

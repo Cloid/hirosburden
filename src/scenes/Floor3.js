@@ -844,6 +844,10 @@ replenishHealth(obj, obj2){
         bullets3.setRotation(angle);
         bullets3.setVelocity(vec.x * 300, vec.y * 300)
         this.sound.play('laser');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2a9775a9ffbf4266fed39887d8159a8eea349274
     }
 
     eyeballShoot3(){
