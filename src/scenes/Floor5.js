@@ -479,7 +479,7 @@ class Floor5 extends Phaser.Scene {
         knife2.setVisible(true);
         knife2.setRotation(angle);
         knife2.setVelocity(vec.x * 300, vec.y * 300)
-
+        this.sound.play('throw');
     }
 
     slimeEffect() {
