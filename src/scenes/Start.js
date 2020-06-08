@@ -218,7 +218,7 @@ class Start extends Phaser.Scene {
             }
             let centerX = this.cameras.main.midPoint.x;
             let centerY = this.cameras.main.midPoint.y;
-            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
+            this.add.text(centerX, centerY, 'Press [ R ] to start', textConfig);
             if (Phaser.Input.Keyboard.JustDown(keyR)) {
                 playerDead = false;
                 _health = 3;

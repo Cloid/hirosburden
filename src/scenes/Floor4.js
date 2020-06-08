@@ -375,8 +375,9 @@ class Floor4 extends Phaser.Scene {
                 },
                 fixedWidth: 0
             }
-
-            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
+            let centerX = this.cameras.main.midPoint.x;
+            let centerY = this.cameras.main.midPoint.y;
+            this.add.text(centerX - 100, centerY + 100, 'Press [ R ] to start', textConfig);
             if (Phaser.Input.Keyboard.JustDown(keyR)) {
                 playerDead = false;
                 _health = 3;
