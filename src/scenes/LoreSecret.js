@@ -105,7 +105,7 @@ class LoreSecret extends Phaser.Scene {
                 
             }
             if(textCount == 12){
-                this.scene.start('Menu')
+                this.scene.start('Credits')
             }
             textCount+=1;
         }
