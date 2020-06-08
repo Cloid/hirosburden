@@ -52,7 +52,9 @@ let bullets;
 let bullets2;
 let bullets3;
 let bullets4;
-
+let bullets5;
+let bullets6;
+let bullets7;
 
 let lastKnife = false;
 let playerInv = false;
