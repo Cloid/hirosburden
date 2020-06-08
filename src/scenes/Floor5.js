@@ -796,7 +796,7 @@ class Floor5 extends Phaser.Scene {
         if (god == false) {
             this.clean();
             playerDead = false;
-            this.scene.remove('game-ui')
+            this.scene.sleep('game-ui')
             if (_maxHealth == 8) {
                 _maxHealth = 3;
                 _health = 3;
