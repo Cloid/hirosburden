@@ -586,7 +586,6 @@ replenishHealth(obj, obj2){
     }
 
     handleEyeballCollision(obj1,obj2) {
-        console.log('iran')
         obj1.setDrag(100,100)
         if (playerDead == false && playerInv == false) {
             playerInv = true;

@@ -133,7 +133,7 @@ class Floor5 extends Phaser.Scene {
 
 
         this.eyeballs0 = new EyeBall(this, 280, 498, 'eyeball');
-        this.eyeballs1 = new EyeBall(this, 540, 662, 'eyeball');
+        this.eyeballs1 = new EyeBall(this, 535, 662, 'eyeball');
         // this.eyeballs2 = new EyeBall(this, 288, 630, 'eyeball');
         // this.eyeballs3 = new EyeBall(this, 416, 630, 'eyeball');
         // this.eyeballs4 = new EyeBall(this, 544, 630, 'eyeball');
@@ -166,7 +166,15 @@ class Floor5 extends Phaser.Scene {
 
 
 
+<<<<<<< HEAD
         this.physics.add.collider(this.hands, knives, this.handleKniveHandCollision, undefined, this);
+=======
+        this.physics.add.collider(this.hands, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.slimes, knives, this.handleKniveEnemyCollision, undefined, this);
+        this.physics.add.collider(this.ghosts, knives, this.handleKniveEnemyCollision, undefined, this);
+
+
+>>>>>>> d4bbebf64d08d63c36da9db65dd2adf8a9f49a4d
         //this.physics.add.collider(this.eyeballs, knives, this.handleKniveEnemyCollision, undefined, this);
         this.physics.add.collider(knives, wallSlayer, this.handleKniveWallCollision, undefined, this);
         this.physics.add.collider(bullet, this.Faune, this.handleBulletCollision, undefined, this);
