@@ -44,7 +44,16 @@ let wallSlayer = null;
 let knives = null;
 let knife2;
 let bullet = null;
+let bullet2 = null;
+let bullet3 = null;
+let bullet4 = null;
+
 let bullets;
+let bullets2;
+let bullets3;
+let bullets4;
+
+
 let lastKnife = false;
 let playerInv = false;
 let lizards = null;

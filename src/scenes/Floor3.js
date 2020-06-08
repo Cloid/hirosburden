@@ -191,6 +191,8 @@ class Floor3 extends Phaser.Scene {
         }
     }
 
+
+
         //console.log(this.bulletcd);
         if(this.bulletcd>0){
             ++this.bulletcd;
@@ -200,6 +202,7 @@ class Floor3 extends Phaser.Scene {
                 this.bulletcd = 0
             }
         } else{
+            console.log('i ran')
         this.eyeballShoot0();
         this.eyeballShoot1();
         this.eyeballShoot2();
@@ -705,16 +708,36 @@ replenishHealth(obj, obj2){
     }
 
     handleBulletWallCollision() {
-        //bullets.destroy();
-        bullet.killAndHide(bullets);
+        //bullet.killAndHide(bullets);
         bullets.destroy();
+        //bullets2.destroy();
+        //bullets3.destroy();
+        //bullets4.destroy();
+
+
     }
 
     handleBulletCollision() {
         //console.log(enemy)
         this.bulletcd = 1;
         bullet.killAndHide(bullets);
-        bullets.destroy();
+
+        if(bullet){
+            bullets.destroy();
+        }
+
+        if(bullets2){
+            bullets2.destroy();
+        }
+
+        if(bullets3){
+            bullets3.destroy();
+        }
+
+        if(bullets4){
+            bullets4.destroy();
+        }
+
         //this.bulletcd1 = 1;
         //this.bulletcd2 = 1;
         //this.bulletcd3 = 1;
@@ -776,9 +799,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
+        bullets2 = bullet.get(this.eyeballs1.x, this.eyeballs1.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets2){
             return;
         }
 
@@ -788,10 +811,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets2.setActive(true);
+        bullets2.setVisible(true);
+        bullets2.setRotation(angle);
+        bullets2.setVelocity(vec.x * 300, vec.y * 300)
     }
 
     eyeballShoot2(){
@@ -801,9 +824,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs2.x, this.eyeballs2.y, 'bullet');
+        bullets3 = bullet.get(this.eyeballs2.x, this.eyeballs2.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets3){
             return;
         }
 
@@ -813,10 +836,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets3.setActive(true);
+        bullets3.setVisible(true);
+        bullets3.setRotation(angle);
+        bullets3.setVelocity(vec.x * 300, vec.y * 300)
     }
 
     eyeballShoot3(){
@@ -826,9 +849,9 @@ replenishHealth(obj, obj2){
             return;
         }
 
-        bullets = bullet.get(this.eyeballs3.x, this.eyeballs3.y, 'bullet');
+        bullets4 = bullet.get(this.eyeballs3.x, this.eyeballs3.y, 'bullet');
 
-        if(!bullets){
+        if(!bullets4){
             return;
         }
 
@@ -838,10 +861,10 @@ replenishHealth(obj, obj2){
         const angle = vec.angle();
 
         //Faune
-        bullets.setActive(true);
-        bullets.setVisible(true);
-        bullets.setRotation(angle);
-        bullets.setVelocity(vec.x * 300, vec.y * 300)
+        bullets4.setActive(true);
+        bullets4.setVisible(true);
+        bullets4.setRotation(angle);
+        bullets4.setVelocity(vec.x * 300, vec.y * 300)
     }
 
     notGod() {
