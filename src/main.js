@@ -17,8 +17,9 @@ let config = {
     },
     scene: [Menu, Start, Tutorial, Intro1, Floor1, Floor2, Floor3, Floor4, Floor5, Game, GameUI, Lore1, Lore2, Lore3, Lore4, Lore5, Lore6, LoreSecret, Credits],
     scale: {
-        zoom: 2
-    }
+        zoom: 2,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
 };
 
 //Creating the Game with Game Config
