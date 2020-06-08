@@ -18,13 +18,13 @@ class Floor1 extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
-        
+
 
     }
 
     create() {
         this.clean;
-        lastKnife=false;
+        lastKnife = false;
         this.anims.create({
             key: 'heart-idle',
             frames: this.anims.generateFrameNames('heart', { start: 0, end: 10 }),
@@ -41,7 +41,7 @@ class Floor1 extends Phaser.Scene {
 
         knives = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
-            maxSize:1
+            maxSize: 1
         })
 
         //Setting-Up Keys
@@ -58,7 +58,7 @@ class Floor1 extends Phaser.Scene {
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset);
         map.createStaticLayer('Fake Wall', tileset);
-        wallSlayer = map.createStaticLayer('Wall', tileset,0,0);
+        wallSlayer = map.createStaticLayer('Wall', tileset, 0, 0);
         this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
         this.door.setCollisionByProperty({ collides: true });
@@ -78,26 +78,26 @@ class Floor1 extends Phaser.Scene {
         this.Faune = new Faune(this, 420, 350, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
-        this.Faune.setOffset(8,5);
+        this.Faune.setOffset(8, 5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
         this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
-        
+
         //Grabs the reference from Tiled Slime Object Group
         this.slimes = this.physics.add.group({
             classType: Slime,
-            createCallback: (go)=>{
+            createCallback: (go) => {
                 // var slimeGo = go;
                 // slimeGo.body.onCollide = true;
             }
         })
 
         const slimesLayer = map.getObjectLayer('Slimes');
-        slimesLayer.objects.forEach(slimeObj =>{
-            this.slimes.get(slimeObj.x - slimeObj.width * 0.5,slimeObj.y - slimeObj.height * 0.5,'slime');
+        slimesLayer.objects.forEach(slimeObj => {
+            this.slimes.get(slimeObj.x - slimeObj.width * 0.5, slimeObj.y - slimeObj.height * 0.5, 'slime');
         })
 
         this.physics.add.collider(this.slimes, wallSlayer);
@@ -111,38 +111,38 @@ class Floor1 extends Phaser.Scene {
         })
 
         const heartLayer = map.getObjectLayer('Hearts');
-        heartLayer.objects.forEach(heartObj =>{
-            this.heartscont.get(heartObj.x,heartObj.y,'heart');
+        heartLayer.objects.forEach(heartObj => {
+            this.heartscont.get(heartObj.x, heartObj.y, 'heart');
         })
         this.physics.add.collider(this.heartscont, this.Faune, this.replenishHealth, undefined, this);
 
         this.heartup = this.physics.add.group({
-                classType: Upgrade,
-            })
-    
-            const secretLayer = map.getObjectLayer('Secret');
-            secretLayer.objects.forEach(upObj =>{
-                this.heartup.get(upObj.x,upObj.y,'heart').setTint(0xff0000);
-            })
-            this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
+            classType: Upgrade,
+        })
+
+        const secretLayer = map.getObjectLayer('Secret');
+        secretLayer.objects.forEach(upObj => {
+            this.heartup.get(upObj.x, upObj.y, 'heart').setTint(0xff0000);
+        })
+        this.physics.add.collider(this.heartup, this.Faune, this.increaseHealth, undefined, this);
 
 
     }
 
-    update(){
+    update() {
 
-        if (Phaser.Input.Keyboard.JustDown(keyP) ) {
+        if (Phaser.Input.Keyboard.JustDown(keyP)) {
             this.NextLevel();
         }
-        if(playerInv==true){
+        if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
-            if(this.dmgcd>40){
+            if (this.dmgcd > 40) {
                 this.Faune.setTint(0xffffff);
                 this.dmgcd = 0;
-                playerInv=false;
+                playerInv = false;
+            }
         }
-    }
 
         if (this.hit > 0) {
             this.Faune.setTint(0xff0000)
@@ -154,7 +154,7 @@ class Floor1 extends Phaser.Scene {
             return
         }
 
-        if(this.knifecd>0){
+        if (this.knifecd > 0) {
             ++this.knifecd;
             if (this.knifecd > 25) {
                 this.knifecd = 0;
@@ -251,12 +251,13 @@ class Floor1 extends Phaser.Scene {
 
 
 
-            let menuConfig = {
-                fontFamily: 'Arial Black',
+            let textConfig = {
+                fontFamily: 'Courier',
                 fontSize: '20px',
-                backgroundColor: '#F3B141',
-                color: '#843605',
-                align: 'right',
+                color: '#FFFFFF',
+                stroke: '#cc99ff',
+                strokeThickness: 1,
+                align: 'center',
                 padding: {
                     top: 5,
                     bottom: 5,
@@ -264,20 +265,18 @@ class Floor1 extends Phaser.Scene {
                 fixedWidth: 0
             }
 
-            let centerX = this.cameras.main.midPoint.x;
-        let centerY = this.cameras.main.midPoint.y;
-        this.add.text(centerX-100, centerY, 'Press [ R ] to start', menuConfig);
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            playerDead=false;
-            _health = 3;
-            _maxHealth = 3;
-            this.clean();
-            //sceneEvents.emit('reset-game');
-            this.scene.start('Start');       
+            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                playerDead = false;
+                _health = 3;
+                _maxHealth = 3;
+                this.clean();
+                //sceneEvents.emit('reset-game');
+                this.scene.start('Start');
+            }
+
+
         }
-
-
-    }
 
     }
 
@@ -347,13 +346,13 @@ class Floor1 extends Phaser.Scene {
 
     throwKnive() {
 
-        if(!knives){
+        if (!knives) {
             return;
         }
 
         knife2 = knives.get(this.Faune.x, this.Faune.y, 'knife');
 
-        if(!knife2){
+        if (!knife2) {
             return;
         }
 
@@ -417,24 +416,26 @@ class Floor1 extends Phaser.Scene {
         god = false;
     }
 
-    increaseHealth(obj, obj2){
-            obj2.destroy();
-            this.clean;
-            console.log('health upgraded');
-            _maxHealth += 1;
-            _health = _maxHealth;
-            sceneEvents.emit('player-health-gained');
-            console.log('Max Health is now: '+ _health);
+    increaseHealth(obj, obj2) {
+        obj2.destroy();
+        this.clean;
+        console.log('health upgraded');
+        _maxHealth += 1;
+        _health = _maxHealth;
+        sceneEvents.emit('player-health-gained');
+        this.sound.play('secret');
+        console.log('Max Health is now: ' + _health);
 
     }
 
-    replenishHealth(obj, obj2){
-            obj2.destroy();
-            this.clean;
-            console.log('health replenished');
-            _health = _maxHealth;
-            sceneEvents.emit('player-health-replenished');
-            console.log('Replenished Health. Health is now: ' + _health);        
+    replenishHealth(obj, obj2) {
+        obj2.destroy();
+        this.clean;
+        console.log('health replenished');
+        _health = _maxHealth;
+        sceneEvents.emit('player-health-replenished');
+        this.sound.play('pickup');
+        console.log('Replenished Health. Health is now: ' + _health);
     }
 
     handleCollision(enemy) {
@@ -443,7 +444,7 @@ class Floor1 extends Phaser.Scene {
 
         if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
-            this.dmgcd=0;
+            this.dmgcd = 0;
             const dx = this.Faune.x - enemy.x
             const dy = this.Faune.y - enemy.y
             const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
@@ -474,7 +475,7 @@ class Floor1 extends Phaser.Scene {
 
     handleKniveWallCollision() {
         knives.killAndHide(knife2);
-        lastKnife=false;
+        lastKnife = false;
         knife2.destroy();
     }
 
@@ -509,11 +510,11 @@ class Floor1 extends Phaser.Scene {
         }
     }
 
-    NextLevel(){
-        if(god == false){
+    NextLevel() {
+        if (god == false) {
             this.clean();
             this.scene.start('Lore2');
-        }     
+        }
     }
     notGod() {
         god = false;

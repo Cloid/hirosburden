@@ -31,7 +31,7 @@ class Tutorial extends Phaser.Scene {
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(SPACE)) {
-            if(textCount == 1){
+            if(textCount == 0){
                 this.scene.start('Start')
             }
             textCount+=1;
