@@ -203,7 +203,9 @@ class Floor5 extends Phaser.Scene {
     }
 
     update() {
-
+        if (Phaser.Input.Keyboard.JustDown(keyP) ) {
+            this.NextLevel();
+        }
         if (playerInv == true) {
             ++this.dmgcd;
             this.Faune.setTint(Math.random);
@@ -791,9 +793,9 @@ class Floor5 extends Phaser.Scene {
         this.clean();
         this.scene.remove('game-ui')
         if(_maxHealth==8){
-            this.scene.start('Menu');       
+            this.scene.start('LoreSecret');       
         } else {
-            this.scene.start('Start');       
+            this.scene.start('Lore6');       
 
         }
 

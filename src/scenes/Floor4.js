@@ -735,7 +735,7 @@ replenishHealth(obj, obj2){
 
     NextLevel(){
         this.clean();
-        this.scene.start('Floor5');       
+        this.scene.start('Lore5');       
     }
 
     handleBulletWallCollision(obj) {
