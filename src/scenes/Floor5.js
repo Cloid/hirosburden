@@ -79,7 +79,7 @@ class Floor5 extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-        //this.physics.add.collider(this.Faune, wallSlayer);
+        this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
         
@@ -500,7 +500,6 @@ class Floor5 extends Phaser.Scene {
 
     clean() {
         this.overlay.clear();
-        console.log('Cleared Effect');
         slimed = false;
         possessed = false;
         confused = false;
@@ -509,20 +508,15 @@ class Floor5 extends Phaser.Scene {
 
     increaseHealth(obj, obj2){
         obj2.destroy();
-        console.log('health upgraded');
         _maxHealth += 1;
         _health = _maxHealth;
         sceneEvents.emit('player-health-gained');
-        console.log('Max Health is now: '+ _health);
-
 }
 
 replenishHealth(obj, obj2){
         obj2.destroy();
-        console.log('health replenished');
         _health = _maxHealth;
         sceneEvents.emit('player-health-replenished');
-        console.log('Replenished Health. Health is now: ' + _health);        
 }
 
     handleHandCollision(obj, enemy) {
@@ -790,7 +784,7 @@ replenishHealth(obj, obj2){
 
     NextLevel(){
         this.clean();
-
+        this.scene.remove('game-ui')
         if(_maxHealth==8){
             this.scene.start('Menu');       
         } else {
