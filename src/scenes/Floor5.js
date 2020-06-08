@@ -62,12 +62,12 @@ class Floor5 extends Phaser.Scene {
         this.door.setCollisionByProperty({ collides: true });
 
         //Deugging Graphics for Wall
-        const debugGraphics = this.add.graphics().setAlpha(0.7);
-        wallSlayer.renderDebug(debugGraphics, {
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-        })
+        // const debugGraphics = this.add.graphics().setAlpha(0.7);
+        // wallSlayer.renderDebug(debugGraphics, {
+        //     tileColor: null,
+        //     collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
+        // })
 
         //map.createStaticLayer('Ground', tileset)
         //const floor = map.addTilesetImage('floor1', 'floortile1');
@@ -76,6 +76,7 @@ class Floor5 extends Phaser.Scene {
         this.Faune = new Faune(this, 660, 640, 'player');
         this.physics.world.enable([this.Faune]);
         this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
+        this.Faune.setOffset(8,5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');

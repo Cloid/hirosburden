@@ -64,18 +64,18 @@ class Floor1 extends Phaser.Scene {
         const tileset = map.addTilesetImage('dungeon_tiles', 'tiles');
         map.createStaticLayer('Floor', tileset);
         map.createStaticLayer('Fake Wall', tileset);
-        wallSlayer = map.createStaticLayer('Wall', tileset);
+        wallSlayer = map.createStaticLayer('Wall', tileset,0,0);
         this.door = map.createStaticLayer('Door', tileset);
         wallSlayer.setCollisionByProperty({ collides: true });
         this.door.setCollisionByProperty({ collides: true });
 
         //Deugging Graphics for Wall
-        const debugGraphics = this.add.graphics().setAlpha(0.7);
-        wallSlayer.renderDebug(debugGraphics, {
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-        })
+        // const debugGraphics = this.add.graphics().setAlpha(0.7);
+        // wallSlayer.renderDebug(debugGraphics, {
+        //     tileColor: null,
+        //     collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255)
+        // })
 
         //map.createStaticLayer('Ground', tileset)
         //const floor = map.addTilesetImage('floor1', 'floortile1');
@@ -83,7 +83,8 @@ class Floor1 extends Phaser.Scene {
         //Create Player class to be controlled
         this.Faune = new Faune(this, 420, 350, 'player');
         this.physics.world.enable([this.Faune]);
-        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height * 0.8);
+        this.Faune.body.setSize(this.Faune.width * 0.5, this.Faune.height);
+        this.Faune.setOffset(8,5);
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
