@@ -41,7 +41,6 @@ class Floor5 extends Phaser.Scene {
         })
 
 
-
         //Setting-Up Keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -80,7 +79,7 @@ class Floor5 extends Phaser.Scene {
         this.cameras.main.startFollow(this.Faune, true)
         this.createPlayerAnims();
         this.Faune.anims.play('faune-idle-down');
-        this.physics.add.collider(this.Faune, wallSlayer);
+        //this.physics.add.collider(this.Faune, wallSlayer);
         this.physics.add.collider(this.Faune, this.door, this.NextLevel, undefined, this);
 
 
@@ -133,7 +132,7 @@ class Floor5 extends Phaser.Scene {
         this.physics.add.collider(this.ghosts, this.Faune, this.handleGhostCollision, undefined, this);
 
 
-        this.eyeballs0 = new EyeBall(this, 280, 498, 'eyeball');
+        this.eyeballs0 = new EyeBall(this, 290, 498, 'eyeball');
         this.eyeballs1 = new EyeBall(this, 535, 662, 'eyeball');
         // this.eyeballs2 = new EyeBall(this, 288, 630, 'eyeball');
         // this.eyeballs3 = new EyeBall(this, 416, 630, 'eyeball');
@@ -794,10 +793,10 @@ class Floor5 extends Phaser.Scene {
 
     }
 
-    handleBulletWallCollision() {
+    handleBulletWallCollision(obj) {
         //bullets.destroy();
-        bullet.killAndHide(bullets);
-        bullets.destroy();
+        //bullet.killAndHide(bullets);
+        obj.destroy();
     }
 
     handleBulletCollision() {

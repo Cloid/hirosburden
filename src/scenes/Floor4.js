@@ -732,10 +732,9 @@ replenishHealth(obj, obj2){
         this.scene.start('Floor5');       
     }
 
-    handleBulletWallCollision() {
+    handleBulletWallCollision(obj) {
         //bullets.destroy();
-        bullet.killAndHide(bullets);
-        bullets.destroy();
+            obj.destroy();
     }
 
     handleBulletCollision() {
