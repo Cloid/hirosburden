@@ -339,6 +339,8 @@ class Floor4 extends Phaser.Scene {
                         flipped = false;
                     } else {
 
+                        const parts = this.Faune.anims.currentAnim.key.split('-');
+                        parts[1] = 'idle';
                         if(flipped){
                             this.Faune.anims.play('faune-left-idle-side', true)
                         } else{
@@ -375,8 +377,9 @@ class Floor4 extends Phaser.Scene {
                 },
                 fixedWidth: 0
             }
-
-            this.add.text(-25, 125, 'Press [ R ] to start', textConfig);
+            let centerX = this.cameras.main.midPoint.x;
+            let centerY = this.cameras.main.midPoint.y;
+            this.add.text(centerX - 100, centerY + 100, 'Press [ R ] to start', textConfig);
             if (Phaser.Input.Keyboard.JustDown(keyR)) {
                 playerDead = false;
                 _health = 3;
