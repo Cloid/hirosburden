@@ -472,7 +472,7 @@ class Intro1 extends Phaser.Scene {
     NextLevel() {
         //console.log('Next ');
         this.clean();
-        this.scene.start('Floor1');
+        this.scene.start('Lore1');
     }
     notGod() {
         god = false;

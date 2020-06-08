@@ -515,7 +515,7 @@ replenishHealth(obj, obj2){
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd=0;
             const dx = this.Faune.x - enemy.x
@@ -531,6 +531,12 @@ replenishHealth(obj, obj2){
             //this.possessedEffect();
             this.confusedEffect();
             this.sound.play('confused');
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             //enemy.destroy();
             //od = true;
             // var notGod = this.time.addEvent({
@@ -550,7 +556,7 @@ replenishHealth(obj, obj2){
         //console.log(enemy)
         //this.scene.start('Floor1');       
 
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd=0;
             const dx = this.Faune.x - enemy.x
@@ -581,7 +587,7 @@ replenishHealth(obj, obj2){
 
     handleEyeballCollision(obj1,obj2) {
         obj1.setDrag(100,100)
-        if (playerDead == false && playerInv == false) {
+        if (playerDead == false && playerInv == false && god == false) {
             playerInv = true;
             this.dmgcd=0;
             const dx = this.Faune.x - 50
@@ -771,7 +777,7 @@ replenishHealth(obj, obj2){
         //this.bulletcd1 = 1;
         //this.bulletcd2 = 1;
         //this.bulletcd3 = 1;
-        if (playerDead == false && this.gotHit == false && playerInv == false) {
+        if (playerDead == false && this.gotHit == false && playerInv == false && god == false) {
             this.cameras.main.shake(500);
             playerInv = true;
             this.dmgcd=0;
@@ -784,7 +790,12 @@ replenishHealth(obj, obj2){
             this.Faune.setVelocity(dir.x, dir.y)
             this.hit = 1
             this.gotHit = true;
-
+            god = true;
+            var notGod = this.time.addEvent({
+                delay: 2000,                // 2 seconds
+                callback: this.notGod,
+                callbackScope: this,
+            });
             GameUI.handlePlayerHealthChanged;
             //this.slimeEffect();
             //this.possessedEffect();
